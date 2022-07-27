@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "578270311501",
+    "project_id": "good-here-2ec4f",
+    "storage_bucket": "good-here-2ec4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578270311501:android:46c719e75d9ab812889804",
+        "android_client_info": {
+          "package_name": "com.goodhere.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578270311501-5nkc84ag5l48c54c1jq8sqejmiriihjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAineEd0AlPPgn3PJTafOx0C8o5XuQyFj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578270311501-5nkc84ag5l48c54c1jq8sqejmiriihjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
