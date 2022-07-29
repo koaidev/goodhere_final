@@ -1,5 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/api/api_checker.dart';
@@ -15,21 +18,18 @@ import 'package:sixam_mart/helper/date_converter.dart';
 import 'package:sixam_mart/helper/network_info.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/view/base/custom_snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderController extends GetxController implements GetxService {
   final OrderRepo orderRepo;
-  OrderController({@required this.orderRepo});
 
-  PaginatedOrderModel _runningOrderModel;
-  PaginatedOrderModel _historyOrderModel;
-  List<OrderDetailsModel> _orderDetails;
+  OrderController({required this.orderRepo});
+
+  PaginatedOrderModel? _runningOrderModel;
+  PaginatedOrderModel? _historyOrderModel;
+  List<OrderDetailsModel>? _orderDetails;
   int _paymentMethodIndex = 0;
-  OrderModel _trackModel;
-  ResponseModel _responseModel;
+  OrderModel? _trackModel;
+  ResponseModel? _responseModel;
   bool _isLoading = false;
   bool _showCancelled = false;
   String _orderType = 'delivery';
@@ -37,35 +37,53 @@ class OrderController extends GetxController implements GetxService {
   List<TimeSlotModel> _allTimeSlots;
   int _selectedDateSlot = 0;
   int _selectedTimeSlot = 0;
-  double _distance;
+  double? _distance;
   int _addressIndex = -1;
-  XFile _orderAttachment;
-  Uint8List _rawAttachment;
+  XFile? _orderAttachment;
+  Uint8List? _rawAttachment;
   double _tips = 0.0;
   int _selectedTips = -1;
 
-  PaginatedOrderModel get runningOrderModel => _runningOrderModel;
-  PaginatedOrderModel get historyOrderModel => _historyOrderModel;
-  List<OrderDetailsModel> get orderDetails => _orderDetails;
+  PaginatedOrderModel? get runningOrderModel => _runningOrderModel;
+
+  PaginatedOrderModel? get historyOrderModel => _historyOrderModel;
+
+  List<OrderDetailsModel>? get orderDetails => _orderDetails;
+
   int get paymentMethodIndex => _paymentMethodIndex;
-  OrderModel get trackModel => _trackModel;
-  ResponseModel get responseModel => _responseModel;
+
+  OrderModel? get trackModel => _trackModel;
+
+  ResponseModel? get responseModel => _responseModel;
+
   bool get isLoading => _isLoading;
+
   bool get showCancelled => _showCancelled;
+
   String get orderType => _orderType;
+
   List<TimeSlotModel> get timeSlots => _timeSlots;
+
   List<TimeSlotModel> get allTimeSlots => _allTimeSlots;
+
   int get selectedDateSlot => _selectedDateSlot;
+
   int get selectedTimeSlot => _selectedTimeSlot;
-  double get distance => _distance;
+
+  double? get distance => _distance;
+
   int get addressIndex => _addressIndex;
-  XFile get orderAttachment => _orderAttachment;
-  Uint8List get rawAttachment => _rawAttachment;
+
+  XFile? get orderAttachment => _orderAttachment;
+
+  Uint8List? get rawAttachment => _rawAttachment;
+
   double get tips => _tips;
+
   int get selectedTips => _selectedTips;
 
   Future<void> getRunningOrders(int offset) async {
-    if(offset == 1) {
+    if (offset == 1) {
       _runningOrderModel = null;
       update();
     }
@@ -74,9 +92,12 @@ class OrderController extends GetxController implements GetxService {
       if (offset == 1) {
         _runningOrderModel = PaginatedOrderModel.fromJson(response.body);
       }else {
-        _runningOrderModel.orders.addAll(PaginatedOrderModel.fromJson(response.body).orders);
-        _runningOrderModel.offset = PaginatedOrderModel.fromJson(response.body).offset;
-        _runningOrderModel.totalSize = PaginatedOrderModel.fromJson(response.body).totalSize;
+        _runningOrderModel?.orders
+            ?.addAll(PaginatedOrderModel.fromJson(response.body).orders!);
+        _runningOrderModel?.offset =
+            PaginatedOrderModel.fromJson(response.body).offset;
+        _runningOrderModel?.totalSize =
+            PaginatedOrderModel.fromJson(response.body).totalSize;
       }
       update();
     } else {
@@ -94,9 +115,12 @@ class OrderController extends GetxController implements GetxService {
       if (offset == 1) {
         _historyOrderModel = PaginatedOrderModel.fromJson(response.body);
       }else {
-        _historyOrderModel.orders.addAll(PaginatedOrderModel.fromJson(response.body).orders);
-        _historyOrderModel.offset = PaginatedOrderModel.fromJson(response.body).offset;
-        _historyOrderModel.totalSize = PaginatedOrderModel.fromJson(response.body).totalSize;
+        _historyOrderModel?.orders
+            ?.addAll(PaginatedOrderModel.fromJson(response.body).orders!);
+        _historyOrderModel?.offset =
+            PaginatedOrderModel.fromJson(response.body).offset;
+        _historyOrderModel?.totalSize =
+            PaginatedOrderModel.fromJson(response.body).totalSize;
       }
       update();
     } else {
@@ -109,21 +133,22 @@ class OrderController extends GetxController implements GetxService {
     _isLoading = true;
     _showCancelled = false;
 
-    if(_trackModel == null || _trackModel.orderType != 'parcel') {
+    if (_trackModel == null || _trackModel?.orderType != 'parcel') {
       Response response = await orderRepo.getOrderDetails(orderID);
       _isLoading = false;
       if (response.statusCode == 200) {
         _orderDetails = [];
-        response.body.forEach((orderDetail) => _orderDetails.add(OrderDetailsModel.fromJson(orderDetail)));
+        response.body.forEach((orderDetail) =>
+            _orderDetails?.add(OrderDetailsModel.fromJson(orderDetail)));
       } else {
         ApiChecker.checkApi(response);
       }
-    }else {
+    } else {
       _isLoading = false;
       _orderDetails = [];
     }
     update();
-    return _orderDetails;
+    return _orderDetails!;
   }
 
   void setPaymentMethod(int index) {
@@ -150,7 +175,7 @@ class OrderController extends GetxController implements GetxService {
         _trackModel = OrderModel.fromJson(response.body);
         _responseModel = ResponseModel(true, response.body.toString());
       } else {
-        _responseModel = ResponseModel(false, response.statusText);
+        _responseModel = ResponseModel(false, response.statusText ?? "");
         ApiChecker.checkApi(response);
       }
       _isLoading = false;
@@ -159,14 +184,15 @@ class OrderController extends GetxController implements GetxService {
       _trackModel = orderModel;
       _responseModel = ResponseModel(true, 'Successful');
     }
-    return _responseModel;
+    return _responseModel!;
   }
 
   Future<void> placeOrder(PlaceOrderBody placeOrderBody, Function(bool isSuccess, String message, String orderID) callback) async {
     _isLoading = true;
     update();
     print(placeOrderBody.toJson());
-    Response response = await orderRepo.placeOrder(placeOrderBody, _orderAttachment);
+    Response response =
+        await orderRepo.placeOrder(placeOrderBody, _orderAttachment!);
     _isLoading = false;
     if (response.statusCode == 200) {
       String message = response.body['message'];
@@ -176,7 +202,7 @@ class OrderController extends GetxController implements GetxService {
       _rawAttachment = null;
       print('-------- Order placed successfully $orderID ----------');
     } else {
-      callback(false, response.statusText, '-1');
+      callback(false, response.statusText ?? "", '-1');
     }
     update();
   }
@@ -188,9 +214,16 @@ class OrderController extends GetxController implements GetxService {
 
   void clearPrevData() {
     _addressIndex = -1;
-    _paymentMethodIndex = Get.find<SplashController>().configModel.cashOnDelivery ? 0
-        : Get.find<SplashController>().configModel.digitalPayment ? 1
-        : Get.find<SplashController>().configModel.customerWalletStatus == 1 ? 2 : 0;
+    _paymentMethodIndex = Get.find<SplashController>()
+            .configModel!
+            .cashOnDelivery!
+        ? 0
+        : Get.find<SplashController>()!.configModel!.digitalPayment!
+            ? 1
+            : Get.find<SplashController>().configModel?.customerWalletStatus! ==
+                    1
+                ? 2
+                : 0;
 
     _selectedDateSlot = 0;
     _selectedTimeSlot = 0;
@@ -211,14 +244,14 @@ class OrderController extends GetxController implements GetxService {
     _isLoading = false;
     Get.back();
     if (response.statusCode == 200) {
-      OrderModel orderModel;
-      for(OrderModel order in _runningOrderModel.orders) {
-        if(order.id == orderID) {
+      OrderModel? orderModel;
+      for (OrderModel order in _runningOrderModel!.orders!) {
+        if (order.id == orderID) {
           orderModel = order;
           break;
         }
       }
-      _runningOrderModel.orders.remove(orderModel);
+      _runningOrderModel?.orders?.remove(orderModel);
       _showCancelled = true;
       showCustomSnackBar(response.body['message'], isError: false);
     } else {
@@ -240,42 +273,78 @@ class OrderController extends GetxController implements GetxService {
     _allTimeSlots = [];
     int _minutes = 0;
     DateTime _now = DateTime.now();
-    for(int index=0; index<store.schedules.length; index++) {
+    for (int index = 0; index < store.schedules!.length; index++) {
       DateTime _openTime = DateTime(
-        _now.year, _now.month, _now.day, DateConverter.convertStringTimeToDate(store.schedules[index].openingTime).hour,
-        DateConverter.convertStringTimeToDate(store.schedules[index].openingTime).minute,
+        _now.year,
+        _now.month,
+        _now.day,
+        DateConverter.convertStringTimeToDate(
+                store.schedules![index].openingTime!)
+            .hour,
+        DateConverter.convertStringTimeToDate(
+                store.schedules![index].openingTime!)
+            .minute,
       );
       DateTime _closeTime = DateTime(
-        _now.year, _now.month, _now.day, DateConverter.convertStringTimeToDate(store.schedules[index].closingTime).hour,
-        DateConverter.convertStringTimeToDate(store.schedules[index].closingTime).minute,
+        _now.year,
+        _now.month,
+        _now.day,
+        DateConverter.convertStringTimeToDate(
+                store.schedules![index].closingTime!)
+            .hour,
+        DateConverter.convertStringTimeToDate(
+                store.schedules![index].closingTime!)
+            .minute,
       );
-      if(_closeTime.difference(_openTime).isNegative) {
+      if (_closeTime.difference(_openTime).isNegative) {
         _minutes = _openTime.difference(_closeTime).inMinutes;
-      }else {
+      } else {
         _minutes = _closeTime.difference(_openTime).inMinutes;
       }
-      if(_minutes > Get.find<SplashController>().configModel.scheduleOrderSlotDuration) {
+      if (_minutes >
+          Get.find<SplashController>()
+              .configModel!
+              .scheduleOrderSlotDuration!) {
         DateTime _time = _openTime;
-        for(;;) {
-          if(_time.isBefore(_closeTime)) {
+        for (;;) {
+          if (_time.isBefore(_closeTime)) {
             DateTime _start = _time;
-            DateTime _end = _start.add(Duration(minutes: Get.find<SplashController>().configModel.scheduleOrderSlotDuration));
-            if(_end.isAfter(_closeTime)) {
+            DateTime _end = _start.add(Duration(
+                minutes: Get.find<SplashController>()
+                    .configModel!
+                    .scheduleOrderSlotDuration!));
+            if (_end.isAfter(_closeTime)) {
               _end = _closeTime;
             }
-            _timeSlots.add(TimeSlotModel(day: store.schedules[index].day, startTime: _start, endTime: _end));
-            _allTimeSlots.add(TimeSlotModel(day: store.schedules[index].day, startTime: _start, endTime: _end));
-            _time = _time.add(Duration(minutes: Get.find<SplashController>().configModel.scheduleOrderSlotDuration));
-          }else {
+            _timeSlots.add(TimeSlotModel(
+                day: store.schedules![index].day,
+                startTime: _start,
+                endTime: _end));
+            _allTimeSlots.add(TimeSlotModel(
+                day: store.schedules![index].day,
+                startTime: _start,
+                endTime: _end));
+            _time = _time.add(Duration(
+                minutes: Get.find<SplashController>()
+                    .configModel!
+                    .scheduleOrderSlotDuration!));
+          } else {
             break;
           }
         }
-      }else {
-        _timeSlots.add(TimeSlotModel(day: store.schedules[index].day, startTime: _openTime, endTime: _closeTime));
-        _allTimeSlots.add(TimeSlotModel(day: store.schedules[index].day, startTime: _openTime, endTime: _closeTime));
+      } else {
+        _timeSlots.add(TimeSlotModel(
+            day: store.schedules![index].day,
+            startTime: _openTime,
+            endTime: _closeTime));
+        _allTimeSlots.add(TimeSlotModel(
+            day: store.schedules![index].day,
+            startTime: _openTime,
+            endTime: _closeTime));
       }
     }
-    validateSlot(_allTimeSlots, 0, store.orderPlaceToScheduleInterval, notify: false);
+    validateSlot(_allTimeSlots, 0, store.orderPlaceToScheduleInterval!,
+        notify: false);
   }
 
   void updateTimeSlot(int index) {
@@ -294,7 +363,11 @@ class OrderController extends GetxController implements GetxService {
   void validateSlot(List<TimeSlotModel> slots, int dateIndex, int interval, {bool notify = true}) {
     _timeSlots = [];
     DateTime _now = DateTime.now();
-    if(Get.find<SplashController>().configModel.moduleConfig.module.orderPlaceToScheduleInterval) {
+    if (Get.find<SplashController>()
+        .configModel!
+        .moduleConfig!
+        .module
+        .orderPlaceToScheduleInterval!) {
       _now = _now.add(Duration(minutes: interval));
     }
     int _day = 0;
@@ -307,7 +380,8 @@ class OrderController extends GetxController implements GetxService {
       _day = 0;
     }
     slots.forEach((slot) {
-      if (_day == slot.day && (dateIndex == 0 ? slot.endTime.isAfter(_now) : true)) {
+      if (_day == slot.day &&
+          (dateIndex == 0 ? slot.endTime!.isAfter(_now) : true)) {
         _timeSlots.add(slot);
       }
     });
@@ -339,7 +413,7 @@ class OrderController extends GetxController implements GetxService {
     Response response = await orderRepo.getDistanceInMeter(originLatLng, destinationLatLng);
     try {
       if (response.statusCode == 200 && response.body['status'] == 'OK') {
-        _distance = DistanceModel.fromJson(response.body).rows[0].elements[0].distance.value / 1000;
+        _distance = (DistanceModel.fromJson(response.body).rows![0].elements![0].distance!.value! / 1000)!;
       } else {
         _distance = Geolocator.distanceBetween(
           originLatLng.latitude, originLatLng.longitude, destinationLatLng.latitude, destinationLatLng.longitude,
@@ -351,14 +425,14 @@ class OrderController extends GetxController implements GetxService {
       ) / 1000;
     }
     update();
-    return _distance;
+    return _distance!;
   }
 
   void pickImage() async {
     _orderAttachment = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
     if(_orderAttachment != null) {
-      _orderAttachment = await NetworkInfo.compressImage(_orderAttachment);
-      _rawAttachment = await _orderAttachment.readAsBytes();
+      _orderAttachment = await NetworkInfo.compressImage(_orderAttachment!);
+      _rawAttachment = await _orderAttachment?.readAsBytes();
     }
     update();
   }

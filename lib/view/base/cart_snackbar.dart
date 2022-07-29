@@ -6,7 +6,7 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
 void showCartSnackBar(BuildContext context) {
-  ScaffoldMessenger.of(Get.context).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     dismissDirection: DismissDirection.horizontal,
     margin: EdgeInsets.only(
       right: ResponsiveHelper.isDesktop(context) ? context.width*0.7 : Dimensions.PADDING_SIZE_SMALL,

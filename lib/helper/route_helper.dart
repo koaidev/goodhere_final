@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/model/body/social_log_in_body.dart';
 import 'package:sixam_mart/data/model/response/address_model.dart';
 import 'package:sixam_mart/data/model/response/basic_campaign_model.dart';
-import 'package:sixam_mart/data/model/response/order_model.dart';
 import 'package:sixam_mart/data/model/response/item_model.dart';
+import 'package:sixam_mart/data/model/response/order_model.dart';
 import 'package:sixam_mart/data/model/response/parcel_category_model.dart';
 import 'package:sixam_mart/data/model/response/store_model.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -25,14 +27,14 @@ import 'package:sixam_mart/view/screens/checkout/order_successful_screen.dart';
 import 'package:sixam_mart/view/screens/checkout/payment_screen.dart';
 import 'package:sixam_mart/view/screens/coupon/coupon_screen.dart';
 import 'package:sixam_mart/view/screens/dashboard/dashboard_screen.dart';
-import 'package:sixam_mart/view/screens/item/item_campaign_screen.dart';
-import 'package:sixam_mart/view/screens/item/item_details_screen.dart';
-import 'package:sixam_mart/view/screens/item/popular_item_screen.dart';
 import 'package:sixam_mart/view/screens/forget/forget_pass_screen.dart';
 import 'package:sixam_mart/view/screens/forget/new_pass_screen.dart';
 import 'package:sixam_mart/view/screens/forget/verification_screen.dart';
 import 'package:sixam_mart/view/screens/html/html_viewer_screen.dart';
 import 'package:sixam_mart/view/screens/interest/interest_screen.dart';
+import 'package:sixam_mart/view/screens/item/item_campaign_screen.dart';
+import 'package:sixam_mart/view/screens/item/item_details_screen.dart';
+import 'package:sixam_mart/view/screens/item/popular_item_screen.dart';
 import 'package:sixam_mart/view/screens/language/language_screen.dart';
 import 'package:sixam_mart/view/screens/location/access_location_screen.dart';
 import 'package:sixam_mart/view/screens/location/map_screen.dart';
@@ -48,17 +50,15 @@ import 'package:sixam_mart/view/screens/parcel/parcel_request_screen.dart';
 import 'package:sixam_mart/view/screens/profile/profile_screen.dart';
 import 'package:sixam_mart/view/screens/profile/update_profile_screen.dart';
 import 'package:sixam_mart/view/screens/refer_and_earn/refer_and_earn_screen.dart';
-import 'package:sixam_mart/view/screens/store/all_store_screen.dart';
-import 'package:sixam_mart/view/screens/store/campaign_screen.dart';
-import 'package:sixam_mart/view/screens/store/store_item_search_screen.dart';
-import 'package:sixam_mart/view/screens/store/store_screen.dart';
-import 'package:sixam_mart/view/screens/store/review_screen.dart';
 import 'package:sixam_mart/view/screens/search/search_screen.dart';
 import 'package:sixam_mart/view/screens/splash/splash_screen.dart';
+import 'package:sixam_mart/view/screens/store/all_store_screen.dart';
+import 'package:sixam_mart/view/screens/store/campaign_screen.dart';
+import 'package:sixam_mart/view/screens/store/review_screen.dart';
+import 'package:sixam_mart/view/screens/store/store_item_search_screen.dart';
+import 'package:sixam_mart/view/screens/store/store_screen.dart';
 import 'package:sixam_mart/view/screens/support/support_screen.dart';
 import 'package:sixam_mart/view/screens/update/update_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sixam_mart/view/screens/wallet/wallet_screen.dart';
 
 class RouteHelper {
@@ -194,28 +194,49 @@ class RouteHelper {
     return '$parcelRequest?category=$_category&picked=$_pickedUpAddress&destination=$_destinationAddress';
   }
   static String getSearchStoreItemRoute(int storeID) => '$searchStoreItem?id=$storeID';
+
   static String getOrderRoute() => '$order';
-  static String getItemDetailsRoute(int itemID, bool isRestaurant) => '$itemDetails?id=$itemID&page=${isRestaurant ? 'restaurant' : 'item'}';
-  static String getWalletRoute(bool fromWallet) => '$wallet?page=${fromWallet ? 'wallet' : 'loyalty_points'}';
+
+  static String getItemDetailsRoute(int? itemID, bool isRestaurant) =>
+      '$itemDetails?id=$itemID&page=${isRestaurant ? 'restaurant' : 'item'}';
+
+  static String getWalletRoute(bool fromWallet) =>
+      '$wallet?page=${fromWallet ? 'wallet' : 'loyalty_points'}';
   static String getReferAndEarnRoute() => '$referAndEarn';
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => getRoute(DashboardScreen(pageIndex: 0))),
-    GetPage(name: splash, page: () => SplashScreen(orderID: Get.parameters['id'] == 'null' ? null : Get.parameters['id'])),
-    GetPage(name: language, page: () => ChooseLanguageScreen(fromMenu: Get.parameters['page'] == 'menu')),
+    GetPage(
+        name: splash,
+        page: () => SplashScreen(
+            orderID:
+                Get.parameters['id'] == 'null' ? null : Get.parameters['id']!)),
+    GetPage(
+        name: language,
+        page: () =>
+            ChooseLanguageScreen(fromMenu: Get.parameters['page'] == 'menu')),
     GetPage(name: onBoarding, page: () => OnBoardingScreen()),
-    GetPage(name: signIn, page: () => SignInScreen(
-      exitFromApp: Get.parameters['page'] == signUp || Get.parameters['page'] == splash || Get.parameters['page'] == onBoarding,
-    )),
+    GetPage(
+        name: signIn,
+        page: () => SignInScreen(
+              exitFromApp: Get.parameters['page'] == signUp ||
+                  Get.parameters['page'] == splash ||
+                  Get.parameters['page'] == onBoarding,
+            )),
     GetPage(name: signUp, page: () => SignUpScreen()),
-    GetPage(name: verification, page: () {
-      List<int> _decode = base64Decode(Get.parameters['pass'].replaceAll(' ', '+'));
-      String _data = utf8.decode(_decode);
-      return VerificationScreen(
-        number: Get.parameters['number'], fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token'],
-        password: _data,
-      );
-    }),
+    GetPage(
+        name: verification,
+        page: () {
+          List<int> _decode =
+              base64Decode(Get.parameters['pass']!.replaceAll(' ', '+'));
+          String _data = utf8.decode(_decode);
+          return VerificationScreen(
+            number: Get.parameters['number']!,
+            fromSignUp: Get.parameters['page'] == signUp,
+            token: Get.parameters!['token']!,
+            password: _data,
+          );
+        }),
     GetPage(name: accessLocation, page: () => AccessLocationScreen(
       fromSignUp: Get.parameters['page'] == signUp, fromHome: Get.parameters['page'] == 'home', route: null,
     )),
@@ -275,9 +296,9 @@ class RouteHelper {
         cartList: null, fromCart: Get.parameters['page'] == 'cart',
       ));
     }),
-    GetPage(name: orderTracking, page: () => getRoute(OrderTrackingScreen(orderID: Get.parameters['id']))),
+    GetPage(name: orderTracking, page: () => getRoute(OrderTrackingScreen(orderID: Get.parameters['id']!))),
     GetPage(name: basicCampaign, page: () {
-      BasicCampaignModel _data = BasicCampaignModel.fromJson(jsonDecode(utf8.decode(base64Decode(Get.parameters['data'].replaceAll(' ', '+')))));
+      BasicCampaignModel _data = BasicCampaignModel.fromJson(jsonDecode(utf8.decode(base64Decode(Get.parameters['data']!.replaceAll(' ', '+')))));
       return getRoute(CampaignScreen(campaign: _data));
     }),
     GetPage(name: html, page: () => HtmlViewerScreen(
@@ -286,9 +307,9 @@ class RouteHelper {
     )),
     GetPage(name: categories, page: () => getRoute(CategoryScreen())),
     GetPage(name: categoryItem, page: () {
-      List<int> _decode = base64Decode(Get.parameters['name'].replaceAll(' ', '+'));
+      List<int> _decode = base64Decode(Get.parameters['name']!.replaceAll(' ', '+'));
       String _data = utf8.decode(_decode);
-      return getRoute(CategoryItemScreen(categoryID: Get.parameters['id'], categoryName: _data));
+      return getRoute(CategoryItemScreen(categoryID: Get.parameters['id']!, categoryName: _data));
     }),
     GetPage(name: popularItems, page: () => getRoute(PopularItemScreen(isPopular: Get.parameters['page'] == 'popular'))),
     GetPage(name: itemCampaign, page: () => getRoute(ItemCampaignScreen())),
@@ -296,30 +317,30 @@ class RouteHelper {
     GetPage(name: update, page: () => UpdateScreen(isUpdate: Get.parameters['update'] == 'true')),
     GetPage(name: cart, page: () => getRoute(CartScreen(fromNav: false))),
     GetPage(name: addAddress, page: () => getRoute(AddAddressScreen(
-      fromCheckout: Get.parameters['page'] == 'checkout', zoneId: int.parse(Get.parameters['zone_id']),
+      fromCheckout: Get.parameters['page'] == 'checkout', zoneId: int.parse(Get.parameters['zone_id']!),
     ))),
     GetPage(name: editAddress, page: () => getRoute(AddAddressScreen(
       fromCheckout: false,
-      address: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data'].replaceAll(' ', '+'))))),
+      address: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data']!.replaceAll(' ', '+'))))),
     ))),
     GetPage(name: rateReview, page: () => getRoute(Get.arguments != null ? Get.arguments : NotFound())),
-    GetPage(name: storeReview, page: () => getRoute(ReviewScreen(storeID: Get.parameters['id']))),
+    GetPage(name: storeReview, page: () => getRoute(ReviewScreen(storeID: Get.parameters['id']!))),
     GetPage(name: allStores, page: () => getRoute(AllStoreScreen(
       isPopular: Get.parameters['page'] == 'popular', isFeatured: Get.parameters['page'] == 'featured',
     ))),
     GetPage(name: itemImages, page: () => getRoute(ImageViewerScreen(
-      item: Item.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['item'].replaceAll(' ', '+'))))),
+      item: Item.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['item']!.replaceAll(' ', '+'))))),
     ))),
     GetPage(name: parcelCategory, page: () => getRoute(ParcelCategoryScreen())),
     GetPage(name: parcelLocation, page: () => getRoute(ParcelLocationScreen(
-      category: ParcelCategoryModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data'].replaceAll(' ', '+'))))),
+      category: ParcelCategoryModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data']!.replaceAll(' ', '+'))))),
     ))),
     GetPage(name: parcelRequest, page: () => getRoute(ParcelRequestScreen(
-      parcelCategory: ParcelCategoryModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['category'].replaceAll(' ', '+'))))),
-      pickedUpAddress: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['picked'].replaceAll(' ', '+'))))),
-      destinationAddress: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['destination'].replaceAll(' ', '+'))))),
+      parcelCategory: ParcelCategoryModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['category']!.replaceAll(' ', '+'))))),
+      pickedUpAddress: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['picked']!.replaceAll(' ', '+'))))),
+      destinationAddress: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['destination']!.replaceAll(' ', '+'))))),
     ))),
-    GetPage(name: searchStoreItem, page: () => getRoute(StoreItemSearchScreen(storeID: Get.parameters['id']))),
+    GetPage(name: searchStoreItem, page: () => getRoute(StoreItemSearchScreen(storeID: Get.parameters['id']!))),
     GetPage(name: order, page: () => getRoute(OrderScreen())),
     GetPage(name: itemDetails, page: () => getRoute(Get.arguments != null ? Get.arguments : ItemDetailsScreen(item: Item(id: int.parse(Get.parameters['id'])), inStorePage: Get.parameters['page'] == 'restaurant'))),
     GetPage(name: wallet, page: () => getRoute(WalletScreen(fromWallet: Get.parameters['page'] == 'wallet'))),
@@ -327,14 +348,14 @@ class RouteHelper {
   ];
 
   static getRoute(Widget navigateTo) {
-    int _minimumVersion = 0;
+    int? _minimumVersion = 0;
     if(GetPlatform.isAndroid) {
-      _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
+      _minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionAndroid;
     }else if(GetPlatform.isIOS) {
-      _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
+      _minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionIos;
     }
-    return AppConstants.APP_VERSION < _minimumVersion ? UpdateScreen(isUpdate: true)
-        : Get.find<SplashController>().configModel.maintenanceMode ? UpdateScreen(isUpdate: false)
+    return AppConstants.APP_VERSION < _minimumVersion! ? UpdateScreen(isUpdate: true)
+        : Get.find<SplashController>().configModel!.maintenanceMode! ? UpdateScreen(isUpdate: false)
         : Get.find<LocationController>().getUserAddress() == null
         ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;
   }

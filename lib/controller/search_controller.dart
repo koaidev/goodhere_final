@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class SearchController extends GetxController implements GetxService {
   final SearchRepo searchRepo;
-  SearchController({@required this.searchRepo});
+  SearchController({ required this.searchRepo});
 
   List<Item> _searchItemList;
   List<Item> _allItemList;
