@@ -1,9 +1,9 @@
 class SocialLogInBody {
-  String? email;
-  String? token;
-  String? uniqueId;
-  String? medium;
-  String? phone;
+  String email;
+  String token;
+  String uniqueId;
+  String medium;
+  String phone;
 
   SocialLogInBody(
       {this.email, this.token, this.uniqueId, this.medium, this.phone});

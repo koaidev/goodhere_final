@@ -1,17 +1,18 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/data/api/api_client.dart';
 import 'package:sixam_mart/data/model/response/address_model.dart';
 import 'package:sixam_mart/data/model/response/module_model.dart';
 import 'package:sixam_mart/util/app_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/util/html_type.dart';
 
 class SplashRepo {
   ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  SplashRepo({required this.sharedPreferences, required this.apiClient});
+  SplashRepo({@required this.sharedPreferences, @required this.apiClient});
 
   Future<Response> getConfigData() async {
     return await apiClient.getData(AppConstants.CONFIG_URI);
@@ -22,10 +23,10 @@ class SplashRepo {
       sharedPreferences.setBool(AppConstants.THEME, false);
     }
     if(!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
-      sharedPreferences.setString(AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode!);
+      sharedPreferences.setString(AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
     }
     if(!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
-      sharedPreferences.setString(AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode!);
+      sharedPreferences.setString(AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
     }
     if(!sharedPreferences.containsKey(AppConstants.CART_LIST)) {
       sharedPreferences.setStringList(AppConstants.CART_LIST, []);
@@ -42,13 +43,13 @@ class SplashRepo {
     if(!sharedPreferences.containsKey(AppConstants.NOTIFICATION_COUNT)) {
       sharedPreferences.setInt(AppConstants.NOTIFICATION_COUNT, 0);
     }
-    ModuleModel? _module;
+    ModuleModel _module;
     if(sharedPreferences.containsKey(AppConstants.MODULE_ID)) {
       try {
-        _module = ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)!));
+        _module = ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)));
       }catch(e) {}
     }
-    return _module!;
+    return _module;
   }
 
   void disableIntro() {
@@ -56,13 +57,13 @@ class SplashRepo {
   }
 
   bool showIntro() {
-    return sharedPreferences.getBool(AppConstants.INTRO)!;
+    return sharedPreferences.getBool(AppConstants.INTRO);
   }
 
   Future<void> setStoreCategory(int storeCategoryID) async {
-    AddressModel? _addressModel;
+    AddressModel _addressModel;
     try {
-      _addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)!));
+      _addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)));
     }catch(e) {}
     apiClient.updateHeader(
       sharedPreferences.getString(AppConstants.TOKEN), _addressModel == null ? null : _addressModel.zoneIds,
@@ -75,9 +76,9 @@ class SplashRepo {
   }
 
   Future<void> setModule(ModuleModel module) async {
-    AddressModel? _addressModel;
+    AddressModel _addressModel;
     try {
-      _addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)!));
+      _addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)));
     }catch(e) {}
     apiClient.updateHeader(
       sharedPreferences.getString(AppConstants.TOKEN), _addressModel == null ? null : _addressModel.zoneIds,
@@ -91,13 +92,13 @@ class SplashRepo {
   }
 
   ModuleModel getModule() {
-    ModuleModel? _module;
+    ModuleModel _module;
     if(sharedPreferences.containsKey(AppConstants.MODULE_ID)) {
       try {
-        _module = ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)!));
+        _module = ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)));
       }catch(e) {}
     }
-    return _module!;
+    return _module;
   }
 
   Future<Response> getHtmlText(HtmlType htmlType) async {

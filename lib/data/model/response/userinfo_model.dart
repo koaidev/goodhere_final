@@ -1,30 +1,30 @@
 class UserInfoModel {
-  int? id;
-  String? fName;
-  String? lName;
-  String? email;
-  String? image;
-  String? phone;
-  String? password;
-  int? orderCount;
-  int? memberSinceDays;
-  double? walletBalance;
-  int? loyaltyPoint;
-  String? refCode;
+  int id;
+  String fName;
+  String lName;
+  String email;
+  String image;
+  String phone;
+  String password;
+  int orderCount;
+  int memberSinceDays;
+  double walletBalance;
+  int loyaltyPoint;
+  String refCode;
 
   UserInfoModel(
       {this.id,
-      this.fName,
-      this.lName,
-      this.email,
-      this.image,
-      this.phone,
-      this.password,
-      this.orderCount,
-      this.memberSinceDays,
-      this.walletBalance,
-      this.loyaltyPoint,
-      this.refCode});
+        this.fName,
+        this.lName,
+        this.email,
+        this.image,
+        this.phone,
+        this.password,
+        this.orderCount,
+        this.memberSinceDays,
+        this.walletBalance,
+        this.loyaltyPoint,
+        this.refCode});
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

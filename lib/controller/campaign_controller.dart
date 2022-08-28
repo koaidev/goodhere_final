@@ -7,22 +7,22 @@ import 'package:get/get.dart';
 
 class CampaignController extends GetxController implements GetxService {
   final CampaignRepo campaignRepo;
-  CampaignController({required this.campaignRepo});
+  CampaignController({@required this.campaignRepo});
 
-  List<BasicCampaignModel>? _basicCampaignList;
-  BasicCampaignModel? _campaign;
-  List<Item>? _itemCampaignList;
+  List<BasicCampaignModel> _basicCampaignList;
+  BasicCampaignModel _campaign;
+  List<Item> _itemCampaignList;
 
-  List<BasicCampaignModel>? get basicCampaignList => _basicCampaignList;
-  BasicCampaignModel? get campaign => _campaign;
-  List<Item>? get itemCampaignList => _itemCampaignList;
+  List<BasicCampaignModel> get basicCampaignList => _basicCampaignList;
+  BasicCampaignModel get campaign => _campaign;
+  List<Item> get itemCampaignList => _itemCampaignList;
 
   Future<void> getBasicCampaignList(bool reload) async {
     if(_basicCampaignList == null || reload) {
       Response response = await campaignRepo.getBasicCampaignList();
       if (response.statusCode == 200) {
         _basicCampaignList = [];
-        response.body.forEach((campaign) => _basicCampaignList!.add(BasicCampaignModel.fromJson(campaign)));
+        response.body.forEach((campaign) => _basicCampaignList.add(BasicCampaignModel.fromJson(campaign)));
       } else {
         ApiChecker.checkApi(response);
       }
@@ -46,7 +46,7 @@ class CampaignController extends GetxController implements GetxService {
       Response response = await campaignRepo.getItemCampaignList();
       if (response.statusCode == 200) {
         _itemCampaignList = [];
-        response.body.forEach((campaign) => _itemCampaignList!.add(Item.fromJson(campaign)));
+        response.body.forEach((campaign) => _itemCampaignList.add(Item.fromJson(campaign)));
       } else {
         ApiChecker.checkApi(response);
       }

@@ -8,12 +8,12 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String icon;
-  final String? title;
+  final String title;
   final String description;
   final Function onYesPressed;
   final bool isLogOut;
-  final Function? onNoPressed;
-  ConfirmationDialog({required this.icon, this.title, required this.description, required this.onYesPressed,
+  final Function onNoPressed;
+  ConfirmationDialog({@required this.icon, this.title, @required this.description, @required this.onYesPressed,
     this.isLogOut = false, this.onNoPressed});
 
   @override

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocationRepo {
   final ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  LocationRepo({required this.apiClient, required this.sharedPreferences});
+  LocationRepo({this.apiClient, this.sharedPreferences});
 
   Future<Response> getAllAddress() async {
     return await apiClient.getData(AppConstants.ADDRESS_LIST_URI);
@@ -36,7 +36,7 @@ class LocationRepo {
     apiClient.updateHeader(
       sharedPreferences.getString(AppConstants.TOKEN), zoneIDs,
       sharedPreferences.getString(AppConstants.LANGUAGE_CODE),
-      Get.find<SplashController>().module != null ? Get.find<SplashController>().module?.id : null,
+      Get.find<SplashController>().module != null ? Get.find<SplashController>().module.id : null,
     );
     return await sharedPreferences.setString(AppConstants.USER_ADDRESS, address);
   }
@@ -46,7 +46,7 @@ class LocationRepo {
   }
 
   String getUserAddress() {
-    return sharedPreferences.getString(AppConstants.USER_ADDRESS)!;
+    return sharedPreferences.getString(AppConstants.USER_ADDRESS);
   }
 
   Future<Response> searchLocation(String text) async {

@@ -60,7 +60,7 @@ class DateConverter {
     return DateFormat('HH:mm').parse(time);
   }
 
-  static bool isAvailable(String start, String end, {DateTime? time}) {
+  static bool isAvailable(String start, String end, {DateTime time}) {
     DateTime _currentTime;
     if(time != null) {
       _currentTime = time;

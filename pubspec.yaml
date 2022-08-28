@@ -4,16 +4,16 @@ publish_to: 'none' #
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
+  camera: ^0.10.0+1
+  path:
   get: ^4.6.5
-  shared_preferences: ^2.0.11
   connectivity: ^3.0.6
   firebase_core: ^1.2.1
   firebase_messaging: ^11.4.1
@@ -47,6 +47,12 @@ dependencies:
   dotted_border: ^2.0.0+1
   share_plus: ^4.0.10
   flutter_launcher_icons: ^0.9.3
+  shared_preferences: ^2.0.15
+  firebase_auth: ^3.6.3
+  fancy_snackbar:
+    git:
+      url: https://github.com/MR0100/fancy_snackbar.git
+
 
 dev_dependencies:
   flutter_test:

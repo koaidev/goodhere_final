@@ -1,8 +1,8 @@
 class NotificationModel {
-  int? id;
-  Data? data;
-  String? createdAt;
-  String? updatedAt;
+  int id;
+  Data data;
+  String createdAt;
+  String updatedAt;
 
   NotificationModel({this.id, this.data, this.createdAt, this.updatedAt});
 
@@ -17,7 +17,7 @@ class NotificationModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data.toJson();
     }
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
@@ -26,10 +26,10 @@ class NotificationModel {
 }
 
 class Data {
-  String? title;
-  String? description;
-  String? image;
-  String? type;
+  String title;
+  String description;
+  String image;
+  String type;
 
   Data({this.title, this.description, this.image, this.type});
 

@@ -1,15 +1,15 @@
 import 'package:sixam_mart/data/model/response/store_model.dart';
 
 class BasicCampaignModel {
-  int? id;
-  String? title;
-  String? image;
-  String? description;
-  String? availableDateStarts;
-  String? availableDateEnds;
-  String? startTime;
-  String? endTime;
-  List<Store>? store;
+  int id;
+  String title;
+  String image;
+  String description;
+  String availableDateStarts;
+  String availableDateEnds;
+  String startTime;
+  String endTime;
+  List<Store> store;
 
   BasicCampaignModel(
       {this.id,
@@ -34,7 +34,7 @@ class BasicCampaignModel {
     if (json['stores'] != null) {
       store = [];
       json['stores'].forEach((v) {
-        store!.add(new Store.fromJson(v));
+        store.add(new Store.fromJson(v));
       });
     }
   }
@@ -50,7 +50,7 @@ class BasicCampaignModel {
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     if (this.store != null) {
-      data['stores'] = this.store!.map((v) => v.toJson()).toList();
+      data['stores'] = this.store.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NotificationRepo {
   final ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  NotificationRepo({required this.apiClient, required this.sharedPreferences});
+  NotificationRepo({@required this.apiClient, @required this.sharedPreferences});
 
   Future<Response> getNotificationList() async {
     return await apiClient.getData(AppConstants.NOTIFICATION_URI);
@@ -18,7 +18,7 @@ class NotificationRepo {
   }
 
   int getSeenNotificationCount() {
-    return sharedPreferences.getInt(AppConstants.NOTIFICATION_COUNT)!;
+    return sharedPreferences.getInt(AppConstants.NOTIFICATION_COUNT);
   }
 
 }

@@ -5,7 +5,7 @@ import 'package:sixam_mart/util/app_constants.dart';
 
 class ParcelRepo {
   final ApiClient apiClient;
-  ParcelRepo({required this.apiClient});
+  ParcelRepo({@required this.apiClient});
 
   Future<Response> getParcelCategory() {
     return apiClient.getData(AppConstants.PARCEL_CATEGORY_URI);

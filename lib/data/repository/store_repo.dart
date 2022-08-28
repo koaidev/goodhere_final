@@ -5,7 +5,7 @@ import 'package:get/get_connect/http/src/response/response.dart';
 
 class StoreRepo {
   final ApiClient apiClient;
-  StoreRepo({required this.apiClient});
+  StoreRepo({@required this.apiClient});
 
   Future<Response> getStoreList(int offset, String filterBy) async {
     return await apiClient.getData('${AppConstants.STORE_URI}/$filterBy?offset=$offset&limit=10');

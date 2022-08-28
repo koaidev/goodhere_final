@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OrderRepo {
   final ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  OrderRepo({required this.apiClient, required this.sharedPreferences});
+  OrderRepo({@required this.apiClient, @required this.sharedPreferences});
 
   Future<Response> getRunningOrderList(int offset) async {
     return await apiClient.getData('${AppConstants.RUNNING_ORDER_LIST_URI}?offset=$offset&limit=10');

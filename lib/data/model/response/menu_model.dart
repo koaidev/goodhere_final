@@ -5,5 +5,5 @@ class MenuModel {
   String title;
   String route;
 
-  MenuModel({required this.icon, required this.title, required this.route});
+  MenuModel({@required this.icon, @required this.title, @required this.route});
 }

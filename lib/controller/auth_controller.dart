@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthRepo authRepo;
-  AuthController({required this.authRepo}) {
+  AuthController({@required this.authRepo}) {
    _notification = authRepo.isNotificationActive();
   }
 
@@ -29,13 +29,13 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.registration(signUpBody);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if(!Get.find<SplashController>().configModel!.customerVerification!) {
+      if(!Get.find<SplashController>().configModel.customerVerification) {
         authRepo.saveUserToken(response.body["token"]);
         await authRepo.updateToken();
       }
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -48,7 +48,7 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.login(phone: phone, password: password);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if(Get.find<SplashController>().configModel!.customerVerification! && response.body['is_phone_verified'] == 0) {
+      if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
 
       }else {
         authRepo.saveUserToken(response.body['token']);
@@ -56,7 +56,7 @@ class AuthController extends GetxController implements GetxService {
       }
       responseModel = ResponseModel(true, '${response.body['is_phone_verified']}${response.body['token']}');
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -66,12 +66,12 @@ class AuthController extends GetxController implements GetxService {
   Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.loginWithSocialMedia(socialLogInBody.email!);
+    Response response = await authRepo.loginWithSocialMedia(socialLogInBody.email);
     if (response.statusCode == 200) {
       String _token = response.body['token'];
       if(_token != null && _token.isNotEmpty) {
-        if(Get.find<SplashController>().configModel!.customerVerification! && response.body['is_phone_verified'] == 0) {
-          Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.email!, _token, RouteHelper.signUp, ''));
+        if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
+          Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.email, _token, RouteHelper.signUp, ''));
         }else {
           authRepo.saveUserToken(response.body['token']);
           await authRepo.updateToken();
@@ -81,7 +81,7 @@ class AuthController extends GetxController implements GetxService {
         Get.toNamed(RouteHelper.getForgotPassRoute(true, socialLogInBody));
       }
     } else {
-      showCustomSnackBar(response.statusText!);
+      showCustomSnackBar(response.statusText);
     }
     _isLoading = false;
     update();
@@ -93,15 +93,15 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.registerWithSocialMedia(socialLogInBody);
     if (response.statusCode == 200) {
       String _token = response.body['token'];
-      if(Get.find<SplashController>().configModel!.customerVerification! && response.body['is_phone_verified'] == 0) {
-        Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.phone!, _token, RouteHelper.signUp, ''));
+      if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
+        Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.phone, _token, RouteHelper.signUp, ''));
       }else {
         authRepo.saveUserToken(response.body['token']);
         await authRepo.updateToken();
         Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
       }
     } else {
-      showCustomSnackBar(response.statusText!);
+      showCustomSnackBar(response.statusText);
     }
     _isLoading = false;
     update();
@@ -116,7 +116,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -135,7 +135,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -150,7 +150,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -165,7 +165,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -182,7 +182,7 @@ class AuthController extends GetxController implements GetxService {
       await authRepo.updateToken();
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
@@ -199,7 +199,7 @@ class AuthController extends GetxController implements GetxService {
       await authRepo.updateToken();
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();

@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/banner_controller.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
@@ -18,45 +19,54 @@ import 'package:sixam_mart/view/screens/home/home_screen.dart';
 
 class SplashController extends GetxController implements GetxService {
   final SplashRepo splashRepo;
-  SplashController({required this.splashRepo});
 
-  ConfigModel? _configModel;
-  bool? _firstTimeConnectionCheck = true;
-  bool? _hasConnection = true;
-  ModuleModel? _module;
-  List<ModuleModel>? _moduleList;
-  int? _moduleIndex = 0;
-  Map<String, dynamic>? _data = Map();
-  String? _htmlText;
-  bool? _isLoading = false;
+  SplashController({@required this.splashRepo});
 
-  ConfigModel? get configModel => _configModel;
-  DateTime? get currentTime => DateTime.now();
-  bool? get firstTimeConnectionCheck => _firstTimeConnectionCheck;
-  bool? get hasConnection => _hasConnection;
-  ModuleModel? get module => _module;
-  int? get moduleIndex => _moduleIndex;
-  List<ModuleModel>? get moduleList => _moduleList;
-  String? get htmlText => _htmlText;
-  bool? get isLoading => _isLoading;
+  ConfigModel _configModel;
+  bool _firstTimeConnectionCheck = true;
+  bool _hasConnection = true;
+  ModuleModel _module;
+  List<ModuleModel> _moduleList;
+  int _moduleIndex = 0;
+  Map<String, dynamic> _data = Map();
+  String _htmlText;
+  bool _isLoading = false;
+
+  ConfigModel get configModel => _configModel;
+
+  DateTime get currentTime => DateTime.now();
+
+  bool get firstTimeConnectionCheck => _firstTimeConnectionCheck;
+
+  bool get hasConnection => _hasConnection;
+
+  ModuleModel get module => _module;
+
+  int get moduleIndex => _moduleIndex;
+
+  List<ModuleModel> get moduleList => _moduleList;
+
+  String get htmlText => _htmlText;
+
+  bool get isLoading => _isLoading;
 
   Future<bool> getConfigData() async {
     _hasConnection = true;
     _moduleIndex = 0;
     Response response = await splashRepo.getConfigData();
     bool _isSuccess = false;
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       _data = response.body;
       _configModel = ConfigModel.fromJson(response.body);
-      if(_configModel?.module != null) {
-        setModule(_configModel?.module);
-      }else if(GetPlatform.isWeb) {
+      if (_configModel.module != null) {
+        setModule(_configModel.module);
+      } else if (GetPlatform.isWeb) {
         setModule(splashRepo.getModule());
       }
       _isSuccess = true;
-    }else {
+    } else {
       ApiChecker.checkApi(response);
-      if(response.statusText == ApiClient.noInternetMessage) {
+      if (response.statusText == ApiClient.noInternetMessage) {
         _hasConnection = false;
       }
       _isSuccess = false;
@@ -66,10 +76,10 @@ class SplashController extends GetxController implements GetxService {
   }
 
   Future<void> initSharedData() async {
-    if(!GetPlatform.isWeb) {
+    if (!GetPlatform.isWeb) {
       _module = null;
       splashRepo.initSharedData();
-    }else {
+    } else {
       _module = await splashRepo.initSharedData();
     }
     await setModule(_module, notify: false);
@@ -87,25 +97,35 @@ class SplashController extends GetxController implements GetxService {
     _firstTimeConnectionCheck = isChecked;
   }
 
-  Future<void> setModule(ModuleModel? module, {bool notify = true}) async {
-    _module = module!;
+  Future<void> setModule(ModuleModel module, {bool notify = true}) async {
+    _module = module;
     splashRepo.setModule(module);
-    if(module != null) {
-      _configModel?.moduleConfig?.module = Module.fromJson(_data!['module_config'][module.moduleType]);
+    //todo
+    final prefs = Get.find<SharedPreferences>();
+
+    prefs.setInt('module_id', module.id);
+    prefs.setString('module_type', module.moduleType);
+
+    print("module: ${module.id}");
+    if (module != null) {
+      _configModel.moduleConfig.module =
+          Module.fromJson(_data['module_config'][module.moduleType]);
     }
-    if(notify) {
+    if (notify) {
       update();
     }
   }
 
-  Module getModule(String moduleType) => Module.fromJson(_data!['module_config'][moduleType]);
+  Module getModule(String moduleType) =>
+      Module.fromJson(_data['module_config'][moduleType]);
 
   Future<void> getModules() async {
     _moduleIndex = 0;
     Response response = await splashRepo.getModules();
     if (response.statusCode == 200) {
       _moduleList = [];
-      response.body.forEach((storeCategory) => _moduleList?.add(ModuleModel.fromJson(storeCategory)));
+      response.body.forEach((storeCategory) =>
+          _moduleList.add(ModuleModel.fromJson(storeCategory)));
     } else {
       ApiChecker.checkApi(response);
     }
@@ -113,23 +133,28 @@ class SplashController extends GetxController implements GetxService {
   }
 
   void switchModule(int index, bool fromPhone) async {
-    if(_module == null || _module!.id! != _moduleList![index].id) {
-      bool _clearData = (Get.find<CartController>().cartList.length > 0
-          && Get.find<CartController>().cartList[0].item?.moduleId! != _moduleList![index].id);
-      bool _switch = _module != null && _module?.id != _moduleList![index].id;
-      if(_clearData || (_switch && !fromPhone)) {
+    if (_module == null || _module.id != _moduleList[index].id) {
+      bool _clearData = (Get.find<CartController>().cartList.length > 0 &&
+          Get.find<CartController>().cartList[0].item.moduleId !=
+              _moduleList[index].id);
+      bool _switch = _module != null && _module.id != _moduleList[index].id;
+      if (_clearData || (_switch && !fromPhone)) {
         Get.dialog(ConfirmationDialog(
-          icon: Images.warning, title: _clearData ? 'are_you_sure_to_reset'.tr : null,
+          icon: Images.warning,
+          title: _clearData ? 'are_you_sure_to_reset'.tr : null,
           description: 'if_you_continue_without_another_store'.tr,
           onYesPressed: () async {
             Get.back();
             Get.find<CartController>().clearCartList();
-            await Get.find<SplashController>().setModule(_moduleList![index]);
+            await Get.find<SplashController>().setModule(_moduleList[index]);
             HomeScreen.loadData(true);
+            // Navigator.of(Get.context, rootNavigator: true).pop();
           },
+          // onNoPressed: () =>
+          //     Navigator.of(Get.context, rootNavigator: true).pop(),
         ));
-      }else {
-        await Get.find<SplashController>().setModule(_moduleList![index]);
+      } else {
+        await Get.find<SplashController>().setModule(_moduleList[index]);
         HomeScreen.loadData(true);
       }
     }
@@ -144,7 +169,7 @@ class SplashController extends GetxController implements GetxService {
     setModule(null);
     Get.find<BannerController>().getFeaturedBanner();
     getModules();
-    if(Get.find<AuthController>().isLoggedIn()) {
+    if (Get.find<AuthController>().isLoggedIn()) {
       Get.find<LocationController>().getAddressList();
     }
     Get.find<StoreController>().getFeaturedStoreList();
@@ -155,9 +180,9 @@ class SplashController extends GetxController implements GetxService {
     Response response = await splashRepo.getHtmlText(htmlType);
     if (response.statusCode == 200) {
       _htmlText = response.body;
-      if(_htmlText != null && _htmlText!.isNotEmpty) {
-        _htmlText = _htmlText?.replaceAll('href=', 'target="_blank" href=');
-      }else {
+      if (_htmlText != null && _htmlText.isNotEmpty) {
+        _htmlText = _htmlText.replaceAll('href=', 'target="_blank" href=');
+      } else {
         _htmlText = '';
       }
     } else {
@@ -174,12 +199,11 @@ class SplashController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       showCustomSnackBar('subscribed_successfully'.tr, isError: false);
       _isSuccess = true;
-    }else {
+    } else {
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
     update();
     return _isSuccess;
   }
-
 }

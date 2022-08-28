@@ -1,56 +1,56 @@
 import 'package:sixam_mart/data/model/response/module_model.dart';
 
 class ConfigModel {
-  String? businessName;
-  String? logo;
-  String? address;
-  String? phone;
-  String? email;
-  BaseUrls? baseUrls;
-  String? country;
-  DefaultLocation? defaultLocation;
-  String? currencySymbol;
-  String? currencySymbolDirection;
-  int? appMinimumVersionAndroid;
-  String? appUrlAndroid;
-  int? appMinimumVersionIos;
-  String? appUrlIos;
-  bool? customerVerification;
-  bool? scheduleOrder;
-  bool? orderDeliveryVerification;
-  bool? cashOnDelivery;
-  bool? digitalPayment;
-  double? perKmShippingCharge;
-  double? minimumShippingCharge;
-  double? freeDeliveryOver;
-  bool? demo;
-  bool? maintenanceMode;
-  String? orderConfirmationModel;
-  bool? showDmEarning;
-  bool? canceledByDeliveryman;
-  String? timeformat;
-  List<Language>? language;
-  bool? toggleVegNonVeg;
-  bool? toggleDmRegistration;
-  bool? toggleStoreRegistration;
-  int? scheduleOrderSlotDuration;
-  int? digitAfterDecimalPoint;
-  double? parcelPerKmShippingCharge;
-  double? parcelMinimumShippingCharge;
-  ModuleModel? module;
-  ModuleConfig? moduleConfig;
-  LandingPageSettings? landingPageSettings;
-  List<SocialMedia>? socialMedia;
-  String? footerText;
-  LandingPageLinks? landingPageLinks;
-  int? loyaltyPointExchangeRate;
-  double? loyaltyPointItemPurchasePoint;
-  int? loyaltyPointStatus;
-  int? minimumPointToTransfer;
-  int? customerWalletStatus;
-  int? dmTipsStatus;
-  int? refEarningStatus;
-  double? refEarningExchangeRate;
+  String businessName;
+  String logo;
+  String address;
+  String phone;
+  String email;
+  BaseUrls baseUrls;
+  String country;
+  DefaultLocation defaultLocation;
+  String currencySymbol;
+  String currencySymbolDirection;
+  int appMinimumVersionAndroid;
+  String appUrlAndroid;
+  int appMinimumVersionIos;
+  String appUrlIos;
+  bool customerVerification;
+  bool scheduleOrder;
+  bool orderDeliveryVerification;
+  bool cashOnDelivery;
+  bool digitalPayment;
+  double perKmShippingCharge;
+  double minimumShippingCharge;
+  double freeDeliveryOver;
+  bool demo;
+  bool maintenanceMode;
+  String orderConfirmationModel;
+  bool showDmEarning;
+  bool canceledByDeliveryman;
+  String timeformat;
+  List<Language> language;
+  bool toggleVegNonVeg;
+  bool toggleDmRegistration;
+  bool toggleStoreRegistration;
+  int scheduleOrderSlotDuration;
+  int digitAfterDecimalPoint;
+  double parcelPerKmShippingCharge;
+  double parcelMinimumShippingCharge;
+  ModuleModel module;
+  ModuleConfig moduleConfig;
+  LandingPageSettings landingPageSettings;
+  List<SocialMedia> socialMedia;
+  String footerText;
+  LandingPageLinks landingPageLinks;
+  int loyaltyPointExchangeRate;
+  double loyaltyPointItemPurchasePoint;
+  int loyaltyPointStatus;
+  int minimumPointToTransfer;
+  int customerWalletStatus;
+  int dmTipsStatus;
+  int refEarningStatus;
+  double refEarningExchangeRate;
 
   ConfigModel(
       {this.businessName,
@@ -141,7 +141,7 @@ class ConfigModel {
     if (json['language'] != null) {
       language = <Language>[];
       json['language'].forEach((v) {
-        language!.add(new Language.fromJson(v));
+        language.add(new Language.fromJson(v));
       });
     }
     toggleVegNonVeg = json['toggle_veg_non_veg'];
@@ -163,7 +163,7 @@ class ConfigModel {
     if (json['social_media'] != null) {
       socialMedia = <SocialMedia>[];
       json['social_media'].forEach((v) {
-        socialMedia!.add(SocialMedia.fromJson(v));
+        socialMedia.add(SocialMedia.fromJson(v));
       });
     }
     footerText = json['footer_text'];
@@ -186,11 +186,11 @@ class ConfigModel {
     data['phone'] = this.phone;
     data['email'] = this.email;
     if (this.baseUrls != null) {
-      data['base_urls'] = this.baseUrls!.toJson();
+      data['base_urls'] = this.baseUrls.toJson();
     }
     data['country'] = this.country;
     if (this.defaultLocation != null) {
-      data['default_location'] = this.defaultLocation!.toJson();
+      data['default_location'] = this.defaultLocation.toJson();
     }
     data['currency_symbol'] = this.currencySymbol;
     data['currency_symbol_direction'] = this.currencySymbolDirection;
@@ -213,7 +213,7 @@ class ConfigModel {
     data['canceled_by_deliveryman'] = this.canceledByDeliveryman;
     data['timeformat'] = this.timeformat;
     if (this.language != null) {
-      data['language'] = this.language!.map((v) => v.toJson()).toList();
+      data['language'] = this.language.map((v) => v.toJson()).toList();
     }
     data['toggle_veg_non_veg'] = this.toggleVegNonVeg;
     data['toggle_dm_registration'] = this.toggleDmRegistration;
@@ -221,22 +221,22 @@ class ConfigModel {
     data['schedule_order_slot_duration'] = this.scheduleOrderSlotDuration;
     data['digit_after_decimal_point'] = this.digitAfterDecimalPoint;
     if (this.module != null) {
-      data['module'] = this.module!.toJson();
+      data['module'] = this.module.toJson();
     }
     if (this.moduleConfig != null) {
-      data['module_config'] = this.moduleConfig!.toJson();
+      data['module_config'] = this.moduleConfig.toJson();
     }
     data['parcel_per_km_shipping_charge'] = this.parcelPerKmShippingCharge;
     data['parcel_minimum_shipping_charge'] = this.parcelMinimumShippingCharge;
     if (this.landingPageSettings != null) {
-      data['landing_page_settings'] = this.landingPageSettings!.toJson();
+      data['landing_page_settings'] = this.landingPageSettings.toJson();
     }
     if (this.socialMedia != null) {
-      data['social_media'] = this.socialMedia!.map((v) => v.toJson()).toList();
+      data['social_media'] = this.socialMedia.map((v) => v.toJson()).toList();
     }
     data['footer_text'] = this.footerText;
     if (this.landingPageLinks != null) {
-      data['landing_page_links'] = this.landingPageLinks!.toJson();
+      data['landing_page_links'] = this.landingPageLinks.toJson();
     }
     data['loyalty_point_exchange_rate'] = this.loyaltyPointExchangeRate;
     data['loyalty_point_item_purchase_point'] = this.loyaltyPointItemPurchasePoint;
@@ -251,22 +251,22 @@ class ConfigModel {
 }
 
 class BaseUrls {
-  String? itemImageUrl;
-  String? customerImageUrl;
-  String? bannerImageUrl;
-  String? categoryImageUrl;
-  String? reviewImageUrl;
-  String? notificationImageUrl;
-  String? vendorImageUrl;
-  String? storeImageUrl;
-  String? storeCoverPhotoUrl;
-  String? deliveryManImageUrl;
-  String? chatImageUrl;
-  String? campaignImageUrl;
-  String? moduleImageUrl;
-  String? orderAttachmentUrl;
-  String? parcelCategoryImageUrl;
-  String? landingPageImageUrl;
+  String itemImageUrl;
+  String customerImageUrl;
+  String bannerImageUrl;
+  String categoryImageUrl;
+  String reviewImageUrl;
+  String notificationImageUrl;
+  String vendorImageUrl;
+  String storeImageUrl;
+  String storeCoverPhotoUrl;
+  String deliveryManImageUrl;
+  String chatImageUrl;
+  String campaignImageUrl;
+  String moduleImageUrl;
+  String orderAttachmentUrl;
+  String parcelCategoryImageUrl;
+  String landingPageImageUrl;
 
   BaseUrls(
       {this.itemImageUrl,
@@ -329,10 +329,10 @@ class BaseUrls {
 }
 
 class DefaultLocation {
-  late String lat;
-  late String lng;
+  String lat;
+  String lng;
 
-  DefaultLocation({required this.lat, required this.lng});
+  DefaultLocation({this.lat, this.lng});
 
   DefaultLocation.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
@@ -348,10 +348,10 @@ class DefaultLocation {
 }
 
 class Language {
-  late String key;
-  late String value;
+  String key;
+  String value;
 
-  Language({required this.key, required this.value});
+  Language({this.key, this.value});
 
   Language.fromJson(Map<String, dynamic> json) {
     key = json['key'];
@@ -367,14 +367,14 @@ class Language {
 }
 
 class ModuleConfig {
-  late List<String> moduleType;
-  late Module module;
+  List<String> moduleType;
+  Module module;
 
-  ModuleConfig({required this.moduleType, required this.module});
+  ModuleConfig({this.moduleType, this.module});
 
   ModuleConfig.fromJson(Map<String, dynamic> json) {
     moduleType = json['module_type'].cast<String>();
-    module = (json[moduleType[0]] != null ? new Module.fromJson(json[moduleType[0]]) : null)!;
+    module = json[moduleType[0]] != null ? new Module.fromJson(json[moduleType[0]]) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -388,15 +388,15 @@ class ModuleConfig {
 }
 
 class Module {
-  bool? orderPlaceToScheduleInterval;
-  bool? addOn;
-  bool? stock;
-  bool? vegNonVeg;
-  bool? unit;
-  bool? orderAttachment;
-  bool? showRestaurantText;
-  bool? isParcel;
-  String? description;
+  bool orderPlaceToScheduleInterval;
+  bool addOn;
+  bool stock;
+  bool vegNonVeg;
+  bool unit;
+  bool orderAttachment;
+  bool showRestaurantText;
+  bool isParcel;
+  String description;
 
   Module(
       {
@@ -440,7 +440,7 @@ class Module {
 }
 
 class OrderStatus {
-  bool? accepted;
+  bool accepted;
 
   OrderStatus({this.accepted});
 
@@ -456,8 +456,8 @@ class OrderStatus {
 }
 
 class LandingPageSettings {
-  String? mobileAppSectionImage;
-  String? topContentImage;
+  String mobileAppSectionImage;
+  String topContentImage;
 
   LandingPageSettings({this.mobileAppSectionImage, this.topContentImage});
 
@@ -475,10 +475,10 @@ class LandingPageSettings {
 }
 
 class SocialMedia {
-  int? id;
-  String? name;
-  String? link;
-  int? status;
+  int id;
+  String name;
+  String link;
+  int status;
 
   SocialMedia(
       {this.id,
@@ -505,10 +505,10 @@ class SocialMedia {
 }
 
 class LandingPageLinks {
-  String? appUrlAndroidStatus;
-  String? appUrlAndroid;
-  String? appUrlIosStatus;
-  String? appUrlIos;
+  String appUrlAndroidStatus;
+  String appUrlAndroid;
+  String appUrlIosStatus;
+  String appUrlIos;
 
   LandingPageLinks(
       {this.appUrlAndroidStatus,

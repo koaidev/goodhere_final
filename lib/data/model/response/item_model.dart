@@ -1,8 +1,8 @@
 class ItemModel {
-  int? totalSize;
-  String? limit;
-  int? offset;
-  List<Item>? items;
+  int totalSize;
+  String limit;
+  int offset;
+  List<Item> items;
 
   ItemModel({this.totalSize, this.limit, this.offset, this.items});
 
@@ -13,7 +13,7 @@ class ItemModel {
     if (json['products'] != null) {
       items = [];
       json['products'].forEach((v) {
-        items!.add(new Item.fromJson(v));
+        items.add(new Item.fromJson(v));
       });
     }
   }
@@ -24,40 +24,40 @@ class ItemModel {
     data['limit'] = this.limit;
     data['offset'] = this.offset;
     if (this.items != null) {
-      data['products'] = this.items!.map((v) => v.toJson()).toList();
+      data['products'] = this.items.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Item {
-  int? id;
-  String? name;
-  String? description;
-  String? image;
-  List<String>? images;
-  int? categoryId;
-  List<CategoryIds>? categoryIds;
-  List<Variation>? variations;
-  List<AddOns>? addOns;
-  List<ChoiceOptions>? choiceOptions;
-  double? price;
-  double? tax;
-  double? discount;
-  String? discountType;
-  String? availableTimeStarts;
-  String? availableTimeEnds;
-  int? storeId;
-  String? storeName;
-  double? storeDiscount;
-  bool? scheduleOrder;
-  double? avgRating;
-  int? ratingCount;
-  int? veg;
-  int? moduleId;
-  String? unitType;
-  int? stock;
-  String? availableDateStarts;
+  int id;
+  String name;
+  String description;
+  String image;
+  List<String> images;
+  int categoryId;
+  List<CategoryIds> categoryIds;
+  List<Variation> variations;
+  List<AddOns> addOns;
+  List<ChoiceOptions> choiceOptions;
+  double price;
+  double tax;
+  double discount;
+  String discountType;
+  String availableTimeStarts;
+  String availableTimeEnds;
+  int storeId;
+  String storeName;
+  double storeDiscount;
+  bool scheduleOrder;
+  double avgRating;
+  int ratingCount;
+  int veg;
+  int moduleId;
+  String unitType;
+  int stock;
+  String availableDateStarts;
 
   Item(
       {this.id,
@@ -98,25 +98,25 @@ class Item {
     if (json['category_ids'] != null) {
       categoryIds = [];
       json['category_ids'].forEach((v) {
-        categoryIds!.add(new CategoryIds.fromJson(v));
+        categoryIds.add(new CategoryIds.fromJson(v));
       });
     }
     if (json['variations'] != null) {
       variations = [];
       json['variations'].forEach((v) {
-        variations!.add(new Variation.fromJson(v));
+        variations.add(new Variation.fromJson(v));
       });
     }
     if (json['add_ons'] != null) {
       addOns = [];
       json['add_ons'].forEach((v) {
-        addOns!.add(new AddOns.fromJson(v));
+        addOns.add(new AddOns.fromJson(v));
       });
     }
     if (json['choice_options'] != null) {
       choiceOptions = [];
       json['choice_options'].forEach((v) {
-        choiceOptions!.add(new ChoiceOptions.fromJson(v));
+        choiceOptions.add(new ChoiceOptions.fromJson(v));
       });
     }
     price = json['price'].toDouble();
@@ -147,17 +147,17 @@ class Item {
     data['images'] = this.images;
     data['category_id'] = this.categoryId;
     if (this.categoryIds != null) {
-      data['category_ids'] = this.categoryIds!.map((v) => v.toJson()).toList();
+      data['category_ids'] = this.categoryIds.map((v) => v.toJson()).toList();
     }
     if (this.variations != null) {
-      data['variations'] = this.variations!.map((v) => v.toJson()).toList();
+      data['variations'] = this.variations.map((v) => v.toJson()).toList();
     }
     if (this.addOns != null) {
-      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+      data['add_ons'] = this.addOns.map((v) => v.toJson()).toList();
     }
     if (this.choiceOptions != null) {
       data['choice_options'] =
-          this.choiceOptions!.map((v) => v.toJson()).toList();
+          this.choiceOptions.map((v) => v.toJson()).toList();
     }
     data['price'] = this.price;
     data['tax'] = this.tax;
@@ -181,7 +181,7 @@ class Item {
 }
 
 class CategoryIds {
-  String? id;
+  String id;
 
   CategoryIds({this.id});
 
@@ -197,9 +197,9 @@ class CategoryIds {
 }
 
 class Variation {
-  String? type;
-  double? price;
-  int? stock;
+  String type;
+  double price;
+  int stock;
 
   Variation({this.type, this.price, this.stock});
 
@@ -219,9 +219,9 @@ class Variation {
 }
 
 class AddOns {
-  int? id;
-  String? name;
-  double? price;
+  int id;
+  String name;
+  double price;
 
   AddOns(
       {this.id,
@@ -244,9 +244,9 @@ class AddOns {
 }
 
 class ChoiceOptions {
-  String? name;
-  String? title;
-  List<String>? options;
+  String name;
+  String title;
+  List<String> options;
 
   ChoiceOptions({this.name, this.title, this.options});
 

@@ -5,7 +5,7 @@ import 'package:get/get_connect/http/src/response/response.dart';
 
 class CouponRepo {
   final ApiClient apiClient;
-  CouponRepo({required this.apiClient});
+  CouponRepo({@required this.apiClient});
 
   Future<Response> getCouponList() async {
     return await apiClient.getData(AppConstants.COUPON_URI);

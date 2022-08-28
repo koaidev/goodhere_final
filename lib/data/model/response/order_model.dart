@@ -3,10 +3,10 @@ import 'package:sixam_mart/data/model/response/parcel_category_model.dart';
 import 'package:sixam_mart/data/model/response/store_model.dart';
 
 class PaginatedOrderModel {
-  int? totalSize;
-  String? limit;
-  int? offset;
-  List<OrderModel>? orders;
+  int totalSize;
+  String limit;
+  int offset;
+  List<OrderModel> orders;
 
   PaginatedOrderModel({this.totalSize, this.limit, this.offset, this.orders});
 
@@ -17,7 +17,7 @@ class PaginatedOrderModel {
     if (json['orders'] != null) {
       orders = [];
       json['orders'].forEach((v) {
-        orders!.add(new OrderModel.fromJson(v));
+        orders.add(new OrderModel.fromJson(v));
       });
     }
   }
@@ -28,7 +28,7 @@ class PaginatedOrderModel {
     data['limit'] = this.limit;
     data['offset'] = this.offset;
     if (this.orders != null) {
-      data['orders'] = this.orders!.map((v) => v.toJson()).toList();
+      data['orders'] = this.orders.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -36,46 +36,46 @@ class PaginatedOrderModel {
 }
 
 class OrderModel {
-  int? id;
-  int? userId;
-  double? orderAmount;
-  double? couponDiscountAmount;
-  String? couponDiscountTitle;
-  String? paymentStatus;
-  String? orderStatus;
-  double? totalTaxAmount;
-  String? paymentMethod;
-  String? couponCode;
-  String? orderNote;
-  String? orderType;
-  String? createdAt;
-  String? updatedAt;
-  double? deliveryCharge;
-  String? scheduleAt;
-  String? otp;
-  String? pending;
-  String? accepted;
-  String? confirmed;
-  String? processing;
-  String? handover;
-  String? pickedUp;
-  String? delivered;
-  String? canceled;
-  String? refundRequested;
-  String? refunded;
-  int? scheduled;
-  double? storeDiscountAmount;
-  String? failed;
-  int? detailsCount;
-  String? orderAttachment;
-  String? chargePayer;
-  String? moduleType;
-  DeliveryMan? deliveryMan;
-  Store? store;
-  AddressModel? deliveryAddress;
-  AddressModel? receiverDetails;
-  ParcelCategoryModel? parcelCategory;
-  double? dmTips;
+  int id;
+  int userId;
+  double orderAmount;
+  double couponDiscountAmount;
+  String couponDiscountTitle;
+  String paymentStatus;
+  String orderStatus;
+  double totalTaxAmount;
+  String paymentMethod;
+  String couponCode;
+  String orderNote;
+  String orderType;
+  String createdAt;
+  String updatedAt;
+  double deliveryCharge;
+  String scheduleAt;
+  String otp;
+  String pending;
+  String accepted;
+  String confirmed;
+  String processing;
+  String handover;
+  String pickedUp;
+  String delivered;
+  String canceled;
+  String refundRequested;
+  String refunded;
+  int scheduled;
+  double storeDiscountAmount;
+  String failed;
+  int detailsCount;
+  String orderAttachment;
+  String chargePayer;
+  String moduleType;
+  DeliveryMan deliveryMan;
+  Store store;
+  AddressModel deliveryAddress;
+  AddressModel receiverDetails;
+  ParcelCategoryModel parcelCategory;
+  double dmTips;
 
   OrderModel(
       {this.id,
@@ -200,19 +200,19 @@ class OrderModel {
     data['module_type'] = this.moduleType;
     data['details_count'] = this.detailsCount;
     if (this.deliveryMan != null) {
-      data['delivery_man'] = this.deliveryMan!.toJson();
+      data['delivery_man'] = this.deliveryMan.toJson();
     }
     if (this.store != null) {
-      data['store'] = this.store!.toJson();
+      data['store'] = this.store.toJson();
     }
     if (this.deliveryAddress != null) {
-      data['delivery_address'] = this.deliveryAddress!.toJson();
+      data['delivery_address'] = this.deliveryAddress.toJson();
     }
     if (this.receiverDetails != null) {
-      data['receiver_details'] = this.receiverDetails!.toJson();
+      data['receiver_details'] = this.receiverDetails.toJson();
     }
     if (this.parcelCategory != null) {
-      data['parcel_category'] = this.parcelCategory!.toJson();
+      data['parcel_category'] = this.parcelCategory.toJson();
     }
     data['dm_tips'] = this.dmTips;
     return data;
@@ -220,20 +220,20 @@ class OrderModel {
 }
 
 class DeliveryMan {
-  int? id;
-  String? fName;
-  String? lName;
-  String? phone;
-  String? email;
-  String? image;
-  int? zoneId;
-  int? active;
-  int? available;
-  double? avgRating;
-  int? ratingCount;
-  String? lat;
-  String? lng;
-  String? location;
+  int id;
+  String fName;
+  String lName;
+  String phone;
+  String email;
+  String image;
+  int zoneId;
+  int active;
+  int available;
+  double avgRating;
+  int ratingCount;
+  String lat;
+  String lng;
+  String location;
 
   DeliveryMan(
       {this.id,

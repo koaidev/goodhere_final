@@ -17,45 +17,45 @@ class ApiClient extends GetxService {
   final String appBaseUrl;
   final SharedPreferences sharedPreferences;
   static final String noInternetMessage = 'connection_to_api_server_failed'.tr;
-  final int timeoutInSeconds = 30;
+  final int timeoutInSeconds = 90;
 
-  String? token;
-  Map<String, String>? _mainHeaders;
+  String token;
+  Map<String, String> _mainHeaders;
 
-  ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
-    token = sharedPreferences.getString(AppConstants.TOKEN)!;
+  ApiClient({@required this.appBaseUrl, @required this.sharedPreferences}) {
+    token = sharedPreferences.getString(AppConstants.TOKEN);
     if (Foundation.kDebugMode) {
       print('Token: $token');
     }
-    AddressModel? _addressModel;
+    AddressModel _addressModel;
     try {
       _addressModel = AddressModel.fromJson(
-          jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)!));
+          jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)));
     } catch (e) {}
-    int? _moduleID;
+    int _moduleID;
     if (GetPlatform.isWeb &&
         sharedPreferences.containsKey(AppConstants.MODULE_ID)) {
       try {
         _moduleID = ModuleModel.fromJson(
-                jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)!))
+                jsonDecode(sharedPreferences.getString(AppConstants.MODULE_ID)))
             .id;
       } catch (e) {}
     }
     updateHeader(
-      token!,
+      token,
       _addressModel == null ? null : _addressModel.zoneIds,
-      sharedPreferences.getString(AppConstants.LANGUAGE_CODE)!,
-      _moduleID!,
+      sharedPreferences.getString(AppConstants.LANGUAGE_CODE),
+      _moduleID,
     );
   }
 
   void updateHeader(
-      String? token, List<int>? zoneIDs, String? languageCode, int? moduleID) {
+      String token, List<int> zoneIDs, String languageCode, int moduleID) {
     Map<String, String> _header = {
       'Content-Type': 'application/json; charset=UTF-8',
-      AppConstants.ZONE_ID: jsonEncode(zoneIDs),
+      AppConstants.ZONE_ID: zoneIDs != null ? jsonEncode(zoneIDs) : null,
       AppConstants.LOCALIZATION_KEY:
-          languageCode!,
+          languageCode ?? AppConstants.languages[0].languageCode,
       'Authorization': 'Bearer $token'
     };
     if (moduleID != null) {
@@ -65,7 +65,7 @@ class ApiClient extends GetxService {
   }
 
   Future<Response> getData(String uri,
-      {Map<String, dynamic>? query, Map<String, String>? headers}) async {
+      {Map<String, dynamic> query, Map<String, String> headers}) async {
     try {
       if (Foundation.kDebugMode) {
         print('====> API Call: $uri\nHeader: $_mainHeaders');
@@ -82,7 +82,7 @@ class ApiClient extends GetxService {
   }
 
   Future<Response> postData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+      {Map<String, String> headers}) async {
     try {
       if (Foundation.kDebugMode) {
         print('====> API Call: $uri\nHeader: $_mainHeaders');
@@ -101,7 +101,7 @@ class ApiClient extends GetxService {
 
   Future<Response> postMultipartData(
       String uri, Map<String, String> body, List<MultipartBody> multipartBody,
-      {Map<String, String>? headers}) async {
+      {Map<String, String> headers}) async {
     try {
       if (Foundation.kDebugMode) {
         print('====> API Call: $uri\nHeader: $_mainHeaders');
@@ -109,7 +109,7 @@ class ApiClient extends GetxService {
       }
       Http.MultipartRequest _request =
           Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
-      _request.headers.addAll(headers ?? _mainHeaders!);
+      _request.headers.addAll(headers ?? _mainHeaders);
       for (MultipartBody multipart in multipartBody) {
         if (multipart.file != null) {
           Uint8List _list = await multipart.file.readAsBytes();
@@ -131,7 +131,7 @@ class ApiClient extends GetxService {
   }
 
   Future<Response> putData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+      {Map<String, String> headers}) async {
     try {
       if (Foundation.kDebugMode) {
         print('====> API Call: $uri\nHeader: $_mainHeaders');
@@ -148,7 +148,7 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> deleteData(String uri, {Map<String, String>? headers}) async {
+  Future<Response> deleteData(String uri, {Map<String, String> headers}) async {
     try {
       if (Foundation.kDebugMode) {
         print('====> API Call: $uri\nHeader: $_mainHeaders');
@@ -172,9 +172,9 @@ class ApiClient extends GetxService {
       body: _body != null ? _body : response.body,
       bodyString: response.body.toString(),
       request: Request(
-          headers: response.request!.headers,
-          method: response.request!.method,
-          url: response.request!.url),
+          headers: response.request.headers,
+          method: response.request.method,
+          url: response.request.url),
       headers: response.headers,
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
@@ -187,7 +187,7 @@ class ApiClient extends GetxService {
         _response = Response(
             statusCode: _response.statusCode,
             body: _response.body,
-            statusText: _errorResponse.errors![0].message);
+            statusText: _errorResponse.errors[0].message);
       } else if (_response.body.toString().startsWith('{message')) {
         _response = Response(
             statusCode: _response.statusCode,

@@ -3,7 +3,7 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class LanguageRepo {
-  List<LanguageModel> getAllLanguages({required BuildContext context}) {
+  List<LanguageModel> getAllLanguages({BuildContext context}) {
     return AppConstants.languages;
   }
 }

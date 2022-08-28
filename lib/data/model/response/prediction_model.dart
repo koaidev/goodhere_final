@@ -1,9 +1,9 @@
 class PredictionModel {
-  String? description;
-  String? id;
-  int? distanceMeters;
-  String? placeId;
-  String? reference;
+  String description;
+  String id;
+  int distanceMeters;
+  String placeId;
+  String reference;
 
   PredictionModel(
       {this.description,

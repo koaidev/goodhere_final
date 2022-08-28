@@ -354,13 +354,22 @@ class OrderController extends GetxController implements GetxService {
     return _distance;
   }
 
-  void pickImage() async {
-    _orderAttachment = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+  void pickImage(bool isPick, XFile image) async {
+   if(isPick){
+   _orderAttachment = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 80);
     if(_orderAttachment != null) {
-      _orderAttachment = await NetworkInfo.compressImage(_orderAttachment);
-      _rawAttachment = await _orderAttachment.readAsBytes();
+    _orderAttachment = await NetworkInfo.compressImage(_orderAttachment);
+    _rawAttachment = await _orderAttachment.readAsBytes();
     }
     update();
+   }else{
+     _orderAttachment = image;
+     if(_orderAttachment != null) {
+       _orderAttachment = await NetworkInfo.compressImage(_orderAttachment);
+       _rawAttachment = await _orderAttachment.readAsBytes();
+     }
+     update();
+   }
   }
 
   void updateTips(int index, {bool notify = true}) {

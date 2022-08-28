@@ -3,8 +3,8 @@ import 'package:sixam_mart/data/model/response/item_model.dart';
 import 'package:sixam_mart/data/model/response/store_model.dart';
 
 class BannerModel {
-  List<BasicCampaignModel>? campaigns;
-  List<Banner>? banners;
+  List<BasicCampaignModel> campaigns;
+  List<Banner> banners;
 
   BannerModel({this.campaigns, this.banners});
 
@@ -12,13 +12,13 @@ class BannerModel {
     if (json['campaigns'] != null) {
       campaigns = [];
       json['campaigns'].forEach((v) {
-        campaigns?.add(BasicCampaignModel.fromJson(v));
+        campaigns.add(BasicCampaignModel.fromJson(v));
       });
     }
     if (json['banners'] != null) {
       banners = [];
       json['banners'].forEach((v) {
-        banners?.add(Banner.fromJson(v));
+        banners.add(Banner.fromJson(v));
       });
     }
   }
@@ -26,22 +26,22 @@ class BannerModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.campaigns != null) {
-      data['campaigns'] = this.campaigns!.map((v) => v.toJson()).toList();
+      data['campaigns'] = this.campaigns.map((v) => v.toJson()).toList();
     }
     if (this.banners != null) {
-      data['banners'] = this.banners!.map((v) => v.toJson()).toList();
+      data['banners'] = this.banners.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Banner {
-  int? id;
-  String? title;
-  String? type;
-  String? image;
-  Store? store;
-  Item? item;
+  int id;
+  String title;
+  String type;
+  String image;
+  Store store;
+  Item item;
 
   Banner(
       {this.id, this.title, this.type, this.image, this.store, this.item});
@@ -62,10 +62,10 @@ class Banner {
     data['type'] = this.type;
     data['image'] = this.image;
     if (this.store != null) {
-      data['store'] = this.store!.toJson();
+      data['store'] = this.store.toJson();
     }
     if (this.item != null) {
-      data['item'] = this.item!.toJson();
+      data['item'] = this.item.toJson();
     }
     return data;
   }

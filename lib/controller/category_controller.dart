@@ -9,58 +9,58 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController implements GetxService {
   final CategoryRepo categoryRepo;
 
-  CategoryController({required this.categoryRepo});
+  CategoryController({@required this.categoryRepo});
 
-  List<CategoryModel>? _categoryList;
-  List<CategoryModel>? _subCategoryList;
-  List<Item>? _categoryItemList;
-  List<Store>? _categoryStoreList;
-  List<Item>? _searchItemList = [];
-  List<Store>? _searchStoreList = [];
-  List<bool>? _interestSelectedList;
-  bool? _isLoading = false;
-  int? _pageSize;
-  int? _restPageSize;
-  bool? _isSearching = false;
-  int? _subCategoryIndex = 0;
-  String? _type = 'all';
-  bool? _isStore = false;
-  String? _searchText = '';
-  String? _storeResultText = '';
-  String? _itemResultText = '';
-  int? _offset = 1;
+  List<CategoryModel> _categoryList;
+  List<CategoryModel> _subCategoryList;
+  List<Item> _categoryItemList;
+  List<Store> _categoryStoreList;
+  List<Item> _searchItemList = [];
+  List<Store> _searchStoreList = [];
+  List<bool> _interestSelectedList;
+  bool _isLoading = false;
+  int _pageSize;
+  int _restPageSize;
+  bool _isSearching = false;
+  int _subCategoryIndex = 0;
+  String _type = 'all';
+  bool _isStore = false;
+  String _searchText = '';
+  String _storeResultText = '';
+  String _itemResultText = '';
+  int _offset = 1;
 
-  List<CategoryModel>? get categoryList => _categoryList;
+  List<CategoryModel> get categoryList => _categoryList;
 
-  List<CategoryModel>? get subCategoryList => _subCategoryList;
+  List<CategoryModel> get subCategoryList => _subCategoryList;
 
-  List<Item>? get categoryItemList => _categoryItemList;
+  List<Item> get categoryItemList => _categoryItemList;
 
-  List<Store>? get categoryStoreList => _categoryStoreList;
+  List<Store> get categoryStoreList => _categoryStoreList;
 
-  List<Item>? get searchItemList => _searchItemList;
+  List<Item> get searchItemList => _searchItemList;
 
-  List<Store>? get searchStoreList => _searchStoreList;
+  List<Store> get searchStoreList => _searchStoreList;
 
-  List<bool>? get interestSelectedList => _interestSelectedList;
+  List<bool> get interestSelectedList => _interestSelectedList;
 
-  bool? get isLoading => _isLoading;
+  bool get isLoading => _isLoading;
 
-  int? get pageSize => _pageSize;
+  int get pageSize => _pageSize;
 
-  int? get restPageSize => _restPageSize;
+  int get restPageSize => _restPageSize;
 
-  bool? get isSearching => _isSearching;
+  bool get isSearching => _isSearching;
 
-  int? get subCategoryIndex => _subCategoryIndex;
+  int get subCategoryIndex => _subCategoryIndex;
 
-  String? get type => _type;
+  String get type => _type;
 
-  bool? get isStore => _isStore;
+  bool get isStore => _isStore;
 
-  String? get searchText => _searchText;
+  String get searchText => _searchText;
 
-  int? get offset => _offset;
+  int get offset => _offset;
 
   Future<void> getCategoryList(bool reload, {bool allCategory = false}) async {
     if (_categoryList == null || reload) {
@@ -70,8 +70,9 @@ class CategoryController extends GetxController implements GetxService {
         _categoryList = [];
         _interestSelectedList = [];
         response.body.forEach((category) {
-          _categoryList!.add(CategoryModel.fromJson(category));
-          _interestSelectedList!.add(false);
+          print("ABC Category: "+ category);
+          _categoryList.add(CategoryModel.fromJson(category));
+          _interestSelectedList.add(false);
         });
       } else {
         ApiChecker.checkApi(response);
@@ -87,10 +88,10 @@ class CategoryController extends GetxController implements GetxService {
     Response response = await categoryRepo.getSubCategoryList(categoryID);
     if (response.statusCode == 200) {
       _subCategoryList = [];
-      _subCategoryList!
+      _subCategoryList
           .add(CategoryModel(id: int.parse(categoryID), name: 'all'.tr));
       response.body.forEach(
-          (category) => _subCategoryList!.add(CategoryModel.fromJson(category)));
+          (category) => _subCategoryList.add(CategoryModel.fromJson(category)));
       getCategoryItemList(categoryID, 1, 'all', false);
     } else {
       ApiChecker.checkApi(response);
@@ -99,21 +100,21 @@ class CategoryController extends GetxController implements GetxService {
 
   void setSubCategoryIndex(int index, String categoryID) {
     _subCategoryIndex = index;
-    if (_isStore!) {
+    if (_isStore) {
       getCategoryStoreList(
           _subCategoryIndex == 0
               ? categoryID
-              : _subCategoryList![index].id.toString(),
+              : _subCategoryList[index].id.toString(),
           1,
-          _type!,
+          _type,
           true);
     } else {
       getCategoryItemList(
           _subCategoryIndex == 0
               ? categoryID
-              : _subCategoryList![index].id.toString(),
+              : _subCategoryList[index].id.toString(),
           1,
-          _type!,
+          _type,
           true);
     }
   }
@@ -137,7 +138,7 @@ class CategoryController extends GetxController implements GetxService {
       if (offset == 1) {
         _categoryItemList = [];
       }
-      _categoryItemList!.addAll(ItemModel.fromJson(response.body).items!);
+      _categoryItemList.addAll(ItemModel.fromJson(response.body).items);
       _pageSize = ItemModel.fromJson(response.body).totalSize;
       _isLoading = false;
     } else {
@@ -165,7 +166,7 @@ class CategoryController extends GetxController implements GetxService {
       if (offset == 1) {
         _categoryStoreList = [];
       }
-      _categoryStoreList!.addAll(StoreModel.fromJson(response.body).stores!);
+      _categoryStoreList.addAll(StoreModel.fromJson(response.body).stores);
       _restPageSize = ItemModel.fromJson(response.body).totalSize;
       _isLoading = false;
     } else {
@@ -175,11 +176,11 @@ class CategoryController extends GetxController implements GetxService {
   }
 
   void searchData(String query, String categoryID, String type) async {
-    if ((_isStore! && query.isNotEmpty && query != _storeResultText) ||
-        (!_isStore! && query.isNotEmpty && query != _itemResultText)) {
+    if ((_isStore && query.isNotEmpty && query != _storeResultText) ||
+        (!_isStore && query.isNotEmpty && query != _itemResultText)) {
       _searchText = query;
       _type = type;
-      if (_isStore!) {
+      if (_isStore) {
         _searchStoreList = null;
       } else {
         _searchItemList = null;
@@ -188,23 +189,23 @@ class CategoryController extends GetxController implements GetxService {
       update();
 
       Response response =
-          await categoryRepo.getSearchData(query, categoryID, _isStore!, type);
+          await categoryRepo.getSearchData(query, categoryID, _isStore, type);
       if (response.statusCode == 200) {
         if (query.isEmpty) {
-          if (_isStore!) {
+          if (_isStore) {
             _searchStoreList = [];
           } else {
             _searchItemList = [];
           }
         } else {
-          if (_isStore!) {
+          if (_isStore) {
             _storeResultText = query;
             _searchStoreList = [];
-            _searchStoreList!.addAll(StoreModel.fromJson(response.body).stores!);
+            _searchStoreList.addAll(StoreModel.fromJson(response.body).stores);
           } else {
             _itemResultText = query;
             _searchItemList = [];
-            _searchItemList!.addAll(ItemModel.fromJson(response.body).items!);
+            _searchItemList.addAll(ItemModel.fromJson(response.body).items);
           }
         }
       } else {
@@ -215,10 +216,10 @@ class CategoryController extends GetxController implements GetxService {
   }
 
   void toggleSearch() {
-    _isSearching = !_isSearching!;
+    _isSearching = !_isSearching;
     _searchItemList = [];
     if (_categoryItemList != null) {
-      _searchItemList!.addAll(_categoryItemList!);
+      _searchItemList.addAll(_categoryItemList);
     }
     update();
   }
@@ -245,7 +246,7 @@ class CategoryController extends GetxController implements GetxService {
   }
 
   void addInterestSelection(int index) {
-    _interestSelectedList![index] = !_interestSelectedList![index];
+    _interestSelectedList[index] = !_interestSelectedList[index];
     update();
   }
 

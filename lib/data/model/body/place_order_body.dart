@@ -5,57 +5,58 @@ import 'package:sixam_mart/data/model/response/item_model.dart';
 import 'package:flutter/material.dart';
 
 class PlaceOrderBody {
-  List<Cart>? _cart;
-  late double? _couponDiscountAmount;
-  late double _orderAmount;
-  late String _orderType;
-  late  String _paymentMethod;
-  late String _orderNote;
-  late String _couponCode;
-  late  int _storeId;
-  late double _distance;
-  late String _scheduleAt;
-  late double _discountAmount;
-  late double _taxAmount;
-  late String _address;
-  late String _latitude;
-  late  String _longitude;
-  late  String _contactPersonName;
-  late  String _contactPersonNumber;
-  late AddressModel _receiverDetails;
-  late  String _addressType;
-  late  String _parcelCategoryId;
-  late  String _chargePayer;
-  late  String _streetNumber;
-  late  String _house;
-  late String _floor;
-  late String _dmTips;
+  List<Cart> _cart;
+  double _couponDiscountAmount;
+  double _orderAmount;
+  String _orderType;
+  String _paymentMethod;
+  String _orderNote;
+  String _couponCode;
+  int _storeId;
+  double _distance;
+  String _scheduleAt;
+  double _discountAmount;
+  double _taxAmount;
+  String _address;
+  String _latitude;
+  String _longitude;
+  String _contactPersonName;
+  String _contactPersonNumber;
+  AddressModel _receiverDetails;
+  String _addressType;
+  String _parcelCategoryId;
+  String _chargePayer;
+  String _streetNumber;
+  String _house;
+  String _floor;
+  String _dmTips;
 
   PlaceOrderBody(
-      {required List<Cart> cart,
-        required double couponDiscountAmount,
-        required String couponCode,
-        required double orderAmount,
-        required String orderType,
-        required String paymentMethod,
-        required int storeId,
-        required double distance,
-        required String scheduleAt,
-        required double discountAmount,
-        required double taxAmount,
-        required String orderNote,
-        required String address,
-        required AddressModel receiverDetails,
-        required String latitude,
-        required String longitude,
-        required String contactPersonName,
-        required String contactPersonNumber,
-        required String addressType,
-        required String parcelCategoryId,
-        required String chargePayer,
-        required String streetNumber,
-        required String house,
-        required String floor, required String dmTips,
+      {@required List<Cart> cart,
+        @required double couponDiscountAmount,
+        @required String couponCode,
+        @required double orderAmount,
+        @required String orderType,
+        @required String paymentMethod,
+        @required int storeId,
+        @required double distance,
+        @required String scheduleAt,
+        @required double discountAmount,
+        @required double taxAmount,
+        @required String orderNote,
+        @required String address,
+        @required AddressModel receiverDetails,
+        @required String latitude,
+        @required String longitude,
+        @required String contactPersonName,
+        @required String contactPersonNumber,
+        @required String addressType,
+        @required String parcelCategoryId,
+        @required String chargePayer,
+        @required String streetNumber,
+        @required String house,
+        @required String floor,
+        @required String dmTips,
       }) {
     this._cart = cart;
     this._couponDiscountAmount = couponDiscountAmount;
@@ -84,8 +85,8 @@ class PlaceOrderBody {
     this._dmTips = dmTips;
   }
 
-  List<Cart>? get cart => _cart;
-  double? get couponDiscountAmount => _couponDiscountAmount;
+  List<Cart> get cart => _cart;
+  double get couponDiscountAmount => _couponDiscountAmount;
   double get orderAmount => _orderAmount;
   String get orderType => _orderType;
   String get paymentMethod => _paymentMethod;
@@ -113,7 +114,7 @@ class PlaceOrderBody {
     if (json['cart'] != null) {
       _cart = [];
       json['cart'].forEach((v) {
-        _cart?.add(new Cart.fromJson(v));
+        _cart.add(new Cart.fromJson(v));
       });
     }
     _couponDiscountAmount = json['coupon_discount_amount'];
@@ -128,7 +129,7 @@ class PlaceOrderBody {
     _discountAmount = json['discount_amount'].toDouble();
     _taxAmount = json['tax_amount'].toDouble();
     _address = json['address'];
-    _receiverDetails = (json['receiver_details'] != null ? new AddressModel.fromJson(json['receiver_details']) : null)!;
+    _receiverDetails = json['receiver_details'] != null ? new AddressModel.fromJson(json['receiver_details']) : null;
     _latitude = json['latitude'];
     _longitude = json['longitude'];
     _contactPersonName = json['contact_person_name'];
@@ -145,7 +146,7 @@ class PlaceOrderBody {
   Map<String, String> toJson() {
     final Map<String, String> data = new Map<String, String>();
     if (this._cart != null) {
-      data['cart'] = jsonEncode(this._cart!.map((v) => v.toJson()).toList());
+      data['cart'] = jsonEncode(this._cart.map((v) => v.toJson()).toList());
     }
     if(this._couponDiscountAmount != null) {
       data['coupon_discount_amount'] = this._couponDiscountAmount.toString();
@@ -192,15 +193,15 @@ class PlaceOrderBody {
 }
 
 class Cart {
-  late int _itemId;
-  late int _itemCampaignId;
-  late String _price;
-  late String _variant;
-  late  List<Variation> _variation;
-  late  int _quantity;
-  late List<int> _addOnIds;
-  late List<AddOns> _addOns;
-  late List<int> _addOnQtys;
+  int _itemId;
+  int _itemCampaignId;
+  String _price;
+  String _variant;
+  List<Variation> _variation;
+  int _quantity;
+  List<int> _addOnIds;
+  List<AddOns> _addOns;
+  List<int> _addOnQtys;
 
   Cart(
       int itemId,

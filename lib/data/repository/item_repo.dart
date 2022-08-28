@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class ItemRepo extends GetxService {
   final ApiClient apiClient;
-  ItemRepo({required this.apiClient});
+  ItemRepo({@required this.apiClient});
 
   Future<Response> getPopularItemList(String type) async {
     return await apiClient.getData('${AppConstants.POPULAR_ITEM_URI}?type=$type');

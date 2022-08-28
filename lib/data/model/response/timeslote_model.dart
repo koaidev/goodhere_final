@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TimeSlotModel {
-  int? day;
-  DateTime? startTime;
-  DateTime? endTime;
+  int day;
+  DateTime startTime;
+  DateTime endTime;
 
-  TimeSlotModel(
-      {@required this.day, @required this.startTime, @required this.endTime});
+  TimeSlotModel({@required this.day, @required this.startTime, @required this.endTime});
 
   TimeSlotModel.fromJson(Map<String, dynamic> json) {
     day = json['day'];

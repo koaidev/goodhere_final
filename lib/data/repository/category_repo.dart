@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 
 class CategoryRepo {
   final ApiClient apiClient;
-  CategoryRepo({required this.apiClient});
+  CategoryRepo({@required this.apiClient});
 
   Future<Response> getCategoryList(bool allCategory) async {
     return await apiClient.getData(AppConstants.CATEGORY_URI, headers: allCategory ? {
       'Content-Type': 'application/json; charset=UTF-8',
       AppConstants.LOCALIZATION_KEY: Get.find<LocalizationController>().locale.languageCode
+          ?? AppConstants.languages[0].languageCode
     } : null);
   }
 

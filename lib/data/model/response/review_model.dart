@@ -1,12 +1,12 @@
 class ReviewModel {
-  int? id;
-  String? comment;
-  int? rating;
-  String? itemName;
-  String? itemImage;
-  String? customerName;
-  String? createdAt;
-  String? updatedAt;
+  int id;
+  String comment;
+  int rating;
+  String itemName;
+  String itemImage;
+  String customerName;
+  String createdAt;
+  String updatedAt;
 
   ReviewModel(
       {this.id,

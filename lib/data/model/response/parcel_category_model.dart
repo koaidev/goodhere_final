@@ -1,10 +1,10 @@
 class ParcelCategoryModel {
-  int? id;
-  String? image;
-  String? name;
-  String? description;
-  String? createdAt;
-  String? updatedAt;
+  int id;
+  String image;
+  String name;
+  String description;
+  String createdAt;
+  String updatedAt;
 
   ParcelCategoryModel(
       {this.id,

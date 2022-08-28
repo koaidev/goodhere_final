@@ -1,14 +1,14 @@
 class ModuleModel {
-  int? id;
-  String? moduleName;
-  String? moduleType;
-  String? thumbnail;
-  String? icon;
-  int? themeId;
-  String? description;
-  int? storesCount;
-  String? createdAt;
-  String? updatedAt;
+  int id;
+  String moduleName;
+  String moduleType;
+  String thumbnail;
+  String icon;
+  int themeId;
+  String description;
+  int storesCount;
+  String createdAt;
+  String updatedAt;
 
   ModuleModel(
       {this.id,

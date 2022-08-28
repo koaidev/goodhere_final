@@ -1,22 +1,22 @@
 import 'package:sixam_mart/data/model/response/item_model.dart';
 
 class OrderDetailsModel {
-  int? id;
-  int? itemId;
-  int? orderId;
-  double? price;
-  Item? itemDetails;
-  List<Variation>? variation;
-  List<AddOn>? addOns;
-  double? discountOnItem;
-  String? discountType;
-  int? quantity;
-  double? taxAmount;
-  String? variant;
-  String? createdAt;
-  String? updatedAt;
-  int? itemCampaignId;
-  double? totalAddOnPrice;
+  int id;
+  int itemId;
+  int orderId;
+  double price;
+  Item itemDetails;
+  List<Variation> variation;
+  List<AddOn> addOns;
+  double discountOnItem;
+  String discountType;
+  int quantity;
+  double taxAmount;
+  String variant;
+  String createdAt;
+  String updatedAt;
+  int itemCampaignId;
+  double totalAddOnPrice;
 
   OrderDetailsModel(
       {this.id,
@@ -47,13 +47,13 @@ class OrderDetailsModel {
     if (json['variation'] != null) {
       variation = [];
       json['variation'].forEach((v) {
-        variation!.add(new Variation.fromJson(v));
+        variation.add(new Variation.fromJson(v));
       });
     }
     if (json['add_ons'] != null) {
       addOns = [];
       json['add_ons'].forEach((v) {
-        addOns!.add(new AddOn.fromJson(v));
+        addOns.add(new AddOn.fromJson(v));
       });
     }
     discountOnItem = json['discount_on_item'].toDouble();
@@ -74,13 +74,13 @@ class OrderDetailsModel {
     data['order_id'] = this.orderId;
     data['price'] = this.price;
     if (this.itemDetails != null) {
-      data['item_details'] = this.itemDetails!.toJson();
+      data['item_details'] = this.itemDetails.toJson();
     }
     if (this.variation != null) {
-      data['variation'] = this.variation!.map((v) => v.toJson()).toList();
+      data['variation'] = this.variation.map((v) => v.toJson()).toList();
     }
     if (this.addOns != null) {
-      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+      data['add_ons'] = this.addOns.map((v) => v.toJson()).toList();
     }
     data['discount_on_item'] = this.discountOnItem;
     data['discount_type'] = this.discountType;
@@ -96,9 +96,9 @@ class OrderDetailsModel {
 }
 
 class AddOn {
-  String? name;
-  double? price;
-  int? quantity;
+  String name;
+  double price;
+  int quantity;
 
   AddOn({this.name, this.price, this.quantity});
 

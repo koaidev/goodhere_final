@@ -1,22 +1,19 @@
 class StoreModel {
-  int? totalSize;
-  String? limit;
-  int? offset;
-  List<Store>? stores;
+  int totalSize;
+  String limit;
+  int offset;
+  List<Store> stores;
 
   StoreModel({this.totalSize, this.limit, this.offset, this.stores});
 
   StoreModel.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];
     limit = json['limit'].toString();
-    offset =
-        (json['offset'] != null && json['offset'].toString().trim().isNotEmpty)
-            ? int.parse(json['offset'].toString())
-            : null;
+    offset = (json['offset'] != null && json['offset'].toString().trim().isNotEmpty) ? int.parse(json['offset'].toString()) : null;
     if (json['stores'] != null) {
       stores = [];
       json['stores'].forEach((v) {
-        stores!.add(new Store.fromJson(v));
+        stores.add(new Store.fromJson(v));
       });
     }
   }
@@ -27,82 +24,82 @@ class StoreModel {
     data['limit'] = this.limit;
     data['offset'] = this.offset;
     if (this.stores != null) {
-      data['stores'] = this.stores!.map((v) => v.toJson()).toList();
+      data['stores'] = this.stores.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Store {
-  int? id;
-  String? name;
-  String? phone;
-  String? email;
-  String? logo;
-  String? latitude;
-  String? longitude;
-  String? address;
-  double? minimumOrder;
-  String? currency;
-  bool? freeDelivery;
-  String? coverPhoto;
-  bool? delivery;
-  bool? takeAway;
-  bool? scheduleOrder;
-  double? avgRating;
-  double? tax;
-  int? ratingCount;
-  int? featured;
-  int? zoneId;
-  int? selfDeliverySystem;
-  bool? posSystem;
-  double? deliveryCharge;
-  int? open;
-  bool? active;
-  String? deliveryTime;
-  List<int>? categoryIds;
-  int? veg;
-  int? nonVeg;
-  int? moduleId;
-  int? orderPlaceToScheduleInterval;
-  Discount? discount;
-  List<Schedules>? schedules;
+  int id;
+  String name;
+  String phone;
+  String email;
+  String logo;
+  String latitude;
+  String longitude;
+  String address;
+  double minimumOrder;
+  String currency;
+  bool freeDelivery;
+  String coverPhoto;
+  bool delivery;
+  bool takeAway;
+  bool scheduleOrder;
+  double avgRating;
+  double tax;
+  int ratingCount;
+  int featured;
+  int zoneId;
+  int selfDeliverySystem;
+  bool posSystem;
+  double deliveryCharge;
+  int open;
+  bool active;
+  String deliveryTime;
+  List<int> categoryIds;
+  int veg;
+  int nonVeg;
+  int moduleId;
+  int orderPlaceToScheduleInterval;
+  Discount discount;
+  List<Schedules> schedules;
 
-  Store({
-    this.id,
-    this.name,
-    this.phone,
-    this.email,
-    this.logo,
-    this.latitude,
-    this.longitude,
-    this.address,
-    this.minimumOrder,
-    this.currency,
-    this.freeDelivery,
-    this.coverPhoto,
-    this.delivery,
-    this.takeAway,
-    this.scheduleOrder,
-    this.avgRating,
-    this.tax,
-    this.featured,
-    this.zoneId,
-    this.ratingCount,
-    this.selfDeliverySystem,
-    this.posSystem,
-    this.deliveryCharge,
-    this.open,
-    this.active,
-    this.deliveryTime,
-    this.categoryIds,
-    this.veg,
-    this.nonVeg,
-    this.moduleId,
-    this.orderPlaceToScheduleInterval,
-    this.discount,
-    this.schedules,
-  });
+  Store(
+      {this.id,
+        this.name,
+        this.phone,
+        this.email,
+        this.logo,
+        this.latitude,
+        this.longitude,
+        this.address,
+        this.minimumOrder,
+        this.currency,
+        this.freeDelivery,
+        this.coverPhoto,
+        this.delivery,
+        this.takeAway,
+        this.scheduleOrder,
+        this.avgRating,
+        this.tax,
+        this.featured,
+        this.zoneId,
+        this.ratingCount,
+        this.selfDeliverySystem,
+        this.posSystem,
+        this.deliveryCharge,
+        this.open,
+        this.active,
+        this.deliveryTime,
+        this.categoryIds,
+        this.veg,
+        this.nonVeg,
+        this.moduleId,
+        this.orderPlaceToScheduleInterval,
+        this.discount,
+        this.schedules,
+      });
 
   Store.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -113,8 +110,7 @@ class Store {
     latitude = json['latitude'];
     longitude = json['longitude'];
     address = json['address'];
-    minimumOrder =
-        json['minimum_order'] == null ? 0 : json['minimum_order'].toDouble();
+    minimumOrder = json['minimum_order'] == null ? 0 : json['minimum_order'].toDouble();
     currency = json['currency'];
     freeDelivery = json['free_delivery'];
     coverPhoto = json['cover_photo'] != null ? json['cover_photo'] : '';
@@ -136,15 +132,12 @@ class Store {
     nonVeg = json['non_veg'];
     moduleId = json['module_id'];
     orderPlaceToScheduleInterval = json['order_place_to_schedule_interval'];
-    categoryIds =
-        json['category_ids'] != null ? json['category_ids'].cast<int>() : [];
-    discount = json['discount'] != null
-        ? new Discount.fromJson(json['discount'])
-        : null;
+    categoryIds = json['category_ids'] != null ? json['category_ids'].cast<int>() : [];
+    discount = json['discount'] != null ? new Discount.fromJson(json['discount']) : null;
     if (json['schedules'] != null) {
       schedules = <Schedules>[];
       json['schedules'].forEach((v) {
-        schedules!.add(new Schedules.fromJson(v));
+        schedules.add(new Schedules.fromJson(v));
       });
     }
   }
@@ -179,56 +172,53 @@ class Store {
     data['zone_id'] = this.zoneId;
     data['non_veg'] = this.nonVeg;
     data['module_id'] = this.moduleId;
-    data['order_place_to_schedule_interval'] =
-        this.orderPlaceToScheduleInterval;
+    data['order_place_to_schedule_interval'] = this.orderPlaceToScheduleInterval;
     data['delivery_time'] = this.deliveryTime;
     data['category_ids'] = this.categoryIds;
     if (this.discount != null) {
-      data['discount'] = this.discount!.toJson();
+      data['discount'] = this.discount.toJson();
     }
     if (this.schedules != null) {
-      data['schedules'] = this.schedules!.map((v) => v.toJson()).toList();
+      data['schedules'] = this.schedules.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Discount {
-  int? id;
-  String? startDate;
-  String? endDate;
-  String? startTime;
-  String? endTime;
-  double? minPurchase;
-  double? maxDiscount;
-  double? discount;
-  String? discountType;
-  int? storeId;
-  String? createdAt;
-  String? updatedAt;
+  int id;
+  String startDate;
+  String endDate;
+  String startTime;
+  String endTime;
+  double minPurchase;
+  double maxDiscount;
+  double discount;
+  String discountType;
+  int storeId;
+  String createdAt;
+  String updatedAt;
 
   Discount(
       {this.id,
-      this.startDate,
-      this.endDate,
-      this.startTime,
-      this.endTime,
-      this.minPurchase,
-      this.maxDiscount,
-      this.discount,
-      this.discountType,
-      this.storeId,
-      this.createdAt,
-      this.updatedAt});
+        this.startDate,
+        this.endDate,
+        this.startTime,
+        this.endTime,
+        this.minPurchase,
+        this.maxDiscount,
+        this.discount,
+        this.discountType,
+        this.storeId,
+        this.createdAt,
+        this.updatedAt});
 
   Discount.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     startDate = json['start_date'];
     endDate = json['end_date'];
-    startTime =
-        json['start_time'] != null ? json['start_time'].substring(0, 5) : null;
-    endTime =
-        json['end_time'] != null ? json['end_time'].substring(0, 5) : null;
+    startTime = json['start_time'] != null ? json['start_time'].substring(0, 5) : null;
+    endTime = json['end_time'] != null ? json['end_time'].substring(0, 5) : null;
     minPurchase = json['min_purchase'].toDouble();
     maxDiscount = json['max_discount'].toDouble();
     discount = json['discount'].toDouble();
@@ -257,14 +247,18 @@ class Discount {
 }
 
 class Schedules {
-  int? id;
-  int? storeId;
-  int? day;
-  String? openingTime;
-  String? closingTime;
+  int id;
+  int storeId;
+  int day;
+  String openingTime;
+  String closingTime;
 
   Schedules(
-      {this.id, this.storeId, this.day, this.openingTime, this.closingTime});
+      {this.id,
+        this.storeId,
+        this.day,
+        this.openingTime,
+        this.closingTime});
 
   Schedules.fromJson(Map<String, dynamic> json) {
     id = json['id'];
