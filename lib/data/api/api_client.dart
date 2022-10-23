@@ -20,7 +20,7 @@ class ApiClient extends GetxService {
   final int timeoutInSeconds = 60;
 
   String? token;
-  Map<String, String?>? _mainHeaders;
+  Map<String, String>? _mainHeaders;
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     token = sharedPreferences.getString(AppConstants.TOKEN);
@@ -44,10 +44,10 @@ class ApiClient extends GetxService {
   }
 
   void updateHeader(String? token, List<int>? zoneIDs, String? languageCode, int? moduleID) {
-    Map<String, String?> _header = {
+    Map<String, String> _header = {
       'Content-Type': 'application/json; charset=UTF-8',
-      AppConstants.ZONE_ID: zoneIDs != null ? jsonEncode(zoneIDs) : null,
-      AppConstants.LOCALIZATION_KEY: languageCode ?? AppConstants.languages[0].languageCode,
+      AppConstants.ZONE_ID: zoneIDs != null ? jsonEncode(zoneIDs) : "",
+      AppConstants.LOCALIZATION_KEY: languageCode!=null ? languageCode : AppConstants.languages[0].languageCode!,
       'Authorization': 'Bearer $token'
     };
     if(moduleID != null) {
@@ -63,7 +63,7 @@ class ApiClient extends GetxService {
       }
       Http.Response _response = await Http.get(
         Uri.parse(appBaseUrl+uri),
-        headers: headers ?? _mainHeaders as Map<String, String>?,
+        headers: headers!=null ? headers : _mainHeaders as Map<String, String>,
       ).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(_response, uri);
     } catch (e) {
