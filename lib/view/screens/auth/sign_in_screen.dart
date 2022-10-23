@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -262,6 +263,8 @@ class _SignInScreenState extends State<SignInScreen> {
     // String _password = _passwordController.text.trim();
     String _numberWithCountryCode = countryDialCode + _phone;
     bool _isValid = GetPlatform.isWeb ? true : false;
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     if (!GetPlatform.isWeb) {
       try {
         PhoneNumber phoneNumber =
@@ -282,6 +285,29 @@ class _SignInScreenState extends State<SignInScreen> {
     //   showCustomSnackBar('password_should_be'.tr);
     // }
     else {
+
+      await auth.verifyPhoneNumber(
+        phoneNumber: _numberWithCountryCode,
+        verificationCompleted: (PhoneAuthCredential credential) {
+
+
+
+        },
+        timeout: const Duration(seconds: 120),
+        verificationFailed: (FirebaseAuthException e) {
+          showCustomSnackBar("Lỗi đã xảy ra.", isError: true);
+        },
+        codeSent: (String verificationId, int resendToken) async {
+          showOtpDialog();
+          if(otpSent.length==6){
+            PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otpSent);
+
+            // Sign the user in (or link) with the credential
+            await auth.signInWithCredential(credential);
+          }
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
       // authController
       //     .login(_numberWithCountryCode, _password)
       //     .then((status) async {
@@ -309,40 +335,38 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
   void showOtpDialog() {
-    showDialog(
-        context: context,
-        builder: (context) => PinCodeTextField(
-          length: 6,
-          obscureText: false,
-          animationType: AnimationType.fade,
-          pinTheme: PinTheme(
-            shape: PinCodeFieldShape.box,
-            borderRadius: BorderRadius.circular(5),
-            fieldHeight: 50,
-            fieldWidth: 40,
-            activeFillColor: Colors.white,
-          ),
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: Colors.blue.shade50,
-          enableActiveFill: true,
-          controller: textEditingController,
-          onCompleted: (v) {
-            print("Completed");
-          },
-          onChanged: (value) {
-            print(value);
-            setState(() {
-              otpSent = value;
-            });
-          },
-          beforeTextPaste: (text) {
-            print("Allowing to paste $text");
-            //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-            //but you can show anything you want here, like your pop up saying wrong paste format or etc
-            return true;
-          },
-          appContext: context,
-        ));
+    PinCodeTextField(
+      length: 6,
+      obscureText: false,
+      animationType: AnimationType.fade,
+      pinTheme: PinTheme(
+        shape: PinCodeFieldShape.box,
+        borderRadius: BorderRadius.circular(5),
+        fieldHeight: 50,
+        fieldWidth: 40,
+        activeFillColor: Colors.white,
+      ),
+      animationDuration: const Duration(milliseconds: 300),
+      backgroundColor: Colors.blue.shade50,
+      enableActiveFill: true,
+      controller: textEditingController,
+      onCompleted: (v) {
+        print("Completed");
+      },
+      onChanged: (value) {
+        print(value);
+        setState(() {
+          otpSent = value;
+        });
+      },
+      beforeTextPaste: (text) {
+        print("Allowing to paste $text");
+        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+        return true;
+      },
+      appContext: context,
+    );
   }
 
 }
