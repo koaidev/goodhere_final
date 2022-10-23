@@ -1,6 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
 import 'package:sixam_mart/controller/localization_controller.dart';
@@ -8,6 +15,7 @@ import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/controller/theme_controller.dart';
 import 'package:sixam_mart/controller/wishlist_controller.dart';
+import 'package:sixam_mart/firebase_options.dart';
 import 'package:sixam_mart/helper/notification_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -15,13 +23,8 @@ import 'package:sixam_mart/theme/dark_theme.dart';
 import 'package:sixam_mart/theme/light_theme.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/messages.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
+
 import 'helper/get_di.dart' as di;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -33,7 +36,12 @@ Future<void> main() async {
   }
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // FirebaseUIAuth.configureProviders([
+  // PhoneAuthProvider(),
+  // ]);
   Map<String, Map<String, String>> _languages = await di.init();
 
   int _orderID;
@@ -61,15 +69,14 @@ Future<void> main() async {
   // }
   // Ensure that plugin services are initialized so that `availableCameras()`
 // can be called before `runApp()`
-  WidgetsFlutterBinding.ensureInitialized();
+//   WidgetsFlutterBinding.ensureInitialized();
 
 // Obtain a list of the available cameras on the device.
   final cameras = await availableCameras();
 
 // Get a specific camera from the list of available cameras.
   final firstCamera = cameras.first;
-  runApp(
-      MyApp(languages: _languages, orderID: _orderID));
+  runApp(MyApp(languages: _languages, orderID: _orderID));
 }
 
 class MyApp extends StatelessWidget {
@@ -102,42 +109,41 @@ class MyApp extends StatelessWidget {
     }
 
     return GetBuilder<ThemeController>(builder: (themeController) {
-        return GetBuilder<LocalizationController>(builder: (localizeController) {
-          return GetBuilder<SplashController>(builder: (splashController) {
-            return (GetPlatform.isWeb && splashController.configModel == null)
-                ? SizedBox()
-                : GetMaterialApp(
-              title: AppConstants.APP_NAME,
-              debugShowCheckedModeBanner: false,
-              navigatorKey: Get.key,
-              scrollBehavior: MaterialScrollBehavior().copyWith(
-                dragDevices: {
-                  PointerDeviceKind.mouse,
-                  PointerDeviceKind.touch
-                },
-              ),
-              theme: themeController.darkTheme
-                  ? themeController.darkColor == null
-                  ? dark()
-                  : dark(color: themeController.darkColor)
-                  : themeController.lightColor == null
-                  ? light()
-                  : light(color: themeController.lightColor),
-              locale: localizeController.locale,
-              translations: Messages(languages: languages),
-              fallbackLocale: Locale(AppConstants.languages[0].languageCode,
-                  AppConstants.languages[0].countryCode),
-              initialRoute: GetPlatform.isWeb
-                  ? RouteHelper.getInitialRoute()
-                  : RouteHelper.getSplashRoute(orderID),
-              getPages: RouteHelper.routes,
-              defaultTransition: Transition.topLevel,
-              transitionDuration: Duration(milliseconds: 500),
-            );
-          });
+      return GetBuilder<LocalizationController>(builder: (localizeController) {
+        return GetBuilder<SplashController>(builder: (splashController) {
+          return (GetPlatform.isWeb && splashController.configModel == null)
+              ? SizedBox()
+              : GetMaterialApp(
+                  title: AppConstants.APP_NAME,
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: Get.key,
+                  scrollBehavior: MaterialScrollBehavior().copyWith(
+                    dragDevices: {
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.touch
+                    },
+                  ),
+                  theme: themeController.darkTheme
+                      ? themeController.darkColor == null
+                          ? dark()
+                          : dark(color: themeController.darkColor)
+                      : themeController.lightColor == null
+                          ? light()
+                          : light(color: themeController.lightColor),
+                  locale: localizeController.locale,
+                  translations: Messages(languages: languages),
+                  fallbackLocale: Locale(AppConstants.languages[0].languageCode,
+                      AppConstants.languages[0].countryCode),
+                  initialRoute: GetPlatform.isWeb
+                      ? RouteHelper.getInitialRoute()
+                      : RouteHelper.getSplashRoute(orderID),
+                  getPages: RouteHelper.routes,
+                  defaultTransition: Transition.topLevel,
+                  transitionDuration: Duration(milliseconds: 500),
+                );
         });
       });
-
+    });
   }
 }
 

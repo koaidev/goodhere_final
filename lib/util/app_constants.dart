@@ -6,7 +6,7 @@ class AppConstants {
   static const String APP_NAME = 'Good Here';
   static const double APP_VERSION = 1.5;
 
-  static const String BASE_URL = 'https://admin.goodhere.vn';
+  static const String BASE_URL = 'https://goodhere.vn';
   static const String CATEGORY_URI = '/api/v1/categories';
   static const String BANNER_URI = '/api/v1/banners';
   static const String STORE_ITEM_URI = '/api/v1/items/latest';
