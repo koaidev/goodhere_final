@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
@@ -17,6 +19,8 @@ import 'package:sixam_mart/view/base/web_menu_bar.dart';
 import 'package:sixam_mart/view/screens/auth/widget/condition_check_box.dart';
 import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
 
+import '../../../data/model/body/signup_body.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -24,35 +28,23 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _firstNameFocus = FocusNode();
-
-  // final FocusNode _lastNameFocus = FocusNode();
-  // final FocusNode _emailFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
-
-  // final FocusNode _passwordFocus = FocusNode();
-  // final FocusNode _confirmPasswordFocus = FocusNode();
   final FocusNode _referCodeFocus = FocusNode();
 
   final TextEditingController _firstNameController = TextEditingController();
-
-  // final TextEditingController _lastNameController = TextEditingController();
-  // final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  // final TextEditingController _passwordController = TextEditingController();
-  // final TextEditingController _confirmPasswordController =
-  //     TextEditingController();
   final TextEditingController _referCodeController = TextEditingController();
 
-  // String _countryDialCode;
+  TextEditingController textEditingController = TextEditingController();
+  String otpSent = "";
+  bool isCodeSent = false;
+  FocusNode otpFocusNode = FocusNode();
+  String signupButtonName = 'sign_up'.tr;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-
-    // _countryDialCode = CountryCode.fromCountryCode(
-    //         Get.find<SplashController>().configModel.country)
-    //     .dialCode;
   }
 
   @override
@@ -124,52 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           prefixIcon: Images.user,
                           divider: true,
                         ),
-                        // CustomTextField(
-                        //   hintText: 'last_name'.tr,
-                        //   controller: _lastNameController,
-                        //   focusNode: _lastNameFocus,
-                        //   nextFocus: _phoneFocus,
-                        //   inputType: TextInputType.name,
-                        //   capitalization: TextCapitalization.words,
-                        //   prefixIcon: Images.user,
-                        //   divider: true,
-                        // ),
-                        // CustomTextField(
-                        //   hintText: 'email'.tr,
-                        //   controller: _emailController,
-                        //   focusNode: _emailFocus,
-                        //   nextFocus: _phoneFocus,
-                        //   inputType: TextInputType.emailAddress,
-                        //   prefixIcon: Images.mail,
-                        //   divider: true,
-                        // ),
                         Row(children: [
-                          // CodePickerWidget(
-                          //   onChanged: (CountryCode countryCode) {
-                          //     _countryDialCode = countryCode.dialCode;
-                          //   },
-                          //   initialSelection: CountryCode.fromCountryCode(
-                          //           Get.find<SplashController>()
-                          //               .configModel
-                          //               .country)
-                          //       .code,
-                          //   favorite: [
-                          //     CountryCode.fromCountryCode(
-                          //             Get.find<SplashController>()
-                          //                 .configModel
-                          //                 .country)
-                          //         .code
-                          //   ],
-                          //   showDropDownButton: true,
-                          //   padding: EdgeInsets.zero,
-                          //   showFlagMain: true,
-                          //   dialogBackgroundColor: Theme.of(context).cardColor,
-                          //   textStyle: robotoRegular.copyWith(
-                          //     fontSize: Dimensions.fontSizeLarge,
-                          //     color:
-                          //         Theme.of(context).textTheme.bodyText1.color,
-                          //   ),
-                          // ),
                           Expanded(
                               child: CustomTextField(
                             hintText: 'phone'.tr,
@@ -185,40 +132,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.PADDING_SIZE_LARGE),
                             child: Divider(height: 1)),
-                        // CustomTextField(
-                        //   hintText: 'password'.tr,
-                        //   controller: _passwordController,
-                        //   focusNode: _passwordFocus,
-                        //   nextFocus: _referCodeFocus,
-                        //   inputType: TextInputType.visiblePassword,
-                        //   prefixIcon: Images.lock,
-                        //   isPassword: true,
-                        //   divider: true,
-                        // ),
-                        // CustomTextField(
-                        //   hintText: 'confirm_password'.tr,
-                        //   controller: _confirmPasswordController,
-                        //   focusNode: _confirmPasswordFocus,
-                        //   nextFocus: Get.find<SplashController>()
-                        //               .configModel
-                        //               .refEarningStatus ==
-                        //           1
-                        //       ? _referCodeFocus
-                        //       : null,
-                        //   inputAction: Get.find<SplashController>()
-                        //               .configModel
-                        //               .refEarningStatus ==
-                        //           1
-                        //       ? TextInputAction.next
-                        //       : TextInputAction.done,
-                        //   inputType: TextInputType.visiblePassword,
-                        //   prefixIcon: Images.lock,
-                        //   isPassword: true,
-                        //   onSubmit: (text) =>
-                        //       (GetPlatform.isWeb && authController.acceptTerms)
-                        //           ? _register(authController, _countryDialCode)
-                        //           : null,
-                        // ),
                         (Get.find<SplashController>()
                                     .configModel
                                     .refEarningStatus ==
@@ -235,6 +148,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 prefixSize: 14,
                               )
                             : SizedBox(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Visibility(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Dimensions.PADDING_SIZE_LARGE),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "enter_the_verification_sent_to".tr,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  PinCodeTextField(
+                                    length: 6,
+                                    obscureText: false,
+                                    animationType: AnimationType.fade,
+                                    pinTheme: PinTheme(
+                                      shape: PinCodeFieldShape.box,
+                                      borderRadius: BorderRadius.circular(5),
+                                      fieldHeight: 40,
+                                      fieldWidth: 30,
+                                      activeFillColor: Colors.white,
+                                      inactiveFillColor: Colors.green,
+                                    ),
+                                    animationDuration:
+                                        const Duration(milliseconds: 300),
+                                    backgroundColor: Colors.transparent,
+                                    enableActiveFill: true,
+                                    controller: textEditingController,
+                                    onCompleted: (v) {
+                                      print("Completed");
+                                    },
+                                    focusNode: otpFocusNode,
+                                    onChanged: (value) {
+                                      print(value);
+                                      setState(() {
+                                        otpSent = value;
+                                      });
+                                    },
+                                    beforeTextPaste: (text) {
+                                      print("Allowing to paste $text");
+                                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                                      return true;
+                                    },
+                                    appContext: context,
+                                  )
+                                ],
+                              )),
+                          maintainAnimation: true,
+                          maintainState: true,
+                          visible: isCodeSent,
+                        ),
                       ]),
                     ),
                     SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
@@ -254,7 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             )),
                             Expanded(
                                 child: CustomButton(
-                              buttonText: 'sign_up'.tr,
+                              buttonText: signupButtonName,
                               onPressed: authController.acceptTerms
                                   ? () => _register(authController, "+84")
                                   : null,
@@ -278,13 +248,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _register(AuthController authController, String countryCode) async {
     String _firstName = _firstNameController.text.trim();
-    // String _lastName = _lastNameController.text.trim();
-    // String _email = _emailController.text.trim();
     String _number = _phoneController.text.trim();
-    // String _password = _passwordController.text.trim();
-    // String _confirmPassword = _confirmPasswordController.text.trim();
     String _referCode = _referCodeController.text.trim();
-
+    FirebaseAuth auth = FirebaseAuth.instance;
     String _numberWithCountryCode = countryCode + _number;
     bool _isValid = GetPlatform.isWeb ? true : false;
     if (!GetPlatform.isWeb) {
@@ -299,57 +265,112 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (_firstName.isEmpty) {
       showCustomSnackBar('enter_your_first_name'.tr);
-    }
-    // else if (_lastName.isEmpty) {
-    //   showCustomSnackBar('enter_your_last_name'.tr);
-    // }
-    //   else if (_email.isEmpty) {
-    //   showCustomSnackBar('enter_email_address'.tr);
-    // }
-    //   else if (!GetUtils.isEmail(_email)) {
-    //   showCustomSnackBar('enter_a_valid_email_address'.tr);
-    // }
-    else if (_number.isEmpty) {
+    } else if (_number.isEmpty) {
       showCustomSnackBar('enter_phone_number'.tr);
     } else if (!_isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
-    }
-    //   else if (_password.isEmpty) {
-    //   showCustomSnackBar('enter_password'.tr);
-    // } else if (_password.length < 6) {
-    //   showCustomSnackBar('password_should_be'.tr);
-    // }
-    //   else if (_password != _confirmPassword) {
-    //   showCustomSnackBar('confirm_password_does_not_matched'.tr);
-    // }
-    else if (_referCode.isNotEmpty && _referCode.length != 10) {
+    } else if (_referCode.isNotEmpty && _referCode.length != 10) {
       showCustomSnackBar('invalid_refer_code'.tr);
     } else {
-      // SignUpBody signUpBody = SignUpBody(
-      //   fName: _firstName,
-      //   lName: "Null",
-      //   email: "Null",
-      //   phone: _numberWithCountryCode,
-      //   password: _password,
-      //   refCode: _referCode,
-      // );
-      // authController.registration(signUpBody).then((status) async {
-      //   if (status.isSuccess) {
-      //     if (Get.find<SplashController>().configModel.customerVerification) {
-      //       List<int> _encoded = utf8.encode(_password);
-      //       String _data = base64Encode(_encoded);
-      //       Get.toNamed(RouteHelper.getVerificationRoute(_numberWithCountryCode,
-      //           status.message, RouteHelper.signUp, _data));
-      //     }
-      //     else {
-      //       Get.toNamed(RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
-      //     }
-      //     showCustomSnackBar("Bạn đã đăng ký thành công!");
-      //   } else {
-      //     showCustomSnackBar("Bạn đã đăng ký thành công, vui lòng chọn đăng nhập.");
-      //   }
-      // });
-      // Get.toNamed(RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
+      if (!isCodeSent) {
+        setState(() {
+          isCodeSent = true;
+          otpFocusNode.requestFocus();
+          signupButtonName = "Xác Minh";
+        });
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+      }
+      await auth.verifyPhoneNumber(
+        phoneNumber: _numberWithCountryCode,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          setState(() {
+            isLoading = false;
+          });
+          // Sign the user in (or link) with the credential
+          await auth.signInWithCredential(credential).then((value) async {
+            if (value.user != null) {
+              setState(() {
+                isLoading = authController.isLoading;
+              });
+              SignUpBody signUpBody = SignUpBody(
+                fName: _firstName,
+                phone: value.user.phoneNumber,
+                password: value.user.uid,
+                refCode: _referCode,
+              );
+              await authController
+                  .registration(signUpBody)
+                  .then((status) async {
+                if (status.isSuccess) {
+                  if (authController.isActiveRememberMe) {
+                    authController.saveUserNumber(_number, countryCode);
+                  } else {
+                    authController.clearUserNumberAndPassword();
+                  }
+                  authController.login(value.user.phoneNumber, value.user.uid);
+                } else {
+                  showCustomSnackBar(
+                      "Lỗi đăng ký tài khoản: " + status.message);
+                }
+              });
+              Get.toNamed(
+                  RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
+            }
+          });
+        },
+        timeout: const Duration(seconds: 30),
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
+          } else {
+            showCustomSnackBar(e.message, isError: true);
+          }
+          setState(() {
+            isLoading = false;
+          });
+        },
+        codeSent: (String verificationId, int resendToken) async {
+          if (otpSent.length == 6) {
+            PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                verificationId: verificationId, smsCode: otpSent);
+
+            // Sign the user in (or link) with the credential
+            await auth.signInWithCredential(credential).then((value) async {
+              if (value.user != null) {
+                setState(() {
+                  isLoading = authController.isLoading;
+                });
+                SignUpBody signUpBody = SignUpBody(
+                  fName: _firstName,
+                  phone: value.user.phoneNumber,
+                  password: value.user.uid,
+                  refCode: _referCode,
+                );
+                authController.registration(signUpBody).then((status) async {
+                  if (status.isSuccess) {
+                    if (authController.isActiveRememberMe) {
+                      authController.saveUserNumber(_number, countryCode);
+                    } else {
+                      authController.clearUserNumberAndPassword();
+                    }
+                    authController.login(
+                        value.user.phoneNumber, value.user.uid);
+                  } else {
+                    showCustomSnackBar(
+                        "Lỗi đăng ký tài khoản: " + status.message);
+                  }
+                });
+                Get.toNamed(
+                    RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
+              }
+            });
+          }
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
     }
   }
 }

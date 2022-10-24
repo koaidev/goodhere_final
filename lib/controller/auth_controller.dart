@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/api/api_checker.dart';
 import 'package:sixam_mart/data/model/body/signup_body.dart';
@@ -6,13 +8,12 @@ import 'package:sixam_mart/data/model/response/response_model.dart';
 import 'package:sixam_mart/data/repository/auth_repo.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/view/base/custom_snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthRepo authRepo;
+
   AuthController({@required this.authRepo}) {
-   _notification = authRepo.isNotificationActive();
+    _notification = authRepo.isNotificationActive();
   }
 
   bool _isLoading = false;
@@ -20,7 +21,9 @@ class AuthController extends GetxController implements GetxService {
   bool _acceptTerms = true;
 
   bool get isLoading => _isLoading;
+
   bool get notification => _notification;
+
   bool get acceptTerms => _acceptTerms;
 
   Future<ResponseModel> registration(SignUpBody signUpBody) async {
@@ -29,7 +32,7 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.registration(signUpBody);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if(!Get.find<SplashController>().configModel.customerVerification) {
+      if (!Get.find<SplashController>().configModel.customerVerification) {
         authRepo.saveUserToken(response.body["token"]);
         await authRepo.updateToken();
       }
@@ -48,13 +51,14 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.login(phone: phone, password: password);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
-
-      }else {
+      // if (Get.find<SplashController>().configModel.customerVerification &&
+      //     response.body['is_phone_verified'] == 0) {
+      // } else {
         authRepo.saveUserToken(response.body['token']);
         await authRepo.updateToken();
-      }
-      responseModel = ResponseModel(true, '${response.body['is_phone_verified']}${response.body['token']}');
+      // }
+      responseModel = ResponseModel(true,
+          '1${response.body['token']}');
     } else {
       responseModel = ResponseModel(false, response.statusText);
     }
@@ -63,21 +67,26 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
+
+
   Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.loginWithSocialMedia(socialLogInBody.email);
+    Response response =
+        await authRepo.loginWithSocialMedia(socialLogInBody.email);
     if (response.statusCode == 200) {
       String _token = response.body['token'];
-      if(_token != null && _token.isNotEmpty) {
-        if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
-          Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.email, _token, RouteHelper.signUp, ''));
-        }else {
+      if (_token != null && _token.isNotEmpty) {
+        if (Get.find<SplashController>().configModel.customerVerification &&
+            response.body['is_phone_verified'] == 0) {
+          Get.toNamed(RouteHelper.getVerificationRoute(
+              socialLogInBody.email, _token, RouteHelper.signUp, ''));
+        } else {
           authRepo.saveUserToken(response.body['token']);
           await authRepo.updateToken();
           Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
         }
-      }else {
+      } else {
         Get.toNamed(RouteHelper.getForgotPassRoute(true, socialLogInBody));
       }
     } else {
@@ -93,9 +102,11 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.registerWithSocialMedia(socialLogInBody);
     if (response.statusCode == 200) {
       String _token = response.body['token'];
-      if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {
-        Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.phone, _token, RouteHelper.signUp, ''));
-      }else {
+      if (Get.find<SplashController>().configModel.customerVerification &&
+          response.body['is_phone_verified'] == 0) {
+        Get.toNamed(RouteHelper.getVerificationRoute(
+            socialLogInBody.phone, _token, RouteHelper.signUp, ''));
+      } else {
         authRepo.saveUserToken(response.body['token']);
         await authRepo.updateToken();
         Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
@@ -142,10 +153,12 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  Future<ResponseModel> resetPassword(String resetToken, String number, String password, String confirmPassword) async {
+  Future<ResponseModel> resetPassword(String resetToken, String number,
+      String password, String confirmPassword) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.resetPassword(resetToken, number, password, confirmPassword);
+    Response response = await authRepo.resetPassword(
+        resetToken, number, password, confirmPassword);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
@@ -224,8 +237,7 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-
-  bool _isActiveRememberMe = false;
+  bool _isActiveRememberMe = true;
 
   bool get isActiveRememberMe => _isActiveRememberMe;
 
@@ -252,8 +264,13 @@ class AuthController extends GetxController implements GetxService {
     return authRepo.clearSharedAddress();
   }
 
-  void saveUserNumberAndPassword(String number, String password, String countryCode) {
+  void saveUserNumberAndPassword(
+      String number, String password, String countryCode) {
     authRepo.saveUserNumberAndPassword(number, password, countryCode);
+  }
+
+  void saveUserNumber(String number, String countryCode) {
+    authRepo.saveUserNumber(number, countryCode);
   }
 
   String getUserNumber() {
@@ -282,5 +299,4 @@ class AuthController extends GetxController implements GetxService {
     update();
     return _notification;
   }
-
 }

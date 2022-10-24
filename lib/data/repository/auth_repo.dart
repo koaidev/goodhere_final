@@ -142,6 +142,14 @@ class AuthRepo {
       throw e;
     }
   }
+  Future<void> saveUserNumber(String number, String countryCode) async {
+    try {
+      await sharedPreferences.setString(AppConstants.USER_NUMBER, number);
+      await sharedPreferences.setString(AppConstants.USER_COUNTRY_CODE, countryCode);
+    } catch (e) {
+      throw e;
+    }
+  }
 
   String getUserNumber() {
     return sharedPreferences.getString(AppConstants.USER_NUMBER) ?? "";

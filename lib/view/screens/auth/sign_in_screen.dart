@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
-import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -35,23 +33,24 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final FocusNode _phoneFocus = FocusNode();
-  // final FocusNode _passwordFocus = FocusNode();
+
   final TextEditingController _phoneController = TextEditingController();
-  // final TextEditingController _passwordController = TextEditingController();
+
   TextEditingController textEditingController = TextEditingController();
   String otpSent = "";
-  // String _countryDialCode;
+  bool isCodeSent = false;
+  FocusNode otpFocusNode = FocusNode();
+  String loginButtonName = 'sign_in'.tr;
+  bool isLoading = false;
+  bool firstLaunch = true;
+
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
   void initState() {
     super.initState();
 
-    // _countryDialCode = Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-    //     : CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).dialCode;
     _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
-    // _passwordController.text =
-    //     Get.find<AuthController>().getUserPassword() ?? '';
   }
 
   @override
@@ -130,10 +129,25 @@ class _SignInScreenState extends State<SignInScreen> {
                         )
                       : null,
                   child: GetBuilder<AuthController>(builder: (authController) {
+                    if (FirebaseAuth.instance.currentUser != null &&
+                        firstLaunch)
+                      authController
+                          .login(FirebaseAuth.instance.currentUser.phoneNumber,
+                              FirebaseAuth.instance.currentUser.uid)
+                          .then((status) async {
+                        if (status.isSuccess) {
+                          Get.toNamed(
+                              RouteHelper.getAccessLocationRoute('sign-in'));
+                        } else {
+                          showCustomSnackBar(status.message);
+                        }
+                      });
+                    if (firstLaunch) {
+                      firstLaunch = false;
+                    }
+
                     return Column(children: [
                       Image.asset(Images.logo, width: 200),
-                      // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                      // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                       Text('sign_in'.tr.toUpperCase(),
@@ -154,22 +168,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         child: Column(children: [
                           Row(children: [
-                            // CodePickerWidget(
-                            //   onChanged: (CountryCode countryCode) {
-                            //     _countryDialCode = countryCode.dialCode;
-                            //   },
-                            //   initialSelection: _countryDialCode != null ? CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code
-                            //       : Get.find<LocalizationController>().locale.countryCode,
-                            //   favorite: [CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code],
-                            //   showDropDownButton: true,
-                            //   padding: EdgeInsets.zero,
-                            //   showFlagMain: true,
-                            //   flagWidth: 30,
-                            //   dialogBackgroundColor: Theme.of(context).cardColor,
-                            //   textStyle: robotoRegular.copyWith(
-                            //     fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color,
-                            //   ),
-                            // ),
                             Expanded(
                                 flex: 1,
                                 child: CustomTextField(
@@ -182,49 +180,88 @@ class _SignInScreenState extends State<SignInScreen> {
                                   prefixIcon: Images.call,
                                 )),
                           ]),
-                          // Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE), child: Divider(height: 1)),
-                          //
-                          // CustomTextField(
-                          //   hintText: 'password'.tr,
-                          //   controller: _passwordController,
-                          //   focusNode: _passwordFocus,
-                          //   inputAction: TextInputAction.done,
-                          //   inputType: TextInputType.visiblePassword,
-                          //   prefixIcon: Images.lock,
-                          //   isPassword: true,
-                          //   onSubmit: (text) => (GetPlatform.isWeb && authController.acceptTerms)
-                          //       ? _login(authController, "+84") : null,
-                          // ),
                         ]),
                       ),
                       SizedBox(height: 10),
 
-                      // Row(children: [
-                      //   Expanded(
-                      //     child: ListTile(
-                      //       onTap: () => authController.toggleRememberMe(),
-                      //       leading: Checkbox(
-                      //         activeColor: Theme.of(context).primaryColor,
-                      //         value: authController.isActiveRememberMe,
-                      //         onChanged: (bool isChecked) => authController.toggleRememberMe(),
-                      //       ),
-                      //       title: Text('remember_me'.tr),
-                      //       contentPadding: EdgeInsets.zero,
-                      //       dense: true,
-                      //       horizontalTitleGap: 0,
-                      //     ),
-                      //   ),
-                      //   TextButton(
-                      //     onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute(false, null)),
-                      //     child: Text('${'forgot_password'.tr}?'),
-                      //   ),
-                      // ]),
+                      Visibility(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_LARGE),
+                          child: Column(
+                            children: [
+                              Text(
+                                "enter_the_verification_sent_to".tr,
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              PinCodeTextField(
+                                length: 6,
+                                obscureText: false,
+                                animationType: AnimationType.fade,
+                                pinTheme: PinTheme(
+                                  shape: PinCodeFieldShape.box,
+                                  borderRadius: BorderRadius.circular(5),
+                                  fieldHeight: 40,
+                                  fieldWidth: 30,
+                                  activeFillColor: Colors.white,
+                                  inactiveFillColor: Colors.green,
+                                ),
+                                animationDuration:
+                                    const Duration(milliseconds: 300),
+                                backgroundColor: Colors.transparent,
+                                enableActiveFill: true,
+                                controller: textEditingController,
+                                onCompleted: (v) {
+                                  print("Completed");
+                                },
+                                focusNode: otpFocusNode,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    otpSent = value;
+                                  });
+                                },
+                                beforeTextPaste: (text) {
+                                  print("Allowing to paste $text");
+                                  //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                                  //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                                  return true;
+                                },
+                                appContext: context,
+                              )
+                            ],
+                          ),
+                        ),
+                        maintainAnimation: true,
+                        maintainState: true,
+                        visible: isCodeSent,
+                      ),
+                      Row(children: [
+                        Expanded(
+                          child: ListTile(
+                            onTap: () => authController.toggleRememberMe(),
+                            leading: Checkbox(
+                              activeColor: Theme.of(context).primaryColor,
+                              value: authController.isActiveRememberMe,
+                              onChanged: (bool isChecked) =>
+                                  authController.toggleRememberMe(),
+                            ),
+                            title: Text('remember_me'.tr),
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+                            horizontalTitleGap: 0,
+                          ),
+                        ),
+                      ]),
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                       ConditionCheckBox(authController: authController),
                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-                      !authController.isLoading
+                      !isLoading
                           ? Row(children: [
                               Expanded(
                                   child: CustomButton(
@@ -235,9 +272,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               )),
                               Expanded(
                                   child: CustomButton(
-                                buttonText: 'sign_in'.tr,
+                                buttonText: loginButtonName,
                                 onPressed: authController.acceptTerms
-                                    ? () => _login(authController, "+84")
+                                    ? () => _login(authController, "+84", false)
                                     : null,
                               )),
                             ])
@@ -258,13 +295,12 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _login(AuthController authController, String countryDialCode) async {
+  void _login(AuthController authController, String countryDialCode,
+      bool resend) async {
     String _phone = _phoneController.text.trim();
-    // String _password = _passwordController.text.trim();
     String _numberWithCountryCode = countryDialCode + _phone;
     bool _isValid = GetPlatform.isWeb ? true : false;
     FirebaseAuth auth = FirebaseAuth.instance;
-
     if (!GetPlatform.isWeb) {
       try {
         PhoneNumber phoneNumber =
@@ -278,95 +314,106 @@ class _SignInScreenState extends State<SignInScreen> {
       showCustomSnackBar('enter_phone_number'.tr);
     } else if (!_isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
-    }
-    // else if (_password.isEmpty) {
-    //   showCustomSnackBar('enter_password'.tr);
-    // }else if (_password.length < 6) {
-    //   showCustomSnackBar('password_should_be'.tr);
-    // }
-    else {
+    } else {
+      if (!isCodeSent) {
+        setState(() {
+          isCodeSent = true;
+          otpFocusNode.requestFocus();
+          loginButtonName = "Xác Minh";
+        });
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+      }
 
       await auth.verifyPhoneNumber(
         phoneNumber: _numberWithCountryCode,
-        verificationCompleted: (PhoneAuthCredential credential) {
-
-
-
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          setState(() {
+            isLoading = false;
+          });
+          // Sign the user in (or link) with the credential
+          await auth.signInWithCredential(credential).then((value) async {
+            if (value.user != null) {
+              setState(() {
+                isLoading = authController.isLoading;
+              });
+              await authController
+                  .login(value.user.phoneNumber, value.user.uid)
+                  .then((status) async {
+                if (status.isSuccess) {
+                  if (authController.isActiveRememberMe) {
+                    authController.saveUserNumber(_phone, countryDialCode);
+                  } else {
+                    authController.clearUserNumberAndPassword();
+                  }
+                } else {
+                  showCustomSnackBar(status.message);
+                }
+              });
+              Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
+            }
+          });
         },
-        timeout: const Duration(seconds: 120),
+        timeout: const Duration(seconds: 30),
         verificationFailed: (FirebaseAuthException e) {
-          showCustomSnackBar("Lỗi đã xảy ra.", isError: true);
+          if (e.code == 'invalid-phone-number') {
+            showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
+          } else {
+            showCustomSnackBar(e.message, isError: true);
+          }
+          setState(() {
+            isLoading = false;
+          });
         },
         codeSent: (String verificationId, int resendToken) async {
-          showOtpDialog();
-          if(otpSent.length==6){
-            PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otpSent);
+          if (otpSent.length == 6) {
+            PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                verificationId: verificationId, smsCode: otpSent);
 
             // Sign the user in (or link) with the credential
-            await auth.signInWithCredential(credential);
+            await auth.signInWithCredential(credential).then((value) async {
+              if (value.user != null) {
+                setState(() {
+                  isLoading = false;
+                });
+                await authController
+                    .login(value.user.phoneNumber, value.user.uid)
+                    .then((status) async {
+                  if (status.isSuccess) {
+                    if (authController.isActiveRememberMe) {
+                      authController.saveUserNumber(_phone, countryDialCode);
+                    } else {
+                      authController.clearUserNumberAndPassword();
+                    }
+                    // String _token =
+                    //     status.message.substring(1, status.message.length);
+                    // if (Get.find<SplashController>()
+                    //         .configModel
+                    //         .customerVerification &&
+                    //     int.parse(status.message[0]) == 0) {
+                    //   List<int> _encoded = utf8.encode(value.user.uid);
+                    //   String _data = base64Encode(_encoded);
+                    //   Get.toNamed(RouteHelper.getVerificationRoute(
+                    //       _numberWithCountryCode,
+                    //       _token,
+                    //       RouteHelper.signUp,
+                    //       _data));
+                    // } else {
+
+                    // }
+                  } else {
+                    showCustomSnackBar("Lỗi đăng nhập: " + status.message);
+                  }
+                  Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
+                });
+              }
+            });
           }
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
-      // authController
-      //     .login(_numberWithCountryCode, _password)
-      //     .then((status) async {
-      //   if (status.isSuccess) {
-      //     if (authController.isActiveRememberMe) {
-      //       authController.saveUserNumberAndPassword(
-      //           _phone, _password, countryDialCode);
-      //     } else {
-      //       authController.clearUserNumberAndPassword();
-      //     }
-      //     String _token = status.message.substring(1, status.message.length);
-      //     if (Get.find<SplashController>().configModel.customerVerification &&
-      //         int.parse(status.message[0]) == 0) {
-      //       List<int> _encoded = utf8.encode(_password);
-      //       String _data = base64Encode(_encoded);
-      //       Get.toNamed(RouteHelper.getVerificationRoute(
-      //           _numberWithCountryCode, _token, RouteHelper.signUp, _data));
-      //     } else {
-      //       Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
-      //     }
-      //   } else {
-      //     showCustomSnackBar(status.message);
-      //   }
-      // });
     }
   }
-  void showOtpDialog() {
-    PinCodeTextField(
-      length: 6,
-      obscureText: false,
-      animationType: AnimationType.fade,
-      pinTheme: PinTheme(
-        shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(5),
-        fieldHeight: 50,
-        fieldWidth: 40,
-        activeFillColor: Colors.white,
-      ),
-      animationDuration: const Duration(milliseconds: 300),
-      backgroundColor: Colors.blue.shade50,
-      enableActiveFill: true,
-      controller: textEditingController,
-      onCompleted: (v) {
-        print("Completed");
-      },
-      onChanged: (value) {
-        print(value);
-        setState(() {
-          otpSent = value;
-        });
-      },
-      beforeTextPaste: (text) {
-        print("Allowing to paste $text");
-        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-        //but you can show anything you want here, like your pop up saying wrong paste format or etc
-        return true;
-      },
-      appContext: context,
-    );
-  }
-
 }
