@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '977332047026',
     projectId: 'zopay-e17da',
     storageBucket: 'zopay-e17da.appspot.com',
+    androidClientId: '977332047026-esa4oitmeotcg5sosmapno8lperpthor.apps.googleusercontent.com',
     iosClientId: '977332047026-rvfl60ak6ouhrb3rirm5koond7ts20vv.apps.googleusercontent.com',
     iosBundleId: 'com.sixamtech.sixamMart',
   );

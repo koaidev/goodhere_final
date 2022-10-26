@@ -129,11 +129,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         )
                       : null,
                   child: GetBuilder<AuthController>(builder: (authController) {
-                    if (FirebaseAuth.instance.currentUser != null &&
-                        firstLaunch)
+                    var user = FirebaseAuth.instance.currentUser;
+                    if (user != null && user.uid!=null &&
+                        firstLaunch){
                       authController
-                          .login(FirebaseAuth.instance.currentUser.phoneNumber,
-                              FirebaseAuth.instance.currentUser.uid)
+                          .login(user.phoneNumber,
+                          user.uid)
                           .then((status) async {
                         if (status.isSuccess) {
                           Get.toNamed(
@@ -142,9 +143,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           showCustomSnackBar(status.message);
                         }
                       });
-                    if (firstLaunch) {
-                      firstLaunch = false;
+                      if (firstLaunch) {
+                        firstLaunch = false;
+                      }
                     }
+
 
                     return Column(children: [
                       Image.asset(Images.logo, width: 200),
@@ -344,15 +347,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   .then((status) async {
                 if (status.isSuccess) {
                   if (authController.isActiveRememberMe) {
-                    authController.saveUserNumber(_phone, countryDialCode);
+                    authController.saveUserNumberAndPassword(_phone, value.user.uid, countryDialCode);
                   } else {
                     authController.clearUserNumberAndPassword();
                   }
+                  Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
                 } else {
                   showCustomSnackBar(status.message);
                 }
               });
-              Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
             }
           });
         },
@@ -383,30 +386,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     .then((status) async {
                   if (status.isSuccess) {
                     if (authController.isActiveRememberMe) {
-                      authController.saveUserNumber(_phone, countryDialCode);
+                      authController.saveUserNumberAndPassword(_phone,value.user.uid, countryDialCode);
                     } else {
                       authController.clearUserNumberAndPassword();
                     }
-                    // String _token =
-                    //     status.message.substring(1, status.message.length);
-                    // if (Get.find<SplashController>()
-                    //         .configModel
-                    //         .customerVerification &&
-                    //     int.parse(status.message[0]) == 0) {
-                    //   List<int> _encoded = utf8.encode(value.user.uid);
-                    //   String _data = base64Encode(_encoded);
-                    //   Get.toNamed(RouteHelper.getVerificationRoute(
-                    //       _numberWithCountryCode,
-                    //       _token,
-                    //       RouteHelper.signUp,
-                    //       _data));
-                    // } else {
-
-                    // }
+                    Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
                   } else {
                     showCustomSnackBar("Lỗi đăng nhập: " + status.message);
                   }
-                  Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
                 });
               }
             });

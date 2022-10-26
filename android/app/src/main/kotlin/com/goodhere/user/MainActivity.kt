@@ -1,4 +1,4 @@
-package com.sixamtech.sixam_mart
+package com.goodhere.user
 
 import io.flutter.embedding.android.FlutterActivity
 

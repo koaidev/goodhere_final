@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -32,6 +33,7 @@ class MenuButton extends StatelessWidget {
           Get.back();
           if(Get.find<AuthController>().isLoggedIn()) {
             Get.dialog(ConfirmationDialog(icon: Images.support, description: 'are_you_sure_to_logout'.tr, isLogOut: true, onYesPressed: () {
+              FirebaseAuth.instance.signOut();
               Get.find<AuthController>().clearSharedData();
               Get.find<CartController>().clearCartList();
               Get.find<WishListController>().removeWishes();

@@ -301,23 +301,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 password: value.user.uid,
                 refCode: _referCode,
               );
-              await authController
-                  .registration(signUpBody)
-                  .then((status) async {
+              authController.registration(signUpBody).then((status) async {
                 if (status.isSuccess) {
                   if (authController.isActiveRememberMe) {
-                    authController.saveUserNumber(_number, countryCode);
+                    authController.saveUserNumberAndPassword(
+                        _number, value.user.uid, countryCode);
                   } else {
                     authController.clearUserNumberAndPassword();
                   }
-                  authController.login(value.user.phoneNumber, value.user.uid);
+                  authController
+                      .login(value.user.phoneNumber, value.user.uid)
+                      .then((value) => {
+                    if (value.isSuccess)
+                      {
+                        Get.toNamed(
+                            RouteHelper.getAccessLocationRoute(
+                                RouteHelper.signUp))
+                      }
+                  });
                 } else {
                   showCustomSnackBar(
                       "Lỗi đăng ký tài khoản: " + status.message);
                 }
               });
-              Get.toNamed(
-                  RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
             }
           });
         },
@@ -352,19 +358,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 authController.registration(signUpBody).then((status) async {
                   if (status.isSuccess) {
                     if (authController.isActiveRememberMe) {
-                      authController.saveUserNumber(_number, countryCode);
+                      authController.saveUserNumberAndPassword(
+                       _number, value.user.uid, countryCode);
                     } else {
                       authController.clearUserNumberAndPassword();
                     }
-                    authController.login(
-                        value.user.phoneNumber, value.user.uid);
+                    authController
+                        .login(value.user.phoneNumber, value.user.uid)
+                        .then((value) => {
+                              if (value.isSuccess)
+                                {
+                                  Get.toNamed(
+                                      RouteHelper.getAccessLocationRoute(
+                                          RouteHelper.signUp))
+                                }
+                            });
                   } else {
                     showCustomSnackBar(
                         "Lỗi đăng ký tài khoản: " + status.message);
                   }
                 });
-                Get.toNamed(
-                    RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
               }
             });
           }

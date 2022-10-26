@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(children: [
 
                 Text(
-                  _isLoggedIn ? '${userController.userInfoModel.fName} ${userController.userInfoModel.lName}' : 'guest'.tr,
+                  _isLoggedIn ? '${userController.userInfoModel.lName??""} ${userController.userInfoModel.fName}' : 'guest'.tr,
                   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                 ),
                 SizedBox(height: 30),
@@ -110,9 +110,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }) : SizedBox(),
                 SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 0),
 
-                _isLoggedIn ? ProfileButton(icon: Icons.lock, title: 'change_password'.tr, onTap: () {
-                  Get.toNamed(RouteHelper.getResetPasswordRoute('', '', 'password-change'));
-                }) : SizedBox(),
+                // _isLoggedIn ? ProfileButton(icon: Icons.lock, title: 'change_password'.tr, onTap: () {
+                //   Get.toNamed(RouteHelper.getResetPasswordRoute('', '', 'password-change'));
+                // }) : SizedBox(),
                 SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 0),
 
                 ProfileButton(icon: Icons.edit, title: 'edit_profile'.tr, onTap: () {

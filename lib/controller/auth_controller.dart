@@ -32,10 +32,10 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.registration(signUpBody);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if (!Get.find<SplashController>().configModel.customerVerification) {
+      // if (!Get.find<SplashController>().configModel.customerVerification) {
         authRepo.saveUserToken(response.body["token"]);
         await authRepo.updateToken();
-      }
+      // }
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
       responseModel = ResponseModel(false, response.statusText);
@@ -267,10 +267,6 @@ class AuthController extends GetxController implements GetxService {
   void saveUserNumberAndPassword(
       String number, String password, String countryCode) {
     authRepo.saveUserNumberAndPassword(number, password, countryCode);
-  }
-
-  void saveUserNumber(String number, String countryCode) {
-    authRepo.saveUserNumber(number, countryCode);
   }
 
   String getUserNumber() {

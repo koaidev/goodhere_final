@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "977332047026-e98fcdaiqm08d2go9n0dpm5r6p86ics5.apps.googleusercontent.com",
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.sixamMartStore"
+                "bundle_id": "com.goodhere.user"
               }
             }
           ]
@@ -50,6 +50,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "977332047026-ulqbd5bb3ld85lvfvec8bmslc0csfdir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodhere.user",
+            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
+          }
+        },
+        {
           "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -67,10 +75,10 @@
               "client_type": 3
             },
             {
-              "client_id": "977332047026-e98fcdaiqm08d2go9n0dpm5r6p86ics5.apps.googleusercontent.com",
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.sixamMartStore"
+                "bundle_id": "com.goodhere.user"
               }
             }
           ]
@@ -86,6 +94,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "977332047026-esa4oitmeotcg5sosmapno8lperpthor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodhere.vendor",
+            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
+          }
+        },
+        {
           "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -103,10 +119,10 @@
               "client_type": 3
             },
             {
-              "client_id": "977332047026-e98fcdaiqm08d2go9n0dpm5r6p86ics5.apps.googleusercontent.com",
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.sixamMartStore"
+                "bundle_id": "com.goodhere.user"
               }
             }
           ]
@@ -139,10 +155,10 @@
               "client_type": 3
             },
             {
-              "client_id": "977332047026-e98fcdaiqm08d2go9n0dpm5r6p86ics5.apps.googleusercontent.com",
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.sixamMartStore"
+                "bundle_id": "com.goodhere.user"
               }
             }
           ]
@@ -175,10 +191,10 @@
               "client_type": 3
             },
             {
-              "client_id": "977332047026-e98fcdaiqm08d2go9n0dpm5r6p86ics5.apps.googleusercontent.com",
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.sixamMartStore"
+                "bundle_id": "com.goodhere.user"
               }
             }
           ]

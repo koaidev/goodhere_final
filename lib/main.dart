@@ -39,9 +39,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // FirebaseUIAuth.configureProviders([
-  // PhoneAuthProvider(),
-  // ]);
+
   Map<String, Map<String, String>> _languages = await di.init();
 
   int _orderID;
@@ -58,18 +56,6 @@ Future<void> main() async {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   } catch (e) {}
-
-  // if (ResponsiveHelper.isWeb()) {
-  //   FacebookAuth.i.webInitialize(
-  //     appId: "452131619626499",
-  //     cookie: true,
-  //     xfbml: true,
-  //     version: "v9.0",
-  //   );
-  // }
-  // Ensure that plugin services are initialized so that `availableCameras()`
-// can be called before `runApp()`
-//   WidgetsFlutterBinding.ensureInitialized();
 
 // Obtain a list of the available cameras on the device.
   final cameras = await availableCameras();
