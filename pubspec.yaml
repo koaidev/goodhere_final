@@ -5,12 +5,17 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+dependency_overrides:
+  camera_android: ^0.10.0+3
+  camera_avfoundation: ^0.9.8+6
+  scrollable_positioned_list: ^0.3.5
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
   camera: ^0.10.0+4
   path: ^1.8.2
   get: ^4.6.5
@@ -26,7 +31,6 @@ dependencies:
   shimmer_animation: ^2.1.0+1
   image_picker: ^0.8.6
   universal_html: ^2.0.8
-#  universal_ui: ^0.0.8
   universal_platform: ^1.0.0+1
   flutter_inappwebview: ^5.6.0+1
   flutter_widget_from_html: ^0.8.5
@@ -37,8 +41,6 @@ dependencies:
   pointer_interceptor: ^0.9.3+3
   phone_number: ^1.0.0
   cached_network_image: ^3.2.2
-#  google_sign_in: ^5.2.1
-#  flutter_facebook_auth: ^3.5.7
   photo_view: ^0.14.0
   image_compression_flutter: ^1.0.2
   dotted_border: ^2.0.0+2
@@ -78,6 +80,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   app_settings: ^4.1.8
   percent_indicator: ^4.2.2
+  cloud_firestore: ^4.0.2
 
 
 dev_dependencies:
@@ -93,15 +96,16 @@ flutter:
   assets:
     - assets/image/
     - assets/language/
+    - assets/animationFile/
 
   fonts:
-    - family: Roboto
+    - family: NotoSerif
       fonts:
-        - asset: assets/font/Roboto-Regular.ttf
+        - asset: assets/font/NotoSerif-Regular.ttf
           weight: 400
-        - asset: assets/font/Roboto-Medium.ttf
+        - asset: assets/font/NotoSerif-Regular.ttf
           weight: 500
-        - asset: assets/font/Roboto-Bold.ttf
+        - asset: assets/font/NotoSerif-Bold.ttf
           weight: 700
-        - asset: assets/font/Roboto-Black.ttf
+        - asset: assets/font/NotoSerif-Bold.ttf
           weight: 900

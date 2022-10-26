@@ -49,10 +49,10 @@ android {
         versionName "v0.0.1-Beta"
         multiDexEnabled true
         ndk { debugSymbolLevel 'SYMBOL_TABLE' }
-        archivesBaseName = "ScannerDoc-v$versionCode($versionName)"
+        archivesBaseName = "Goodhere-v$versionCode($versionName)"
         testInstrumentationRunnerArguments clearPackageData: 'true'
-
     }
+
     configurations.all {
         resolutionStrategy {
             exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
@@ -91,4 +91,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.firebase:firebase-messaging:21.0.1"
+    implementation 'com.google.mlkit:face-detection:16.1.5'
+
 }
