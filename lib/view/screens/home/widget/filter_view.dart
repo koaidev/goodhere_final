@@ -11,15 +11,15 @@ class FilterView extends StatelessWidget {
       return storeController.storeModel != null ? PopupMenuButton(
         itemBuilder: (context) {
           return [
-            PopupMenuItem(value: 'all', child: Text('all'.tr), textStyle: robotoMedium.copyWith(
+            PopupMenuItem(value: 'all', child: Text('all'.tr), textStyle: notoSerifMedium.copyWith(
               color: storeController.storeType == 'all'
                   ? Theme.of(context).textTheme.bodyText1.color : Theme.of(context).disabledColor,
             )),
-            PopupMenuItem(value: 'take_away', child: Text('take_away'.tr), textStyle: robotoMedium.copyWith(
+            PopupMenuItem(value: 'take_away', child: Text('take_away'.tr), textStyle: notoSerifMedium.copyWith(
               color: storeController.storeType == 'take_away'
                   ? Theme.of(context).textTheme.bodyText1.color : Theme.of(context).disabledColor,
             )),
-            PopupMenuItem(value: 'delivery', child: Text('delivery'.tr), textStyle: robotoMedium.copyWith(
+            PopupMenuItem(value: 'delivery', child: Text('delivery'.tr), textStyle: notoSerifMedium.copyWith(
               color: storeController.storeType == 'delivery'
                   ? Theme.of(context).textTheme.bodyText1.color : Theme.of(context).disabledColor,
             )),

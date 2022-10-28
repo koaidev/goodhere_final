@@ -50,8 +50,8 @@ class _OrderScreenState extends State<OrderScreen> with TickerProviderStateMixin
                   indicatorWeight: 3,
                   labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: Theme.of(context).disabledColor,
-                  unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-                  labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                  unselectedLabelStyle: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                  labelStyle: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                   tabs: [
                     Tab(text: 'running'.tr),
                     Tab(text: 'history'.tr),

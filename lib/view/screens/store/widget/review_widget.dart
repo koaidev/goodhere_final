@@ -31,7 +31,7 @@ class ReviewWidget extends StatelessWidget {
 
           Text(
             review.itemName, maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
+            style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall),
           ),
 
           RatingBar(rating: review.rating.toDouble(), ratingCount: null, size: 15),
@@ -39,10 +39,10 @@ class ReviewWidget extends StatelessWidget {
           Text(
             review.customerName ?? '',
             maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
+            style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
           ),
 
-          Text(review.comment, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor)),
+          Text(review.comment, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor)),
 
         ])),
 

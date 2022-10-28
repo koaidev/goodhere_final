@@ -64,7 +64,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                     Text(
                       catController.categoryList[index].name, textAlign: TextAlign.center,
-                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                       maxLines: 2, overflow: TextOverflow.ellipsis,
                     ),
 

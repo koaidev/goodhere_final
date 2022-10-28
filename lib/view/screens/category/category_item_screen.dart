@@ -110,13 +110,13 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> with TickerProv
                 hintText: 'Search...',
                 border: InputBorder.none,
               ),
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
               onSubmitted: (String query) => catController.searchData(
                 query, catController.subCategoryIndex == 0 ? widget.categoryID
                   : catController.subCategoryList[catController.subCategoryIndex].id.toString(),
                 catController.type,
               ),
-            ) : Text(widget.categoryName, style: robotoRegular.copyWith(
+            ) : Text(widget.categoryName, style: notoSerifRegular.copyWith(
               fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color,
             )),
             centerTitle: true,
@@ -187,8 +187,8 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> with TickerProv
                           Text(
                             catController.subCategoryList[index].name,
                             style: index == catController.subCategoryIndex
-                                ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
-                                : robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                                ? notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
+                                : notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                           ),
                           index == catController.subCategoryIndex ? Container(
                             height: 5, width: 5,
@@ -210,8 +210,8 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> with TickerProv
                   indicatorWeight: 3,
                   labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: Theme.of(context).disabledColor,
-                  unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-                  labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                  unselectedLabelStyle: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                  labelStyle: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                   tabs: [
                     Tab(text: 'item'.tr),
                     Tab(text: Get.find<SplashController>().configModel.moduleConfig.module.showRestaurantText

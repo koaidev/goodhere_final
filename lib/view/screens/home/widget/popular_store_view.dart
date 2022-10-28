@@ -130,13 +130,13 @@ class PopularStoreView extends StatelessWidget {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
                                 _storeList[index].name ?? '',
-                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
 
                               Text(
                                 _storeList[index].address ?? '',
-                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
 

@@ -25,7 +25,7 @@ class WebCategoryView extends StatelessWidget {
 
         Padding(
           padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_SMALL, left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child: Text('categories'.tr, style: robotoMedium.copyWith(fontSize: 24)),
+          child: Text('categories'.tr, style: notoSerifMedium.copyWith(fontSize: 24)),
         ),
         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
@@ -56,7 +56,7 @@ class WebCategoryView extends StatelessWidget {
 
                     Text(
                       'view_all'.tr,
-                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                       maxLines: 2, overflow: TextOverflow.ellipsis,
                     ),
 
@@ -86,7 +86,7 @@ class WebCategoryView extends StatelessWidget {
 
                   Expanded(child: Text(
                     categoryController.categoryList[index].name,
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                     maxLines: 2, overflow: TextOverflow.ellipsis,
                   )),
 

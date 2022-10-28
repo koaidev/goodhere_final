@@ -165,7 +165,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                   Expanded(
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text(
-                        widget.item.name, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                        widget.item.name, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                         maxLines: 2, overflow: TextOverflow.ellipsis,
                       ),
                       InkWell(
@@ -180,7 +180,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
                           child: Text(
                             widget.item.storeName,
-                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                            style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                           ),
                         ),
                       ),
@@ -189,12 +189,12 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                         '${PriceConverter.convertPrice(_startingPrice, discount: _discount, discountType: _discountType)}'
                             '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(_endingPrice, discount: _discount,
                             discountType: _discountType)}' : ''}',
-                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                       ),
                       price > priceWithDiscount ? Text(
                         '${PriceConverter.convertPrice(_startingPrice)}'
                             '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(_endingPrice)}' : ''}',
-                        style: robotoMedium.copyWith(color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough),
+                        style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough),
                       ) : SizedBox(),
                     ]),
                   ),
@@ -210,7 +210,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       child: Text(
                         Get.find<SplashController>().configModel.moduleConfig.module.unit ? widget.item.unitType ?? ''
                             : widget.item.veg == 0 ? 'non_veg'.tr : 'veg'.tr,
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
+                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
                       ),
                     ) : SizedBox(),
                     SizedBox(height: Get.find<SplashController>().configModel.toggleVegNonVeg ? 50 : 0),
@@ -240,9 +240,9 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                 (widget.item.description != null && widget.item.description.isNotEmpty) ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('description'.tr, style: robotoMedium),
+                    Text('description'.tr, style: notoSerifMedium),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    Text(widget.item.description, style: robotoRegular),
+                    Text(widget.item.description, style: notoSerifRegular),
                     SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                   ],
                 ) : SizedBox(),
@@ -255,7 +255,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(widget.item.choiceOptions[index].title, style: robotoMedium),
+                      Text(widget.item.choiceOptions[index].title, style: notoSerifMedium),
                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -287,7 +287,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 widget.item.choiceOptions[index].options[i].trim(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: robotoRegular.copyWith(
+                                style: notoSerifRegular.copyWith(
                                   color: itemController.variationIndex[index] != i ? Colors.black : Colors.white,
                                 ),
                               ),
@@ -303,7 +303,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
 
                 // Quantity
                 Row(children: [
-                  Text('quantity'.tr, style: robotoMedium),
+                  Text('quantity'.tr, style: notoSerifMedium),
                   Expanded(child: SizedBox()),
                   Row(children: [
                     QuantityButton(
@@ -314,7 +314,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       },
                       isIncrement: false,
                     ),
-                    Text(itemController.quantity.toString(), style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                    Text(itemController.quantity.toString(), style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                     QuantityButton(
                       onTap: () => itemController.setQuantity(true, _stock),
                       isIncrement: true,
@@ -327,7 +327,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                 (Get.find<SplashController>().configModel.moduleConfig.module.addOn && widget.item.addOns.length > 0) ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('addons'.tr, style: robotoMedium),
+                    Text('addons'.tr, style: notoSerifMedium),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                     GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -362,7 +362,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                   Text(widget.item.addOns[index].name,
                                     maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
-                                    style: robotoMedium.copyWith(
+                                    style: notoSerifMedium.copyWith(
                                       color: itemController.addOnActiveList[index] ? Colors.white : Colors.black,
                                       fontSize: Dimensions.fontSizeSmall,
                                     ),
@@ -371,7 +371,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                   Text(
                                     widget.item.addOns[index].price > 0 ? PriceConverter.convertPrice(widget.item.addOns[index].price) : 'free'.tr,
                                     maxLines: 1, overflow: TextOverflow.ellipsis,
-                                    style: robotoRegular.copyWith(
+                                    style: notoSerifRegular.copyWith(
                                       color: itemController.addOnActiveList[index] ? Colors.white : Colors.black,
                                       fontSize: Dimensions.fontSizeExtraSmall,
                                     ),
@@ -396,7 +396,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                   ),
                                   Text(
                                     itemController.addOnQtyList[index].toString(),
-                                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                   ),
                                   Expanded(
                                     child: InkWell(
@@ -417,9 +417,9 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                 ) : SizedBox(),
 
                 Row(children: [
-                  Text('${'total_amount'.tr}:', style: robotoMedium),
+                  Text('${'total_amount'.tr}:', style: notoSerifMedium),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(PriceConverter.convertPrice(priceWithAddons), style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
+                  Text(PriceConverter.convertPrice(priceWithAddons), style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor)),
                 ]),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
@@ -434,13 +434,13 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                     color: Theme.of(context).primaryColor.withOpacity(0.1),
                   ),
                   child: Column(children: [
-                    Text('not_available_now'.tr, style: robotoMedium.copyWith(
+                    Text('not_available_now'.tr, style: notoSerifMedium.copyWith(
                       color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge,
                     )),
                     Text(
                       '${'available_will_be'.tr} ${DateConverter.convertTimeToTime(widget.item.availableTimeStarts)} '
                           '- ${DateConverter.convertTimeToTime(widget.item.availableTimeEnds)}',
-                      style: robotoRegular,
+                      style: notoSerifRegular,
                     ),
                   ]),
                 ),

@@ -30,7 +30,7 @@ class PaymentFailedDialog extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
             child: Text(
               'are_you_agree_with_this_order_fail'.tr, textAlign: TextAlign.center,
-              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.red),
+              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.red),
             ),
           ),
 
@@ -38,7 +38,7 @@ class PaymentFailedDialog extends StatelessWidget {
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
             child: Text(
               'if_you_do_not_pay'.tr,
-              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge), textAlign: TextAlign.center,
+              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge), textAlign: TextAlign.center,
             ),
           ),
           SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
@@ -59,7 +59,7 @@ class PaymentFailedDialog extends StatelessWidget {
                   backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize: Size(Dimensions.WEB_MAX_WIDTH, 40), padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
                 ),
-                child: Text('continue_with_order_fail'.tr, textAlign: TextAlign.center, style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
+                child: Text('continue_with_order_fail'.tr, textAlign: TextAlign.center, style: notoSerifBold.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
               ),
             ]) : Center(child: CircularProgressIndicator());
           }),

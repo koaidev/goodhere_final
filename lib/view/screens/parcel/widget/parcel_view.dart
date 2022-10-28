@@ -100,7 +100,7 @@ class _ParcelViewState extends State<ParcelView> {
                         child: Container(
                           height: ResponsiveHelper.isDesktop(context) ? 44 : 50,
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), border: Border.all(color: Theme.of(context).primaryColor, width: 1)),
-                          child: Center(child: Text('set_from_saved_address'.tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge))),
+                          child: Center(child: Text('set_from_saved_address'.tr, style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge))),
                         ),
                       )
                   ),
@@ -110,7 +110,7 @@ class _ParcelViewState extends State<ParcelView> {
 
                 Column(children: [
 
-                  Center(child: Text(parcelController.isSender ? 'sender_information'.tr : 'receiver_information'.tr, style: robotoMedium)),
+                  Center(child: Text(parcelController.isSender ? 'sender_information'.tr : 'receiver_information'.tr, style: notoSerifMedium)),
                   SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
                   TextFieldShadow(
@@ -139,7 +139,7 @@ class _ParcelViewState extends State<ParcelView> {
 
                 Column(children: [
 
-                  Center(child: Text(parcelController.isSender ? 'pickup_information'.tr : 'destination_information'.tr, style: robotoMedium)),
+                  Center(child: Text(parcelController.isSender ? 'pickup_information'.tr : 'destination_information'.tr, style: notoSerifMedium)),
                   SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
                   TextFieldShadow(

@@ -34,7 +34,7 @@ class FilterWidget extends StatelessWidget {
                     child: Icon(Icons.close, color: Theme.of(context).disabledColor),
                   ),
                 ),
-                Text('filter'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                Text('filter'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                 CustomButton(
                   onPressed: () {
                     searchController.resetFilter();
@@ -44,7 +44,7 @@ class FilterWidget extends StatelessWidget {
               ]),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-              Text('sort_by'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+              Text('sort_by'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               GridView.builder(
                 itemCount: searchController.sortList.length,
@@ -71,7 +71,7 @@ class FilterWidget extends StatelessWidget {
                       child: Text(
                         searchController.sortList[index],
                         textAlign: TextAlign.center,
-                        style: robotoMedium.copyWith(
+                        style: notoSerifMedium.copyWith(
                           color: searchController.sortIndex == index ? Colors.white : Theme.of(context).hintColor,
                         ),
                         maxLines: 1,
@@ -83,7 +83,7 @@ class FilterWidget extends StatelessWidget {
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-              Text('filter_by'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+              Text('filter_by'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               (Get.find<SplashController>().configModel.toggleVegNonVeg
               && Get.find<SplashController>().configModel.moduleConfig.module.vegNonVeg) ? CustomCheckBox(
@@ -116,7 +116,7 @@ class FilterWidget extends StatelessWidget {
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
               isStore ? SizedBox() : Column(children: [
-                Text('price'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                Text('price'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                 RangeSlider(
                   values: RangeValues(searchController.lowerValue, searchController.upperValue),
                   max: maxValue.toInt().toDouble(),
@@ -132,7 +132,7 @@ class FilterWidget extends StatelessWidget {
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               ]),
 
-              Text('rating'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+              Text('rating'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
               Container(
                 height: 30, alignment: Alignment.center,
                 child: ListView.builder(

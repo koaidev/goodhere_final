@@ -42,10 +42,10 @@ class SearchLocationWidget extends StatelessWidget {
           Expanded(
             child: (pickedAddress != null && pickedAddress.isNotEmpty) ? Text(
               pickedAddress,
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge), maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge), maxLines: 1, overflow: TextOverflow.ellipsis,
             ) : Text(
               hint ?? '',
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
               maxLines: 1, overflow: TextOverflow.ellipsis,
             ),
           ),

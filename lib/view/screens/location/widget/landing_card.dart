@@ -21,7 +21,7 @@ class LandingCard extends StatelessWidget {
         Image.asset(icon, width: 45, height: 45),
         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
-        Text(title, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
+        Text(title, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
 
       ]),
     );

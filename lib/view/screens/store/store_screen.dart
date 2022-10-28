@@ -142,28 +142,28 @@ class _StoreScreenState extends State<StoreScreen> {
                       Text(
                         _store.discount.discountType == 'percent' ? '${_store.discount.discount}% OFF'
                             : '${PriceConverter.convertPrice(_store.discount.discount)} OFF',
-                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).cardColor),
+                        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).cardColor),
                       ),
                       Text(
                         _store.discount.discountType == 'percent'
                             ? '${'enjoy'.tr} ${_store.discount.discount}% ${'off_on_all_categories'.tr}'
                             : '${'enjoy'.tr} ${PriceConverter.convertPrice(_store.discount.discount)}'
                             ' ${'off_on_all_categories'.tr}',
-                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
+                        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
                       ),
                       SizedBox(height: (_store.discount.minPurchase != 0 || _store.discount.maxDiscount != 0) ? 5 : 0),
                       _store.discount.minPurchase != 0 ? Text(
                         '[ ${'minimum_purchase'.tr}: ${PriceConverter.convertPrice(_store.discount.minPurchase)} ]',
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
+                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
                       ) : SizedBox(),
                       _store.discount.maxDiscount != 0 ? Text(
                         '[ ${'maximum_discount'.tr}: ${PriceConverter.convertPrice(_store.discount.maxDiscount)} ]',
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
+                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
                       ) : SizedBox(),
                       Text(
                         '[ ${'daily_time'.tr}: ${DateConverter.convertTimeToTime(_store.discount.startTime)} '
                             '- ${DateConverter.convertTimeToTime(_store.discount.endTime)} ]',
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
+                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
                       ),
                     ]),
                   ) : SizedBox(),
@@ -206,8 +206,8 @@ class _StoreScreenState extends State<StoreScreen> {
                             Text(
                               storeController.categoryList[index].name,
                               style: index == storeController.categoryIndex
-                                  ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
-                                  : robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                                  ? notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
+                                  : notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                             ),
                             index == storeController.categoryIndex ? Container(
                               height: 5, width: 5,

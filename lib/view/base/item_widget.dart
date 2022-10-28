@@ -111,14 +111,14 @@ class ItemWidget extends StatelessWidget {
 
                   Text(
                     isStore ? store.name : item.name,
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                     maxLines: _desktop ? 2 : 1, overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: isStore ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
 
                   (isStore ? store.address != null : item.storeName != null) ? Text(
                     isStore ? store.address ?? '' : item.storeName ?? '',
-                    style: robotoRegular.copyWith(
+                    style: notoSerifRegular.copyWith(
                       fontSize: Dimensions.fontSizeExtraSmall,
                       color: Theme.of(context).disabledColor,
                     ),
@@ -139,13 +139,13 @@ class ItemWidget extends StatelessWidget {
 
                     Text(
                       PriceConverter.convertPrice(item.price, discount: _discount, discountType: _discountType),
-                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                     ),
                     SizedBox(width: _discount > 0 ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
 
                     _discount > 0 ? Text(
                       PriceConverter.convertPrice(item.price),
-                      style: robotoMedium.copyWith(
+                      style: notoSerifMedium.copyWith(
                         fontSize: Dimensions.fontSizeExtraSmall,
                         color: Theme.of(context).disabledColor,
                         decoration: TextDecoration.lineThrough,

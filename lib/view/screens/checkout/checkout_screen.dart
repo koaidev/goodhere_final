@@ -331,9 +331,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text('note_option'.tr,
-                                                  style: robotoMedium),
+                                                  style: notoSerifMedium),
                                               Text('goodhere_option'.tr,
-                                                  style: robotoMedium),
+                                                  style: notoSerifMedium),
                                             ],
                                           ),
                                         if (moduleType != "pharmacy")
@@ -342,7 +342,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text('delivery_option'.tr,
-                                                  style: robotoMedium),
+                                                  style: notoSerifMedium),
                                               if (moduleType == "ecommerce")
                                                 storeController.store.delivery
                                                     ? DeliveryOptionButton(
@@ -406,7 +406,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   : "address_setup"
                                                                       .tr,
                                                               style:
-                                                                  robotoMedium),
+                                                                  notoSerifMedium),
                                                           TextButton.icon(
                                                             onPressed:
                                                                 () async {
@@ -457,7 +457,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 size: 20),
                                                             label: Text(
                                                                 'add'.tr,
-                                                                style: robotoMedium
+                                                                style: notoSerifMedium
                                                                     .copyWith(
                                                                         fontSize:
                                                                             Dimensions.fontSizeSmall)),
@@ -560,7 +560,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                             .PADDING_SIZE_LARGE),
                                                     Text(
                                                       'street_number'.tr,
-                                                      style: robotoRegular.copyWith(
+                                                      style: notoSerifRegular.copyWith(
                                                           fontSize: Dimensions
                                                               .fontSizeSmall,
                                                           color: Theme.of(
@@ -589,7 +589,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           'floor'.tr +
                                                           ' ' +
                                                           'number'.tr,
-                                                      style: robotoRegular.copyWith(
+                                                      style: notoSerifRegular.copyWith(
                                                           fontSize: Dimensions
                                                               .fontSizeSmall,
                                                           color: Theme.of(
@@ -650,7 +650,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                     Text('preference_time'.tr,
-                                                        style: robotoMedium),
+                                                        style: notoSerifMedium),
                                                     SizedBox(
                                                         height: Dimensions
                                                             .PADDING_SIZE_SMALL),
@@ -757,7 +757,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   child: TextField(
                                                     controller:
                                                         _couponController,
-                                                    style: robotoRegular.copyWith(
+                                                    style: notoSerifRegular.copyWith(
                                                         height: ResponsiveHelper
                                                                 .isMobile(
                                                                     context)
@@ -766,7 +766,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     decoration: InputDecoration(
                                                       hintText:
                                                           'enter_promo_code'.tr,
-                                                      hintStyle: robotoRegular
+                                                      hintStyle: notoSerifRegular
                                                           .copyWith(
                                                               color: Theme.of(
                                                                       context)
@@ -883,7 +883,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                               .isLoading
                                                           ? Text(
                                                               'apply'.tr,
-                                                              style: robotoMedium.copyWith(
+                                                              style: notoSerifMedium.copyWith(
                                                                   color: Theme.of(
                                                                           context)
                                                                       .cardColor),
@@ -927,7 +927,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                       Text(
                                                           'delivery_man_tips'
                                                               .tr,
-                                                          style: robotoMedium),
+                                                          style: notoSerifMedium),
                                                       SizedBox(
                                                           height: Dimensions
                                                               .PADDING_SIZE_SMALL),
@@ -1049,7 +1049,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 : 0),
 
                                         Text('choose_payment_method'.tr,
-                                            style: robotoMedium),
+                                            style: notoSerifMedium),
                                         SizedBox(
                                             height:
                                                 Dimensions.PADDING_SIZE_SMALL),
@@ -1123,13 +1123,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 children: [
                                                   Row(children: [
                                                     Text('prescription'.tr,
-                                                        style: robotoMedium),
+                                                        style: notoSerifMedium),
                                                     SizedBox(
                                                         width: Dimensions
                                                             .PADDING_SIZE_EXTRA_SMALL),
                                                     Text(
                                                       '(${'max_size_2_mb'.tr})',
-                                                      style: robotoRegular
+                                                      style: notoSerifRegular
                                                           .copyWith(
                                                         fontSize: Dimensions
                                                             .fontSizeExtraSmall,
@@ -1220,11 +1220,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   _module.addOn
                                                       ? 'subtotal'.tr
                                                       : 'item_price'.tr,
-                                                  style: robotoMedium),
+                                                  style: notoSerifMedium),
                                               Text(
                                                   PriceConverter.convertPrice(
                                                       _subTotal),
-                                                  style: robotoMedium),
+                                                  style: notoSerifMedium),
                                             ]),
                                         SizedBox(
                                             height:
@@ -1234,10 +1234,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('discount'.tr,
-                                                  style: robotoRegular),
+                                                  style: notoSerifRegular),
                                               Text(
                                                   '(-) ${PriceConverter.convertPrice(_discount)}',
-                                                  style: robotoRegular),
+                                                  style: notoSerifRegular),
                                             ]),
                                         SizedBox(
                                             height:
@@ -1251,7 +1251,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text('coupon_discount'.tr,
-                                                          style: robotoRegular),
+                                                          style: notoSerifRegular),
                                                       (couponController
                                                                       .coupon !=
                                                                   null &&
@@ -1262,7 +1262,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           ? Text(
                                                               'free_delivery'
                                                                   .tr,
-                                                              style: robotoRegular.copyWith(
+                                                              style: notoSerifRegular.copyWith(
                                                                   color: Theme.of(
                                                                           context)
                                                                       .primaryColor),
@@ -1270,7 +1270,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           : Text(
                                                               '(-) ${PriceConverter.convertPrice(couponController.discount)}',
                                                               style:
-                                                                  robotoRegular,
+                                                                  notoSerifRegular,
                                                             ),
                                                     ]),
                                                 SizedBox(
@@ -1296,10 +1296,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                         .spaceBetween,
                                                 children: [
                                                   Text('delivery_man_tips'.tr,
-                                                      style: robotoRegular),
+                                                      style: notoSerifRegular),
                                                   Text(
                                                       '(+) ${PriceConverter.convertPrice(orderController.tips)}',
-                                                      style: robotoRegular),
+                                                      style: notoSerifRegular),
                                                 ],
                                               )
                                             : SizedBox.shrink(),
@@ -1316,11 +1316,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('delivery_fee'.tr,
-                                                  style: robotoRegular),
+                                                  style: notoSerifRegular),
                                               _deliveryCharge == -1
                                                   ? Text(
                                                       'calculating'.tr,
-                                                      style: robotoRegular
+                                                      style: notoSerifRegular
                                                           .copyWith(
                                                               color:
                                                                   Colors.red),
@@ -1335,14 +1335,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   'free_delivery'))
                                                       ? Text(
                                                           'free'.tr,
-                                                          style: robotoRegular.copyWith(
+                                                          style: notoSerifRegular.copyWith(
                                                               color: Theme.of(
                                                                       context)
                                                                   .primaryColor),
                                                         )
                                                       : Text(
                                                           '(+) ${PriceConverter.convertPrice(_deliveryCharge)}',
-                                                          style: robotoRegular,
+                                                          style: notoSerifRegular,
                                                         ),
                                             ]),
                                         Padding(
@@ -1361,7 +1361,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             children: [
                                               Text(
                                                 'total_amount'.tr,
-                                                style: robotoMedium.copyWith(
+                                                style: notoSerifMedium.copyWith(
                                                     fontSize: Dimensions
                                                         .fontSizeLarge,
                                                     color: Theme.of(context)
@@ -1370,7 +1370,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               Text(
                                                 PriceConverter.convertPrice(
                                                     _total),
-                                                style: robotoMedium.copyWith(
+                                                style: notoSerifMedium.copyWith(
                                                     fontSize: Dimensions
                                                         .fontSizeLarge,
                                                     color: Theme.of(context)

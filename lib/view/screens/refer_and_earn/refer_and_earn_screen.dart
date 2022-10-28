@@ -52,13 +52,13 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                 return Column( children: [
                   SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                  Text('earn_money_on_every_referral'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)),
+                  Text('earn_money_on_every_referral'.tr, style: notoSerifRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)),
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                   Text(
                       'one_referral'.tr + '= ' + PriceConverter.convertPrice(Get.find<SplashController>().configModel != null
                           ? Get.find<SplashController>().configModel.refEarningExchangeRate.toDouble() : 0.0),
-                      style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault),
+                      style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeDefault),
                   ),
                   SizedBox(height: 40),
 
@@ -69,7 +69,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                         Image.asset(Images.refer_image, width: ResponsiveHelper.isDesktop(context) ? 200 : 100,
                             height: ResponsiveHelper.isDesktop(context) ? 250 : 150, fit: BoxFit.contain),
                         SizedBox(width: 120,
-                            child: Text('refer_your_code_to_your_friend'.tr , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
+                            child: Text('refer_your_code_to_your_friend'.tr , style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
                         ),
                       ]),
                       SizedBox(width: ResponsiveHelper.isDesktop(context) ? 150 : 50),
@@ -79,7 +79,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                             height: ResponsiveHelper.isDesktop(context) ? 250 : 150, fit: BoxFit.contain),
                         SizedBox(width: 120, child: Text(
                             'get'.tr + ' ${PriceConverter.convertPrice(Get.find<SplashController>().configModel != null ? Get.find<SplashController>().configModel.refEarningExchangeRate.toDouble() : 0.0)} ' +
-                                'on_joining'.tr , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
+                                'on_joining'.tr , style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
                         ),
                       ]),
                     ]),
@@ -88,7 +88,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
 
                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                    Text('your_referral_code'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeDefault)),
+                    Text('your_referral_code'.tr, style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeDefault)),
                     SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                     DottedBorder(
@@ -106,7 +106,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                           Expanded(
                             child: Text(
                               '${userController.userInfoModel != null ? userController.userInfoModel.refCode ?? '' : ''}',
-                              style: robotoBlack.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraLarge),
+                              style: notoSerifBlack.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraLarge),
                             ),
                           ),
                           InkWell(
@@ -116,7 +116,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                                 showCustomSnackBar('referral_code_copied'.tr, isError: false);
                               }
                             },
-                            child: Text('tap_to_copy'.tr, style: robotoMedium),
+                            child: Text('tap_to_copy'.tr, style: notoSerifMedium),
                           ),
                         ]) : CircularProgressIndicator(),
                       ),

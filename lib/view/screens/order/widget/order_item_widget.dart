@@ -51,20 +51,20 @@ class OrderItemWidget extends StatelessWidget {
             Row(children: [
               Expanded(child: Text(
                 orderDetails.itemDetails.name,
-                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                 maxLines: 2, overflow: TextOverflow.ellipsis,
               )),
-              Text('${'quantity'.tr}:', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+              Text('${'quantity'.tr}:', style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
               Text(
                 orderDetails.quantity.toString(),
-                style: robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
+                style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
               ),
             ]),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Row(children: [
               Expanded(child: Text(
                 PriceConverter.convertPrice(orderDetails.price),
-                style: robotoMedium,
+                style: notoSerifMedium,
               )),
               ((Get.find<SplashController>().configModel.moduleConfig.module.unit && orderDetails.itemDetails.unitType != null)
               || (Get.find<SplashController>().configModel.moduleConfig.module.vegNonVeg && Get.find<SplashController>().configModel.toggleVegNonVeg)) ? Container(
@@ -76,7 +76,7 @@ class OrderItemWidget extends StatelessWidget {
                 child: Text(
                   Get.find<SplashController>().configModel.moduleConfig.module.unit ? orderDetails.itemDetails.unitType ?? ''
                       : orderDetails.itemDetails.veg == 0 ? 'non_veg'.tr : 'veg'.tr,
-                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
+                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
                 ),
               ) : SizedBox(),
             ]),
@@ -89,10 +89,10 @@ class OrderItemWidget extends StatelessWidget {
         padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
         child: Row(children: [
           SizedBox(width: 60),
-          Text('${'addons'.tr}: ', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+          Text('${'addons'.tr}: ', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
           Flexible(child: Text(
               _addOnText,
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
           ))),
         ]),
       ) : SizedBox(),
@@ -101,10 +101,10 @@ class OrderItemWidget extends StatelessWidget {
         padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
         child: Row(children: [
           SizedBox(width: 60),
-          Text('${'variations'.tr}: ', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+          Text('${'variations'.tr}: ', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
           Flexible(child: Text(
               _variationText,
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
           ))),
         ]),
       ) : SizedBox(),

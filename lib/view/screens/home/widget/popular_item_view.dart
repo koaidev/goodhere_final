@@ -84,14 +84,14 @@ class PopularItemView extends StatelessWidget {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
                                 _itemList[index].name,
-                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                               Text(
                                 _itemList[index].storeName,
-                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
 
@@ -109,12 +109,12 @@ class PopularItemView extends StatelessWidget {
                                         discount: _itemList[index].discount,
                                         discountType: _itemList[index].discountType,
                                       ),
-                                      style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                      style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall),
                                     ),
                                     SizedBox(width: _itemList[index].discount > 0 ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
                                     _itemList[index].discount > 0  ? Flexible(child: Text(
                                       PriceConverter.convertPrice(itemController.getStartingPrice(_itemList[index])),
-                                      style: robotoMedium.copyWith(
+                                      style: notoSerifMedium.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
                                         decoration: TextDecoration.lineThrough,
                                       ),

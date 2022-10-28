@@ -52,15 +52,15 @@ class _FooterViewState extends State<FooterView> {
                 Row(mainAxisAlignment: MainAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     AppConstants.APP_NAME,
-                    style: robotoBold.copyWith(fontSize: 40, color: _color),
+                    style: notoSerifBold.copyWith(fontSize: 40, color: _color),
                   ),
                 ]),
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                Text('news_letter'.tr, style: robotoBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
+                Text('news_letter'.tr, style: notoSerifBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
                 const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-                Text('subscribe_to_out_new_channel_to_get_latest_updates'.tr, style: robotoRegular.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall)),
+                Text('subscribe_to_out_new_channel_to_get_latest_updates'.tr, style: notoSerifRegular.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall)),
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                 Container(
@@ -74,10 +74,10 @@ class _FooterViewState extends State<FooterView> {
                     SizedBox(width: 20),
                     Expanded(child: TextField(
                       controller: _newsLetterController,
-                      style: robotoMedium.copyWith(color: Colors.black),
+                      style: notoSerifMedium.copyWith(color: Colors.black),
                       decoration: InputDecoration(
                         hintText: 'your_email_address'.tr,
-                        hintStyle: robotoRegular.copyWith(color: Colors.grey,fontSize: Dimensions.fontSizeSmall),
+                        hintStyle: notoSerifRegular.copyWith(color: Colors.grey,fontSize: Dimensions.fontSizeSmall),
                         border: InputBorder.none,
                       ),
                       maxLines: 1,
@@ -102,7 +102,7 @@ class _FooterViewState extends State<FooterView> {
                           margin: const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
                           decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)),
                           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                          child: Text('subscribe'.tr, style: robotoRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeSmall)),
+                          child: Text('subscribe'.tr, style: notoSerifRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeSmall)),
                         ),
                       ) : Center(child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
@@ -119,7 +119,7 @@ class _FooterViewState extends State<FooterView> {
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE * 2),
 
                 (_config.landingPageLinks.appUrlAndroidStatus == '1' || _config.landingPageLinks.appUrlIosStatus == '1') ? Text(
-                  'download_our_apps'.tr, style: robotoBold.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraLarge),
+                  'download_our_apps'.tr, style: notoSerifBold.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraLarge),
                 ) : SizedBox(),
                 SizedBox(height: (_config.landingPageLinks.appUrlAndroidStatus == '1' || _config.landingPageLinks.appUrlIosStatus == '1')
                     ? Dimensions.PADDING_SIZE_LARGE : 0),
@@ -148,7 +148,7 @@ class _FooterViewState extends State<FooterView> {
 
                     Text(
                       'follow_us_on'.tr,
-                      style: robotoBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall),
+                      style: notoSerifBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall),
                     ),
                     SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
@@ -201,7 +201,7 @@ class _FooterViewState extends State<FooterView> {
               Expanded(flex: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE * 2),
 
-                Text('my_account'.tr, style: robotoBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
+                Text('my_account'.tr, style: notoSerifBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                 FooterButton(title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
@@ -228,7 +228,7 @@ class _FooterViewState extends State<FooterView> {
 
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE * 2),
 
-                Text('quick_links'.tr, style: robotoBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
+                Text('quick_links'.tr, style: notoSerifBold.copyWith(color: _color, fontSize: Dimensions.fontSizeSmall)),
                 const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                 FooterButton(title: 'contact_us'.tr, route: RouteHelper.getSupportRoute()),
@@ -250,7 +250,7 @@ class _FooterViewState extends State<FooterView> {
 
           Text(
             _config.footerText ?? '',
-            style: robotoRegular.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall),
+            style: notoSerifRegular.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall),
           ),
           const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
@@ -289,8 +289,8 @@ class FooterButton extends StatelessWidget {
             Get.toNamed(route);
           }
         } : null,
-        child: Text(title, style: hovered ? robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)
-            : robotoRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeExtraSmall)),
+        child: Text(title, style: hovered ? notoSerifMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)
+            : notoSerifRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeExtraSmall)),
       );
     });
   }

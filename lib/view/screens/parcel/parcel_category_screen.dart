@@ -47,14 +47,14 @@ class _ParcelCategoryScreenState extends State<ParcelCategoryScreen> {
               Center(child: Image.asset(Images.parcel, height: 200)),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-              Center(child: Text('instant_same_day_delivery'.tr, style: robotoMedium)),
+              Center(child: Text('instant_same_day_delivery'.tr, style: notoSerifMedium)),
               Center(child: Text(
                 'send_things_to_your_destination_instantly_and_safely'.tr,
-                style: robotoRegular, textAlign: TextAlign.center,
+                style: notoSerifRegular, textAlign: TextAlign.center,
               )),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-              Text('what_are_you_sending'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+              Text('what_are_you_sending'.tr, style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
               parcelController.parcelCategoryList != null ? parcelController.parcelCategoryList.length > 0 ? GridView.builder(
@@ -93,11 +93,11 @@ class _ParcelCategoryScreenState extends State<ParcelCategoryScreen> {
                         SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
 
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Text(parcelController.parcelCategoryList[index].name, style: robotoMedium),
+                          Text(parcelController.parcelCategoryList[index].name, style: notoSerifMedium),
                           SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                           Text(
                             parcelController.parcelCategoryList[index].description, maxLines: 2, overflow: TextOverflow.ellipsis,
-                            style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                            style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                           ),
                         ])),
                         SizedBox(width: Dimensions.PADDING_SIZE_SMALL),

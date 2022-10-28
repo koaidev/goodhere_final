@@ -53,8 +53,8 @@ class VegFilterWidget extends StatelessWidget {
               child: Text(
                 Get.find<ItemController>().itemTypeList[index].tr,
                 style: Get.find<ItemController>().itemTypeList[index] == type
-                    ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor)
-                    : robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                    ? notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor)
+                    : notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
               ),
             ),
           );

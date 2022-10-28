@@ -168,7 +168,7 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
                                             .tr
                                             .toUpperCase(),
                                         textAlign: TextAlign.center,
-                                        style: robotoMedium.copyWith(
+                                        style: notoSerifMedium.copyWith(
                                             fontSize:
                                                 Dimensions.fontSizeExtraLarge)),
                                     Padding(
@@ -177,7 +177,7 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
                                       child: Text(
                                         'by_allowing_location_access'.tr,
                                         textAlign: TextAlign.center,
-                                        style: robotoRegular.copyWith(
+                                        style: notoSerifRegular.copyWith(
                                             fontSize: Dimensions.fontSizeSmall,
                                             color: Theme.of(context)
                                                 .disabledColor),
@@ -275,7 +275,7 @@ class BottomButton extends StatelessWidget {
                   ),
                   Text('set_from_map'.tr,
                       textAlign: TextAlign.center,
-                      style: robotoBold.copyWith(
+                      style: notoSerifBold.copyWith(
                         color: Theme.of(context).primaryColor,
                         fontSize: Dimensions.fontSizeLarge,
                       )),

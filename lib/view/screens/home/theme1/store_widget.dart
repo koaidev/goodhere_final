@@ -73,14 +73,14 @@ class StoreWidget extends StatelessWidget {
 
                   Text(
                     store.name,
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                     maxLines: _desktop ? 2 : 1, overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 2),
 
                   (store.address != null) ? Text(
                     store.address ?? '',
-                    style: robotoRegular.copyWith(
+                    style: notoSerifRegular.copyWith(
                       fontSize: Dimensions.fontSizeExtraSmall,
                       color: Theme.of(context).disabledColor,
                     ),

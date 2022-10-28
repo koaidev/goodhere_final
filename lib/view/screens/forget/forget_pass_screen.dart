@@ -64,7 +64,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
             Padding(
               padding: EdgeInsets.all(30),
               child: Text('please_enter_mobile'.tr,
-                  style: robotoRegular, textAlign: TextAlign.center),
+                  style: notoSerifRegular, textAlign: TextAlign.center),
             ),
             Container(
               decoration: BoxDecoration(

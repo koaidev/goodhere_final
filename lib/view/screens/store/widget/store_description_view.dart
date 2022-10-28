@@ -66,7 +66,7 @@ class StoreDescriptionView extends StatelessWidget {
                       child: Text(
                         'closed_now'.tr,
                         textAlign: TextAlign.center,
-                        style: robotoRegular.copyWith(
+                        style: notoSerifRegular.copyWith(
                             color: Colors.white,
                             fontSize: Dimensions.fontSizeSmall),
                       ),
@@ -82,7 +82,7 @@ class StoreDescriptionView extends StatelessWidget {
             Expanded(
                 child: Text(
               store.name,
-              style: robotoMedium.copyWith(
+              style: notoSerifMedium.copyWith(
                   fontSize: Dimensions.fontSizeLarge, color: _textColor),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -145,7 +145,7 @@ class StoreDescriptionView extends StatelessWidget {
             store.address ?? '',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: robotoRegular.copyWith(
+            style: notoSerifRegular.copyWith(
                 fontSize: Dimensions.fontSizeSmall,
                 color: Theme.of(context).disabledColor),
           ),
@@ -155,14 +155,14 @@ class StoreDescriptionView extends StatelessWidget {
                   : 0),
           Row(children: [
             Text('minimum_order'.tr,
-                style: robotoRegular.copyWith(
+                style: notoSerifRegular.copyWith(
                   fontSize: Dimensions.fontSizeExtraSmall,
                   color: Theme.of(context).disabledColor,
                 )),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
               PriceConverter.convertPrice(store.minimumOrder),
-              style: robotoMedium.copyWith(
+              style: notoSerifMedium.copyWith(
                   fontSize: Dimensions.fontSizeExtraSmall,
                   color: Theme.of(context).primaryColor),
             ),
@@ -183,14 +183,14 @@ class StoreDescriptionView extends StatelessWidget {
               SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
               Text(
                 store.avgRating.toStringAsFixed(1),
-                style: robotoMedium.copyWith(
+                style: notoSerifMedium.copyWith(
                     fontSize: Dimensions.fontSizeSmall, color: _textColor),
               ),
             ]),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
               '${store.ratingCount} ${'ratings'.tr}',
-              style: robotoRegular.copyWith(
+              style: notoSerifRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor),
             ),
           ]),
@@ -214,7 +214,7 @@ class StoreDescriptionView extends StatelessWidget {
                 color: Theme.of(context).primaryColor, size: 20),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text('location'.tr,
-                style: robotoRegular.copyWith(
+                style: notoSerifRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall, color: _textColor)),
           ]),
         ),
@@ -229,13 +229,13 @@ class StoreDescriptionView extends StatelessWidget {
                       "VN")
                   ? timeVN
                   : store.deliveryTime,
-              style: robotoMedium.copyWith(
+              style: notoSerifMedium.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor),
             ),
           ]),
           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
           Text('delivery_time'.tr,
-              style: robotoRegular.copyWith(
+              style: notoSerifRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor)),
         ]),
         (store.delivery && store.freeDelivery)
@@ -247,7 +247,7 @@ class StoreDescriptionView extends StatelessWidget {
                     color: Theme.of(context).primaryColor, size: 20),
                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                 Text('free_delivery'.tr,
-                    style: robotoRegular.copyWith(
+                    style: notoSerifRegular.copyWith(
                         fontSize: Dimensions.fontSizeSmall, color: _textColor)),
               ])
             : SizedBox(),

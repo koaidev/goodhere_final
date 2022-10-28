@@ -20,7 +20,7 @@ class CustomCheckBox extends StatelessWidget {
           activeColor: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), side: BorderSide.none),
         ),
-        Text(title, style: robotoRegular),
+        Text(title, style: notoSerifRegular),
       ]),
     );
   }

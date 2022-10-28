@@ -56,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           focusNode: widget.focusNode,
           textAlign: widget.textAlign,
-          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
           textInputAction: widget.inputAction,
           keyboardType: widget.inputType,
           cursorColor: Theme.of(context).primaryColor,
@@ -73,7 +73,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             isDense: true,
             hintText: widget.hintText,
             fillColor: Theme.of(context).cardColor,
-            hintStyle: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
+            hintStyle: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
             filled: true,
             prefixIcon: widget.prefixIcon != null ? Padding(
               padding: EdgeInsets.symmetric(horizontal: widget.prefixSize),

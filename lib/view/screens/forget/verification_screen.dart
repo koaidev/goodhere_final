@@ -79,10 +79,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
             return Column(children: [
 
               Get.find<SplashController>().configModel.demo ? Text(
-                'for_demo_purpose'.tr, style: robotoRegular,
+                'for_demo_purpose'.tr, style: notoSerifRegular,
               ) : RichText(text: TextSpan(children: [
-                TextSpan(text: 'enter_the_verification_sent_to'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
-                TextSpan(text: ' $_number', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
+                TextSpan(text: 'enter_the_verification_sent_to'.tr, style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor)),
+                TextSpan(text: ' $_number', style: notoSerifMedium.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
               ]), textAlign: TextAlign.center),
 
               Padding(
@@ -116,7 +116,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               (widget.password != null && widget.password.isNotEmpty) ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
                   'did_not_receive_the_code'.tr,
-                  style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
+                  style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor),
                 ),
                 TextButton(
                   onPressed: _seconds < 1 ? () {
@@ -158,7 +158,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             child: Column(mainAxisSize: MainAxisSize.min, children: [
                               Image.asset(Images.checked, width: 100, height: 100),
                               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                              Text('verified'.tr, style: robotoBold.copyWith(
+                              Text('verified'.tr, style: notoSerifBold.copyWith(
                                 fontSize: 30, color: Theme.of(context).textTheme.bodyText1.color,
                                 decoration: TextDecoration.none,
                               )),

@@ -25,7 +25,7 @@ class DeliveryManWidget extends StatelessWidget {
         )],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('delivery_man'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
+        Text('delivery_man'.tr, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
         ListTile(
           leading: ClipOval(
             child: CustomImage(
@@ -35,7 +35,7 @@ class DeliveryManWidget extends StatelessWidget {
           ),
           title: Text(
             '${deliveryMan.fName} ${deliveryMan.lName}',
-            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+            style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
           ),
           subtitle: RatingBar(rating: deliveryMan.avgRating, size: 15, ratingCount: deliveryMan.ratingCount ?? 0),
           trailing: InkWell(

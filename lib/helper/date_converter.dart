@@ -113,4 +113,8 @@ class DateConverter {
     return '$_firstValue-$_secondValue ${_type.tr}';
   }
 
+  static String localDateToIsoStringAMPM(DateTime dateTime) {
+    return DateFormat('h:mm a | d-MMM-yyyy ').format(dateTime.toLocal());
+  }
+
 }

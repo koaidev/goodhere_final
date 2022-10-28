@@ -23,14 +23,14 @@ class NotLoggedInScreen extends StatelessWidget {
 
             Text(
               'sorry'.tr,
-              style: robotoBold.copyWith(fontSize: MediaQuery.of(context).size.height*0.023, color: Theme.of(context).primaryColor),
+              style: notoSerifBold.copyWith(fontSize: MediaQuery.of(context).size.height*0.023, color: Theme.of(context).primaryColor),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
             Text(
               'you_are_not_logged_in'.tr,
-              style: robotoRegular.copyWith(fontSize: MediaQuery.of(context).size.height*0.0175, color: Theme.of(context).disabledColor),
+              style: notoSerifRegular.copyWith(fontSize: MediaQuery.of(context).size.height*0.0175, color: Theme.of(context).disabledColor),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.04),

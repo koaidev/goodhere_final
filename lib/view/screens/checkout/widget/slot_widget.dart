@@ -24,7 +24,7 @@ class SlotWidget extends StatelessWidget {
             boxShadow: [ BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 0.5, blurRadius: 0.5)],),
           child: Text(
             title,
-            style: robotoRegular.copyWith(color: isSelected ? Theme.of(context).cardColor : Theme.of(context).textTheme.bodyText1.color),
+            style: notoSerifRegular.copyWith(color: isSelected ? Theme.of(context).cardColor : Theme.of(context).textTheme.bodyText1.color),
           ),
         ),
       ),

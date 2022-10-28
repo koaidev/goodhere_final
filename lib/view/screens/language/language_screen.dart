@@ -48,7 +48,7 @@ class _ChooseLanguageScreenState extends State<ChooseLanguageScreen> {
 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                          child: Text('select_language'.tr, style: robotoMedium),
+                          child: Text('select_language'.tr, style: notoSerifMedium),
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
@@ -67,7 +67,7 @@ class _ChooseLanguageScreenState extends State<ChooseLanguageScreen> {
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                        Text('you_can_change_language'.tr, style: robotoRegular.copyWith(
+                        Text('you_can_change_language'.tr, style: notoSerifRegular.copyWith(
                           fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
                         )),
 

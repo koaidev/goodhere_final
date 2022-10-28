@@ -59,19 +59,19 @@ class _ItemReviewWidgetState extends State<ItemReviewWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(widget.orderDetailsList[index].itemDetails.name, style: robotoMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Text(widget.orderDetailsList[index].itemDetails.name, style: notoSerifMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
                         SizedBox(height: 10),
-                        Text(PriceConverter.convertPrice(widget.orderDetailsList[index].itemDetails.price), style: robotoBold),
+                        Text(PriceConverter.convertPrice(widget.orderDetailsList[index].itemDetails.price), style: notoSerifBold),
                       ],
                     )),
                     Row(children: [
                       Text(
                         '${'quantity'.tr}: ',
-                        style: robotoMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
+                        style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         widget.orderDetailsList[index].quantity.toString(),
-                        style: robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
+                        style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ]),
@@ -82,7 +82,7 @@ class _ItemReviewWidgetState extends State<ItemReviewWidget> {
                 // Rate
                 Text(
                   'rate_the_item'.tr,
-                  style: robotoMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
+                  style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 SizedBox(
@@ -111,7 +111,7 @@ class _ItemReviewWidgetState extends State<ItemReviewWidget> {
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                 Text(
                   'share_your_opinion'.tr,
-                  style: robotoMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
+                  style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                 MyTextField(

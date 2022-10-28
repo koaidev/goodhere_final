@@ -62,7 +62,7 @@ class WebPopularStoreView extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '+${_storeList.length-5}\n${'more'.tr}', textAlign: TextAlign.center,
-                    style: robotoBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
+                    style: notoSerifBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
                   ),
                 ),
               );
@@ -136,14 +136,14 @@ class WebPopularStoreView extends StatelessWidget {
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text(
                           _storeList[index].name,
-                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                         Text(
                           _storeList[index].address,
-                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),

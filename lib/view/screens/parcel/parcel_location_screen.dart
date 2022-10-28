@@ -117,21 +117,21 @@ class _ParcelLocationScreenState extends State<ParcelLocationScreen> with Ticker
                           _validateSender();
                         }
                       },
-                      unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-                      labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                      unselectedLabelStyle: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                      labelStyle: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                       tabs: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                             Image.asset(Images.sender, color: parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor, width: 40, fit: BoxFit.fitWidth),
                             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                            Text('sender'.tr, style: robotoMedium.copyWith(color: parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor),)
+                            Text('sender'.tr, style: notoSerifMedium.copyWith(color: parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor),)
                           ]),
                         ),
                         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                           Image.asset(Images.sender, color: !parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor, width: 40, fit: BoxFit.fitWidth),
                           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                          Text('receiver'.tr, style: robotoMedium.copyWith(color: !parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor),)
+                          Text('receiver'.tr, style: notoSerifMedium.copyWith(color: !parcelController.isSender ? Theme.of(context).cardColor : Theme.of(context).disabledColor),)
                         ]),
                       ],
                     ),

@@ -40,12 +40,12 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
 
           Text('your_loyalty_point_will_convert_to_currency_and_transfer_to_your_wallet'.tr,
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
               maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
           SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
           Text('$_exchangePointRate ' + 'points'.tr + '= ${PriceConverter.convertPrice(1)}',
-              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)),
+              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)),
           SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
           Container(

@@ -67,7 +67,7 @@ class MenuButton extends StatelessWidget {
         ),
         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
-        Text(menu.title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
+        Text(menu.title, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
 
       ]),
     );

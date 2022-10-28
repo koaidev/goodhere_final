@@ -19,7 +19,7 @@ class NoInternetScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(Images.no_internet, width: 150, height: 150),
-            Text('oops'.tr, style: robotoBold.copyWith(
+            Text('oops'.tr, style: notoSerifBold.copyWith(
               fontSize: 30,
               color: Theme.of(context).textTheme.bodyText1.color,
             )),
@@ -27,7 +27,7 @@ class NoInternetScreen extends StatelessWidget {
             Text(
               'no_internet_connection'.tr,
               textAlign: TextAlign.center,
-              style: robotoRegular,
+              style: notoSerifRegular,
             ),
             SizedBox(height: 40),
             Container(

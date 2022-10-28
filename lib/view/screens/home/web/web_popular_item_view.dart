@@ -30,7 +30,7 @@ class WebPopularItemView extends StatelessWidget {
 
         Padding(
           padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
-          child: Text(isPopular ? 'popular_items_nearby'.tr : 'best_reviewed_item'.tr, style: robotoMedium.copyWith(fontSize: 24)),
+          child: Text(isPopular ? 'popular_items_nearby'.tr : 'best_reviewed_item'.tr, style: notoSerifMedium.copyWith(fontSize: 24)),
         ),
 
         _itemList != null ? GridView.builder(
@@ -59,7 +59,7 @@ class WebPopularItemView extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '+${_itemList.length-5}\n${'more'.tr}', textAlign: TextAlign.center,
-                    style: robotoBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
+                    style: notoSerifBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
                   ),
                 ),
               );
@@ -103,14 +103,14 @@ class WebPopularItemView extends StatelessWidget {
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text(
                           _itemList[index].name,
-                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                         Text(
                           _itemList[index].storeName,
-                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
 
@@ -125,12 +125,12 @@ class WebPopularItemView extends StatelessWidget {
                               PriceConverter.convertPrice(
                                 _itemList[index].price, discount: _itemList[index].discount, discountType: _itemList[index].discountType,
                               ),
-                              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
+                              style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
                             ),
                             SizedBox(width: _itemList[index].discount > 0 ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
                             _itemList[index].discount > 0 ? Expanded(child: Text(
                               PriceConverter.convertPrice(itemController.getStartingPrice(_itemList[index])),
-                              style: robotoRegular.copyWith(
+                              style: notoSerifRegular.copyWith(
                                 fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
                                 decoration: TextDecoration.lineThrough,
                               ),

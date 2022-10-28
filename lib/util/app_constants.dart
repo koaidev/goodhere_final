@@ -113,6 +113,32 @@ class AppConstants {
   static const String MODULE_ID = 'moduleId';
   static const String LOCALIZATION_KEY = 'X-localization';
 
+
+  // Shared Key
+  static const String CUSTOMER_COUNTRY_CODE =
+      'customer_country_code'; //not in project
+  static const String SEARCH_ADDRESS = 'search_address';
+  static const String CONFIG = 'config';
+  static const String CUSTOMER_NAME = 'customer_name';
+  static const String CUSTOMER_NUMBER = 'customer_number';
+  static const String CUSTOMER_QR_CODE = 'customer_qr_code';
+  static const String SEND_MONEY_SUGGEST_LIST = 'send_money_suggest';
+  static const String REQUEST_MONEY_SUGGEST_LIST = 'request_money_suggest';
+  static const String RECENT_AGENT_LIST = 'recent_agent_list';
+
+  static const String PENDING = 'pending';
+  static const String APPROVED = 'approved';
+  static const String DENIED = 'denied';
+  static const String CASH_IN = 'cash_in';
+  static const String CASH_OUT = 'cash_out';
+  static const String SEND_MONEY = 'send_money';
+  static const String RECEIVED_MONEY = 'received_money';
+  static const String ADMIN_CHARGE = 'admin_charge';
+  static const String ADD_MONEY = 'add_money';
+
+  static const int BALANCE_INPUT_LEN = 10;
+
+
   // Delivery Tips
   static List<int> tips = [0, 5, 10, 15, 20, 30, 50];
 

@@ -154,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                       Text('sign_in'.tr.toUpperCase(),
-                          style: robotoBlack.copyWith(fontSize: 30)),
+                          style: notoSerifBlack.copyWith(fontSize: 30)),
                       SizedBox(height: 50),
 
                       Container(

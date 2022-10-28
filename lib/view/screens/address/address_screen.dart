@@ -62,7 +62,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     ResponsiveHelper.isDesktop(context) ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_SMALL),
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                        Text('address'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                        Text('address'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                         TextButton.icon(
                           icon: Icon(Icons.add), label: Text('add_address'.tr),
                           onPressed: () => Get.toNamed(RouteHelper.getAddAddressRoute(false, 0)),

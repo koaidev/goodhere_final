@@ -102,23 +102,23 @@ class _WalletScreenState extends State<WalletScreen> {
 
                                       widget.fromWallet ? Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text('wallet_amount'.tr,style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor)),
+                                            Text('wallet_amount'.tr,style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor)),
                                             SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                                             Text(
                                               PriceConverter.convertPrice(userController.userInfoModel.walletBalance),
-                                              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).cardColor),
+                                              style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).cardColor),
                                             ),
                                           ])
                                           : Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [
 
                                             Text(
                                               userController.userInfoModel.loyaltyPoint == null ? '0' : userController.userInfoModel.loyaltyPoint.toString(),
-                                              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).textTheme.bodyText1.color),
+                                              style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).textTheme.bodyText1.color),
                                             ),
                                             Text(
                                               'loyalty_points'.tr + ' !',
-                                              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1.color),
+                                              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1.color),
                                             ),
                                             SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                                       ])
@@ -138,7 +138,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            'convert_to_currency'.tr , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                                            'convert_to_currency'.tr , style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                                               color: widget.fromWallet ? Theme.of(context).cardColor : Theme.of(context).textTheme.bodyText1.color),
                                           ),
                                           Icon(Icons.keyboard_arrow_down_outlined,size: 16, color: widget.fromWallet ? Theme.of(context).cardColor

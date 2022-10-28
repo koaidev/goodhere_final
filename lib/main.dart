@@ -29,16 +29,19 @@ import 'helper/get_di.dart' as di;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+List<CameraDescription> cameras;
 
 Future<void> main() async {
   if (ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = new MyHttpOverrides();
   }
+
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  cameras = await availableCameras();
 
   Map<String, Map<String, String>> _languages = await di.init();
 
@@ -58,8 +61,6 @@ Future<void> main() async {
   } catch (e) {}
 
 // Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
-
 // Get a specific camera from the list of available cameras.
   final firstCamera = cameras.first;
   runApp(MyApp(languages: _languages, orderID: _orderID));

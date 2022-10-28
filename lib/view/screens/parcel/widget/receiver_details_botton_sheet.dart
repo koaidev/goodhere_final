@@ -63,7 +63,7 @@ class _ReceiverDetailsBottomSheetState extends State<ReceiverDetailsBottomSheet>
       child: SingleChildScrollView(
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-          Center(child: Text('receiver_details'.tr, style: robotoMedium)),
+          Center(child: Text('receiver_details'.tr, style: notoSerifMedium)),
           SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
           Container(

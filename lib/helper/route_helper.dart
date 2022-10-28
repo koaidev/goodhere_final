@@ -61,6 +61,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/view/screens/wallet/wallet_screen.dart';
 
+import '../view/screens/wallet/zopay/deshboard/nav_bar_screen.dart';
+import '../view/screens/wallet/zopay/selfie_capture/camera_screen.dart';
+
 class RouteHelper {
   static const String initial = '/';
   static const String splash = '/splash';
@@ -111,6 +114,11 @@ class RouteHelper {
   static const String itemDetails = '/item-details';
   static const String wallet = '/wallet';
   static const String referAndEarn = '/refer-and-earn';
+  static const String navbar = '/navbar';
+  static const String requested_money = '/requested_money';
+  static const String qr_code_download_or_share = '/qr_code_download_or_share';
+  static const String selfie_screen = '/selfie_screen';
+
 
   static String getInitialRoute() => '$initial';
   static String getSplashRoute(int orderID) => '$splash?id=$orderID';
@@ -198,8 +206,21 @@ class RouteHelper {
   static String getItemDetailsRoute(int itemID, bool isRestaurant) => '$itemDetails?id=$itemID&page=${isRestaurant ? 'restaurant' : 'item'}';
   static String getWalletRoute(bool fromWallet) => '$wallet?page=${fromWallet ? 'wallet' : 'loyalty_points'}';
   static String getReferAndEarnRoute() => '$referAndEarn';
+  static  getNavBarRoute() => '$navbar';
+  static  getRequestedMoneyRoute({String from}) => '$requested_money?from=$from';
+  static getQrCodeDownloadOrShareRoute({@required String qrCode, @required String phoneNumber}) {
+    String _qrCode = base64Url.encode(utf8.encode(qrCode));
+    String _phoneNumber = base64Url.encode(utf8.encode(phoneNumber));
+
+    return '$qr_code_download_or_share?qr-code=$_qrCode&phone-number=$_phoneNumber';
+  }
+  static  getSelfieRoute({@required bool fromEditProfile}) => '$selfie_screen?page=${fromEditProfile?'edit-profile':'verify'}';
+
+
 
   static List<GetPage> routes = [
+    GetPage(name: navbar, page: () => NavBarScreen()),
+    // GetPage(name: requested_money, page: () => RequestedMoneyListScreen(isOwn: Get.parameters['from'] == 'won' ? true : false)),
     GetPage(name: initial, page: () => getRoute(DashboardScreen(pageIndex: 0))),
     GetPage(name: splash, page: () => SplashScreen(orderID: Get.parameters['id'] == 'null' ? null : Get.parameters['id'])),
     GetPage(name: language, page: () => ChooseLanguageScreen(fromMenu: Get.parameters['page'] == 'menu')),
@@ -322,8 +343,14 @@ class RouteHelper {
     GetPage(name: searchStoreItem, page: () => getRoute(StoreItemSearchScreen(storeID: Get.parameters['id']))),
     GetPage(name: order, page: () => getRoute(OrderScreen())),
     GetPage(name: itemDetails, page: () => getRoute(Get.arguments != null ? Get.arguments : ItemDetailsScreen(item: Item(id: int.parse(Get.parameters['id'])), inStorePage: Get.parameters['page'] == 'restaurant'))),
-    GetPage(name: wallet, page: () => getRoute(WalletScreen(fromWallet: Get.parameters['page'] == 'wallet'))),
+    // GetPage(name: wallet, page: () => getRoute(WalletScreen(fromWallet: Get.parameters['page'] == 'wallet'))),
+    GetPage(name: wallet, page: () => getRoute(NavBarScreen())),
+
     GetPage(name: referAndEarn, page: () => getRoute(ReferAndEarnScreen())),
+    // GetPage(name: qr_code_download_or_share, page: () => QrCodeDownloadOrShareScreen(qrCode:  utf8.decode(base64Url.decode(Get.parameters['qr-code'].replaceAll(' ', '+'))),
+    //   phoneNumber: utf8.decode(base64Url.decode(Get.parameters['phone-number'].replaceAll(' ', '+'))),)),
+    GetPage(name: selfie_screen, page: () => CameraScreen(fromEditProfile: Get.parameters['page'] == 'edit-profile')),
+
   ];
 
   static getRoute(Widget navigateTo) {

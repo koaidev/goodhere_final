@@ -34,7 +34,7 @@ class ModuleWidget extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL)),
                   ),
-                  textStyle: robotoRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeSmall),
+                  textStyle: notoSerifRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeSmall),
                   preferBelow: false,
                   verticalOffset: 20,
                   child: InkWell(

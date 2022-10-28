@@ -32,11 +32,11 @@ class PaymentButton extends StatelessWidget {
               ),
               title: Text(
                 title,
-                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
               ),
               subtitle: Text(
                 subtitle,
-                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                 maxLines: 1, overflow: TextOverflow.ellipsis,
               ),
               trailing: isSelected ? Icon(Icons.check_circle, color: Theme.of(context).primaryColor) : null,

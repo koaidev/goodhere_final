@@ -8,9 +8,9 @@ class TransactionZopay {
   int amount;
   int createdAt;
   int completeAt;
-  String status;
+  String status;/// need_handle|| verify|| admin_handled||denied
   String message;
-  String typeTransaction;//dùng thông số, để check tk, và thực hiện giao dịch
+  String typeTransaction;/// payment||transfer
 
   TransactionZopay(
       {@required this.transactionId,

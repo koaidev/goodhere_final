@@ -90,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                     Text('sign_up'.tr.toUpperCase(),
-                        style: robotoBlack.copyWith(fontSize: 30)),
+                        style: notoSerifBlack.copyWith(fontSize: 30)),
                     SizedBox(height: 50),
 
                     Container(

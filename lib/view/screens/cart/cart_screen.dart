@@ -92,16 +92,16 @@ class _CartScreenState extends State<CartScreen> {
 
                           // Total
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text('item_price'.tr, style: robotoRegular),
-                            Text(PriceConverter.convertPrice(_itemPrice), style: robotoRegular),
+                            Text('item_price'.tr, style: notoSerifRegular),
+                            Text(PriceConverter.convertPrice(_itemPrice), style: notoSerifRegular),
                           ]),
                           SizedBox(height: Get.find<SplashController>().configModel.moduleConfig.module.addOn ? 10 : 0),
 
                           Get.find<SplashController>().configModel.moduleConfig.module.addOn ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('addons'.tr, style: robotoRegular),
-                              Text('(+) ${PriceConverter.convertPrice(_addOns)}', style: robotoRegular),
+                              Text('addons'.tr, style: notoSerifRegular),
+                              Text('(+) ${PriceConverter.convertPrice(_addOns)}', style: notoSerifRegular),
                             ],
                           ) : SizedBox(),
 
@@ -113,8 +113,8 @@ class _CartScreenState extends State<CartScreen> {
                           Get.find<SplashController>().configModel.moduleConfig.module.addOn ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('subtotal'.tr, style: robotoMedium),
-                              Text(PriceConverter.convertPrice(_subTotal), style: robotoMedium),
+                              Text('subtotal'.tr, style: notoSerifMedium),
+                              Text(PriceConverter.convertPrice(_subTotal), style: notoSerifMedium),
                             ],
                           ) : SizedBox(),
 

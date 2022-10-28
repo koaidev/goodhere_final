@@ -40,7 +40,7 @@ class ItemTitleView extends StatelessWidget {
         children: [
           Text(
             item.name ?? '',
-            style: robotoMedium.copyWith(fontSize: 30),
+            style: notoSerifMedium.copyWith(fontSize: 30),
             maxLines: 2, overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
@@ -57,7 +57,7 @@ class ItemTitleView extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
               child: Text(
                 item.storeName,
-                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
               ),
             ),
           ),
@@ -70,14 +70,14 @@ class ItemTitleView extends StatelessWidget {
             Text(
               '${PriceConverter.convertPrice(_startingPrice, discount: item.discount, discountType: item.discountType)}'
                   '${_endingPrice!= null ? ' - ${PriceConverter.convertPrice(_endingPrice, discount: item.discount, discountType: item.discountType)}' : ''}',
-              style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: 30),
+              style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor, fontSize: 30),
             ),
             const SizedBox(width: 10),
             item.discount > 0 ? Flexible(
               child: Text(
                 '${PriceConverter.convertPrice(_startingPrice)}'
                     '${_endingPrice!= null ? ' - ${PriceConverter.convertPrice(_endingPrice)}' : ''}',
-                style: robotoRegular.copyWith(color: Colors.red, decoration: TextDecoration.lineThrough,fontSize: Dimensions.fontSizeLarge),
+                style: notoSerifRegular.copyWith(color: Colors.red, decoration: TextDecoration.lineThrough,fontSize: Dimensions.fontSizeLarge),
               ),
             ) : SizedBox(),
           ]),
@@ -93,7 +93,7 @@ class ItemTitleView extends StatelessWidget {
             Row(children: [
               Expanded(child: Text(
                 item.name ?? '',
-                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
                 maxLines: 2, overflow: TextOverflow.ellipsis,
               )),
 
@@ -142,7 +142,7 @@ class ItemTitleView extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
                 child: Text(
                   item.storeName,
-                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                 ),
               ),
             ),
@@ -151,20 +151,20 @@ class ItemTitleView extends StatelessWidget {
             Text(
               '${PriceConverter.convertPrice(_startingPrice, discount: item.discount, discountType: item.discountType)}'
                   '${_endingPrice!= null ? ' - ${PriceConverter.convertPrice(_endingPrice, discount: item.discount, discountType: item.discountType)}' : ''}',
-              style: robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge),
+              style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge),
             ),
             SizedBox(height: 5),
 
             item.discount > 0 ? Text(
               '${PriceConverter.convertPrice(_startingPrice)}'
                   '${_endingPrice!= null ? ' - ${PriceConverter.convertPrice(_endingPrice)}' : ''}',
-              style: robotoRegular.copyWith(color: Theme.of(context).hintColor, decoration: TextDecoration.lineThrough),
+              style: notoSerifRegular.copyWith(color: Theme.of(context).hintColor, decoration: TextDecoration.lineThrough),
             ) : SizedBox(),
             SizedBox(height: item.discount > 0 ? 5 : 0),
 
             Row(children: [
 
-              Text(item.avgRating.toStringAsFixed(1), style: robotoRegular.copyWith(
+              Text(item.avgRating.toStringAsFixed(1), style: notoSerifRegular.copyWith(
                 color: Theme.of(context).hintColor,
                 fontSize: Dimensions.fontSizeLarge,
               )),

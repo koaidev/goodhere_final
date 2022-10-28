@@ -135,7 +135,7 @@ class _MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateM
                 color: Theme.of(context).primaryColor,
               ),
               alignment: Alignment.centerLeft,
-              child: Text('menu'.tr, style: robotoBold.copyWith(fontSize: 20, color: Colors.white)),
+              child: Text('menu'.tr, style: notoSerifBold.copyWith(fontSize: 20, color: Colors.white)),
             ),
 
             ListView.builder(
@@ -177,7 +177,7 @@ class _MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateM
                         ),
                         SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
 
-                        Text(_menuList[index].title, style: robotoMedium),
+                        Text(_menuList[index].title, style: notoSerifMedium),
 
                       ]),
                     ),

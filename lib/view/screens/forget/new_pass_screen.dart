@@ -47,7 +47,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
           ) : null,
           child: Column(children: [
 
-            Text('enter_new_password'.tr, style: robotoRegular, textAlign: TextAlign.center),
+            Text('enter_new_password'.tr, style: notoSerifRegular, textAlign: TextAlign.center),
             SizedBox(height: 50),
 
             Container(

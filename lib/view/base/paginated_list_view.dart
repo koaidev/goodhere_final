@@ -89,7 +89,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
               color: Theme.of(context).primaryColor,
             ),
-            child: Text('view_more'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white)),
+            child: Text('view_more'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white)),
           ),
         ) : SizedBox(),
       )),

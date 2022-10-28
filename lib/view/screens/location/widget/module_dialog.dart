@@ -24,7 +24,7 @@ class ModuleDialog extends StatelessWidget {
 
           Padding(
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
-            child: Text('select_the_type_of_stores_for_your_order'.tr, style: robotoMedium.copyWith(fontSize: 24)),
+            child: Text('select_the_type_of_stores_for_your_order'.tr, style: notoSerifMedium.copyWith(fontSize: 24)),
           ),
 
           GetBuilder<SplashController>(builder: (splashController) {
@@ -63,7 +63,7 @@ class ModuleDialog extends StatelessWidget {
 
                         Text(
                           splashController.moduleList[index].moduleName,
-                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                         ),
 
                       ]),

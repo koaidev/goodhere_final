@@ -70,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
                     boxShadow: [BoxShadow(color: Colors.grey[300], spreadRadius: 3, blurRadius: 10)],
                   ),
                   child: widget.fromStore ? Text(
-                    widget.address.address, style: robotoMedium,
+                    widget.address.address, style: notoSerifMedium,
                   ) : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -87,7 +87,7 @@ class _MapScreenState extends State<MapScreen> {
                         Expanded(
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                            Text(widget.address.addressType.tr, style: robotoRegular.copyWith(
+                            Text(widget.address.addressType.tr, style: notoSerifRegular.copyWith(
                               fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
                             )),
                             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -99,12 +99,12 @@ class _MapScreenState extends State<MapScreen> {
                       ]),
                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-                      Text('- ${widget.address.contactPersonName}', style: robotoMedium.copyWith(
+                      Text('- ${widget.address.contactPersonName}', style: notoSerifMedium.copyWith(
                         color: Theme.of(context).primaryColor,
                         fontSize: Dimensions.fontSizeLarge,
                       )),
 
-                      Text('- ${widget.address.contactPersonNumber}', style: robotoRegular),
+                      Text('- ${widget.address.contactPersonNumber}', style: notoSerifRegular),
 
                     ],
                   ),

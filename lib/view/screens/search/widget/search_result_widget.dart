@@ -48,12 +48,12 @@ class _SearchResultWidgetState extends State<SearchResultWidget> with TickerProv
           child: Row(children: [
             Text(
               _length.toString(),
-              style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
+              style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall),
             ),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Expanded(child: Text(
               'results_found'.tr,
-              style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+              style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
             )),
             widget.searchText.isNotEmpty ? InkWell(
               onTap: () {
@@ -80,8 +80,8 @@ class _SearchResultWidgetState extends State<SearchResultWidget> with TickerProv
           indicatorWeight: 3,
           labelColor: Theme.of(context).primaryColor,
           unselectedLabelColor: Theme.of(context).disabledColor,
-          unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-          labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+          unselectedLabelStyle: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+          labelStyle: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
           tabs: [
             Tab(text: 'item'.tr),
             Tab(text: Get.find<SplashController>().configModel.moduleConfig.module.showRestaurantText

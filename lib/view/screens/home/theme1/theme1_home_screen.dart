@@ -66,7 +66,7 @@ class Theme1HomeScreen extends StatelessWidget {
                         Flexible(
                           child: Text(
                             locationController.getUserAddress().address,
-                            style: robotoRegular.copyWith(
+                            style: notoSerifRegular.copyWith(
                               color: Theme.of(context).textTheme.bodyText1.color, fontSize: Dimensions.fontSizeSmall,
                             ),
                             maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -123,7 +123,7 @@ class Theme1HomeScreen extends StatelessWidget {
                   Expanded(child: Text(
                     Get.find<SplashController>().configModel.moduleConfig.module.showRestaurantText
                         ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
-                    style: robotoRegular.copyWith(
+                    style: notoSerifRegular.copyWith(
                       fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
                     ),
                   )),
@@ -152,7 +152,7 @@ class Theme1HomeScreen extends StatelessWidget {
                   Expanded(child: Text(
                     Get.find<SplashController>().configModel.moduleConfig.module.showRestaurantText
                         ? 'all_restaurants'.tr : 'all_stores'.tr,
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                   )),
                   FilterView(),
                 ]),

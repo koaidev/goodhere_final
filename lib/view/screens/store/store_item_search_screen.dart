@@ -47,13 +47,13 @@ class _StoreItemSearchScreenState extends State<StoreItemSearchScreen> {
 
               Expanded(child: TextField(
                 controller: _searchController,
-                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+                style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
                 textInputAction: TextInputAction.search,
                 cursorColor: Theme.of(context).primaryColor,
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   hintText: 'search_item_in_store'.tr,
-                  hintStyle: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
+                  hintStyle: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor),
                   isDense: true,
                   contentPadding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                   border: OutlineInputBorder(

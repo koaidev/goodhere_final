@@ -17,7 +17,7 @@ class NotAvailableWidget extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), color: Colors.black.withOpacity(0.6)),
         child: Text(
           isStore ? 'closed_now'.tr : 'not_available_now_break'.tr, textAlign: TextAlign.center,
-          style: robotoRegular.copyWith(color: Colors.white, fontSize: fontSize),
+          style: notoSerifRegular.copyWith(color: Colors.white, fontSize: fontSize),
         ),
       ),
     );

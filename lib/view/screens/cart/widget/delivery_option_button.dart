@@ -36,11 +36,11 @@ class DeliveryOptionButton extends StatelessWidget {
                 activeColor: Theme.of(context).primaryColor,
               ),
               SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-              Text(title, style: robotoRegular),
+              Text(title, style: notoSerifRegular),
               SizedBox(width: 5),
               Text(
                 '${(typeModule == "ecommerce" || typeModule == "grocery") ? "" : '(${(value == 'take_away' || isFree) ? 'free'.tr : charge != -1 ? PriceConverter.convertPrice(charge) : 'calculating'.tr})'}',
-                style: robotoMedium,
+                style: notoSerifMedium,
               ),
             ],
           ),

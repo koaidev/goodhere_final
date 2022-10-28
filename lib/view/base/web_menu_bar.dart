@@ -55,7 +55,7 @@ class _WebMenuBarState extends State<WebMenuBar> {
                   Flexible(
                     child: Text(
                       locationController.getUserAddress().address,
-                      style: robotoRegular.copyWith(
+                      style: notoSerifRegular.copyWith(
                         color: Theme.of(context).textTheme.bodyText1.color, fontSize: Dimensions.fontSizeSmall,
                       ),
                       maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -111,7 +111,7 @@ class _WebMenuBarState extends State<WebMenuBar> {
                 return Row(children: [
                   Image.asset(AppConstants.languages[index].imageUrl, height: 20, width: 20),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(AppConstants.languages[index].languageName, style: robotoRegular.copyWith(color: hovered ? Theme.of(context).primaryColor : null)),
+                  Text(AppConstants.languages[index].languageName, style: notoSerifRegular.copyWith(color: hovered ? Theme.of(context).primaryColor : null)),
                 ]);
               }),
               value: index,
@@ -151,7 +151,7 @@ class _WebMenuBarState extends State<WebMenuBar> {
               child: Row(children: [
                 Icon(authController.isLoggedIn() ? Icons.person_pin_rounded : Icons.lock, size: 20, color: Colors.white),
                 SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                Text(authController.isLoggedIn() ? 'profile'.tr : 'sign_in'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white)),
+                Text(authController.isLoggedIn() ? 'profile'.tr : 'sign_in'.tr, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white)),
               ]),
             ),
           );
@@ -182,7 +182,7 @@ class MenuButton extends StatelessWidget {
     return TextHover(builder: (hovered) {
       return InkWell(
         onTap: onTap,
-        child: Text(title, style: robotoRegular.copyWith(color: hovered ? Theme.of(context).primaryColor : null)),
+        child: Text(title, style: notoSerifRegular.copyWith(color: hovered ? Theme.of(context).primaryColor : null)),
       );
     });
   }
@@ -212,7 +212,7 @@ class MenuIconButton extends StatelessWidget {
                 decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).primaryColor),
                 child: Text(
                   cartController.cartList.length.toString(),
-                  style: robotoRegular.copyWith(fontSize: 12, color: Theme.of(context).cardColor),
+                  style: notoSerifRegular.copyWith(fontSize: 12, color: Theme.of(context).cardColor),
                 ),
               ),
             ) : SizedBox()
