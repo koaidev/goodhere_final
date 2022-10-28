@@ -9,8 +9,11 @@ import '../../../../../../util/dimensions.dart';
 
 class ForPersonWidget extends StatelessWidget {
   final ContactModel contactModel;
-  const ForPersonWidget({Key key, this.contactModel, }) : super(key: key);
 
+  const ForPersonWidget({
+    Key key,
+    this.contactModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +23,14 @@ class ForPersonWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_DEFAULT, left: Dimensions.PADDING_SIZE_LARGE, right: Dimensions.PADDING_SIZE_LARGE),
-            child: Text('for_person'.tr, style: notoSerifBold.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE, color: ColorResources.getGreyBaseGray1())),
+            padding: EdgeInsets.only(
+                top: Dimensions.PADDING_SIZE_DEFAULT,
+                left: Dimensions.PADDING_SIZE_LARGE,
+                right: Dimensions.PADDING_SIZE_LARGE),
+            child: Text('for_person'.tr,
+                style: notoSerifBold.copyWith(
+                    fontSize: Dimensions.FONT_SIZE_LARGE,
+                    color: ColorResources.getGreyBaseGray1())),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,10 +38,9 @@ class ForPersonWidget extends StatelessWidget {
               Expanded(child: PreviewContactTile(contactModel: contactModel)),
             ],
           ),
-              
-          Container(height: Dimensions.DIVIDER_SIZE_MEDIUM, color: ColorResources.BACKGROUND_COLOR),
-
-
+          Container(
+              height: Dimensions.DIVIDER_SIZE_MEDIUM,
+              color: ColorResources.BACKGROUND_COLOR),
         ],
       ),
     );

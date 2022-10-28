@@ -20,13 +20,14 @@ class BottomSheetWithSlider extends StatefulWidget {
   final String purpose;
   final ContactModel contactModel;
 
-  const BottomSheetWithSlider({Key key,
-    @required this.amount,
-    @required this.amountCharge,
-    this.pinCode,
-    this.transactionType,
-    this.purpose,
-    this.contactModel})
+  const BottomSheetWithSlider(
+      {Key key,
+      @required this.amount,
+      @required this.amountCharge,
+      this.pinCode,
+      this.transactionType,
+      this.purpose,
+      this.contactModel})
       : super(key: key);
 
   @override
@@ -46,8 +47,8 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
     String type = widget.transactionType == 'send_money'
         ? 'send_money'.tr
         : widget.transactionType == 'cash_out'
-        ? 'cash_out'.tr
-        : 'request_money'.tr;
+            ? 'cash_out'.tr
+            : 'request_money'.tr;
     // double cashOutCharge = double.parse(widget.amount.toString()) *
     //     (double.parse(Get
     //         .find<SplashController>()
@@ -97,8 +98,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                  ColorResources.getGreyBaseGray6()),
+                                  color: ColorResources.getGreyBaseGray6()),
                               child: Icon(
                                 Icons.clear,
                                 size: Dimensions.PADDING_SIZE_DEFAULT,
@@ -132,40 +132,34 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                 color: ColorResources.getBackgroundColor(),
                 child: Column(
                   children: [
-                     Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text('charge'.tr,
                             style: notoSerifMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_DEFAULT)),
-                        SizedBox(
-                            width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        Text(
-                            "49.000",
+                        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        Text("49.000",
                             style: notoSerifMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_LARGE)),
                       ],
                     ),
-                   Text(
+                    Text(
                         widget.transactionType == 'send_money'
                             ? 'send_money_successful'.tr
                             : widget.transactionType == 'request_money'
-                            ? 'request_send_successful'.tr
-                            : 'cash_out_successful'.tr,
+                                ? 'request_send_successful'.tr
+                                : 'cash_out_successful'.tr,
                         style: notoSerifMedium.copyWith(
                             fontSize: Dimensions.FONT_SIZE_LARGE,
                             color: ColorResources.getPrimaryTextColor())),
-                        // : SizedBox(),
+                    // : SizedBox(),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
-                    Text(
-                        '100.000',
+                    Text('100.000',
                         style: notoSerifMedium.copyWith(fontSize: 34.0)),
                     SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                    Text(
-                        'new_balance'.tr +
-                            ' ' +
-                            '100.000',
+                    Text('new_balance'.tr + ' ' + '100.000',
                         style: notoSerifRegular.copyWith(
                             fontSize: Dimensions.FONT_SIZE_DEFAULT)),
                     SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
@@ -203,22 +197,20 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                             ],
                           ),
                           SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                           Text('TrxID: $transactionId',
+                          Text('TrxID: $transactionId',
                               style: notoSerifRegular.copyWith(
-                                  fontSize:
-                                  Dimensions.FONT_SIZE_DEFAULT))
+                                  fontSize: Dimensions.FONT_SIZE_DEFAULT))
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-             Column(
+              Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal:
-                        Dimensions.PADDING_SIZE_DEFAULT / 1.7),
+                        horizontal: Dimensions.PADDING_SIZE_DEFAULT / 1.7),
                     child: Divider(height: Dimensions.DIVIDER_SIZE_SMALL),
                   ),
                   SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
@@ -230,40 +222,37 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
                   SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
                 ],
               ),
-                  // : SizedBox(),
-           Padding(
+              // : SizedBox(),
+              Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal:
-                    Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
+                    horizontal: Dimensions.PADDING_SIZE_EXTRA_EXTRA_LARGE),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme
-                        .of(context)
-                        .secondaryHeaderColor,
-                    borderRadius: BorderRadius.circular(
-                        Dimensions.RADIUS_SIZE_SMALL),
+                    color: Theme.of(context).secondaryHeaderColor,
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.RADIUS_SIZE_SMALL),
                   ),
                   child: CustomInkWell(
                     onTap: () {},
                     radius: Dimensions.RADIUS_SIZE_SMALL,
-                    highlightColor: ColorResources.getPrimaryTextColor()
-                        .withOpacity(0.1),
+                    highlightColor:
+                        ColorResources.getPrimaryTextColor().withOpacity(0.1),
                     child: SizedBox(
                       height: 50.0,
                       child: Center(
                           child: Text(
-                            'back_to_home'.tr,
-                            style: notoSerifMedium.copyWith(
-                                fontSize: Dimensions.FONT_SIZE_LARGE),
-                          )),
+                        'back_to_home'.tr,
+                        style: notoSerifMedium.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_LARGE),
+                      )),
                     ),
                   ),
                 ),
               ),
-                   Center(
+              Center(
                   child: CircularProgressIndicator(
-                    color: ColorResources.getPrimaryTextColor(),
-                  ))
+                color: ColorResources.getPrimaryTextColor(),
+              ))
               //     : ConfirmationSlider(
               //   height: 60.0,
               //   backgroundColor: ColorResources.getGreyBaseGray6(),
@@ -302,8 +291,7 @@ class _BottomSheetWithSliderState extends State<BottomSheetWithSlider> {
               // ),
               // SizedBox(height: 40.0),
             ],
-          )
-      ),
+          )),
     );
   }
 }

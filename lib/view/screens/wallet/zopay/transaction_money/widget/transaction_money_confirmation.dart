@@ -5,7 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/transaction_money/widget/show_amount_view.dart';
 
-import '../../../../../../controller/auth_controller.dart';
+// import '../../../../../../controller/auth_controller.dart';
 import '../../../../../../data/model/zopay/contact_model.dart';
 import '../../../../../../util/color_resources.dart';
 import '../../../../../../util/dimensions.dart';
@@ -79,8 +79,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                             controller: _pinCodeFieldController,
                             length: 4,
                             appContext: context,
-                            onChanged: (value) {
-                            },
+                            onChanged: (value) {},
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(
@@ -107,18 +106,15 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                       SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
                       GestureDetector(
                           onTap: () {},
-                          child: GetBuilder<AuthController>(
-                              builder: (otpCheckController) {
-                            return Container(
-                                width: Dimensions.RADIUS_SIZE_OVER_LARGE,
-                                height: Dimensions.RADIUS_SIZE_OVER_LARGE,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor),
-                                child: Icon(Icons.arrow_forward,
-                                    color: ColorResources.blackColor));
-                          }))
+                          child: Container(
+                              width: Dimensions.RADIUS_SIZE_OVER_LARGE,
+                              height: Dimensions.RADIUS_SIZE_OVER_LARGE,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color:
+                                      Theme.of(context).secondaryHeaderColor),
+                              child: Icon(Icons.arrow_forward,
+                                  color: ColorResources.blackColor)))
                     ],
                   )
                 ],

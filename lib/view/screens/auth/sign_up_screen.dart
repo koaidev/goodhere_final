@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:phone_number/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/data/model/zopay/user_info.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -19,6 +22,7 @@ import 'package:sixam_mart/view/base/web_menu_bar.dart';
 import 'package:sixam_mart/view/screens/auth/widget/condition_check_box.dart';
 import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
 
+import '../../../data/api/zopay_api.dart';
 import '../../../data/model/body/signup_body.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -312,13 +316,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   authController
                       .login(value.user.phoneNumber, value.user.uid)
                       .then((value) => {
-                    if (value.isSuccess)
-                      {
-                        Get.toNamed(
-                            RouteHelper.getAccessLocationRoute(
-                                RouteHelper.signUp))
-                      }
-                  });
+                            if (value.isSuccess)
+                              {
+                                Get.toNamed(RouteHelper.getAccessLocationRoute(
+                                    RouteHelper.signUp))
+                              }
+                          });
                 } else {
                   showCustomSnackBar(
                       "Lỗi đăng ký tài khoản: " + status.message);
@@ -359,10 +362,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (status.isSuccess) {
                     if (authController.isActiveRememberMe) {
                       authController.saveUserNumberAndPassword(
-                       _number, value.user.uid, countryCode);
+                          _number, value.user.uid, countryCode);
                     } else {
                       authController.clearUserNumberAndPassword();
                     }
+
+                    final user = UserInfoZopay(
+                        name: _firstName,
+                        phone: value.user.phoneNumber,
+                        pin: base64.encode(utf8.encode("1111")),
+                        referralCode: _number,
+                        uid: value.user.uid,
+                        qrCode: _number + _firstName);
+                    _registerZopay(user);
                     authController
                         .login(value.user.phoneNumber, value.user.uid)
                         .then((value) => {
@@ -385,5 +397,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     }
+  }
+
+  void _registerZopay(UserInfoZopay userInfoZopay) {
+    ApiZopay().register(userInfoZopay).then((onValue) => {
+          if (!onValue) {showCustomSnackBar("Lỗi đã xảy ra!", isError: true)}
+        });
   }
 }

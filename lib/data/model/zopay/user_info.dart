@@ -20,11 +20,11 @@ class UserInfoZopay {
     this.email,
     @required this.pin,
     @required this.referralCode,
-    this.role,
+    this.role="user",
     @required this.uid,
     this.fcmToken,
     this.image,
-    this.verifyStatus,
+    this.verifyStatus="0",
     @required this.qrCode});
 
   UserInfoZopay.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,

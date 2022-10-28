@@ -54,8 +54,8 @@ class ApiZopay {
 
   //giao dịch được lọc tại client lần 1, check lại tại admin lần 2, xác minh giao dịch đạt, duyệt giao dịch.
 
-  Future<void> register(UserInfoZopay userZopay) async =>
-      getUser().set(userZopay);
+  Future<bool> register(UserInfoZopay userZopay) async =>
+      getUser().set(userZopay).then((value) => true).catchError((onError)=> false);
 
   // Future<void> getWallet(UserWallet userWallet) async =>
 
