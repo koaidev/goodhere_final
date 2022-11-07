@@ -38,19 +38,19 @@ class PaginatedOrderModel {
 class OrderModel {
   int id;
   int userId;
-  double orderAmount;
-  double couponDiscountAmount;
+  int orderAmount;
+  int couponDiscountAmount;
   String couponDiscountTitle;
   String paymentStatus;
   String orderStatus;
-  double totalTaxAmount;
+  int totalTaxAmount;
   String paymentMethod;
   String couponCode;
   String orderNote;
   String orderType;
   String createdAt;
   String updatedAt;
-  double deliveryCharge;
+  int deliveryCharge;
   String scheduleAt;
   String otp;
   String pending;
@@ -64,7 +64,7 @@ class OrderModel {
   String refundRequested;
   String refunded;
   int scheduled;
-  double storeDiscountAmount;
+  int storeDiscountAmount;
   String failed;
   int detailsCount;
   String orderAttachment;
@@ -75,7 +75,7 @@ class OrderModel {
   AddressModel deliveryAddress;
   AddressModel receiverDetails;
   ParcelCategoryModel parcelCategory;
-  double dmTips;
+  int dmTips;
 
   OrderModel(
       {this.id,
@@ -123,19 +123,19 @@ class OrderModel {
   OrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
-    orderAmount = json['order_amount'].toDouble();
-    couponDiscountAmount = json['coupon_discount_amount'].toDouble();
+    orderAmount = json['order_amount'].toInt();
+    couponDiscountAmount = json['coupon_discount_amount'].toInt();
     couponDiscountTitle = json['coupon_discount_title'];
     paymentStatus = json['payment_status'];
     orderStatus = json['order_status'];
-    totalTaxAmount = json['total_tax_amount'].toDouble();
+    totalTaxAmount = json['total_tax_amount'].toInt();
     paymentMethod = json['payment_method'];
     couponCode = json['coupon_code'];
     orderNote = json['order_note'];
     orderType = json['order_type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    deliveryCharge = json['delivery_charge'].toDouble();
+    deliveryCharge = json['delivery_charge'].toInt();
     scheduleAt = json['schedule_at'];
     otp = json['otp'];
     pending = json['pending'];
@@ -149,7 +149,7 @@ class OrderModel {
     refundRequested = json['refund_requested'];
     refunded = json['refunded'];
     scheduled = json['scheduled'];
-    storeDiscountAmount = json['store_discount_amount'].toDouble();
+    storeDiscountAmount = json['store_discount_amount'].toInt();
     failed = json['failed'];
     detailsCount = json['details_count'];
     orderAttachment = json['order_attachment'];
@@ -160,7 +160,7 @@ class OrderModel {
     deliveryAddress = json['delivery_address'] != null ? new AddressModel.fromJson(json['delivery_address']) : null;
     receiverDetails = json['receiver_details'] != null ? new AddressModel.fromJson(json['receiver_details']) : null;
     parcelCategory = json['parcel_category'] != null ? new ParcelCategoryModel.fromJson(json['parcel_category']) : null;
-    dmTips = double.parse(json['dm_tips']);
+    dmTips = double.parse(json['dm_tips']).toInt();
   }
 
   Map<String, dynamic> toJson() {

@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/data/model/zopay/new_user.dart';
 import 'package:sixam_mart/data/model/zopay/user_info.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -45,6 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode otpFocusNode = FocusNode();
   String signupButtonName = 'sign_up'.tr;
   bool isLoading = false;
+  int endTime = 0;
 
   @override
   void initState() {
@@ -202,7 +206,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       return true;
                                     },
                                     appContext: context,
-                                  )
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  CountdownTimer(
+                                    // controller: controller,
+                                    widgetBuilder:
+                                        (_, CurrentRemainingTime time) {
+                                      if (time == null) {
+                                        return TextButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                              'Bạn chưa nhận được mã OTP? Gửi lại'),
+                                        );
+                                      }
+                                      return Text('${time.sec}s');
+                                    },
+                                    endTime: endTime,
+                                  ),
                                 ],
                               )),
                           maintainAnimation: true,
@@ -281,6 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           isCodeSent = true;
           otpFocusNode.requestFocus();
           signupButtonName = "Xác Minh";
+          endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60;
         });
       } else {
         setState(() {
@@ -288,64 +311,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
       }
       await auth.verifyPhoneNumber(
-        phoneNumber: _numberWithCountryCode,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          setState(() {
-            isLoading = false;
-          });
-          // Sign the user in (or link) with the credential
-          await auth.signInWithCredential(credential).then((value) async {
-            if (value.user != null) {
-              setState(() {
-                isLoading = authController.isLoading;
-              });
-              SignUpBody signUpBody = SignUpBody(
-                fName: _firstName,
-                phone: value.user.phoneNumber,
-                password: value.user.uid,
-                refCode: _referCode,
-              );
-              authController.registration(signUpBody).then((status) async {
-                if (status.isSuccess) {
-                  if (authController.isActiveRememberMe) {
-                    authController.saveUserNumberAndPassword(
-                        _number, value.user.uid, countryCode);
-                  } else {
-                    authController.clearUserNumberAndPassword();
-                  }
-                  authController
-                      .login(value.user.phoneNumber, value.user.uid)
-                      .then((value) => {
-                            if (value.isSuccess)
-                              {
-                                Get.toNamed(RouteHelper.getAccessLocationRoute(
-                                    RouteHelper.signUp))
-                              }
-                          });
-                } else {
-                  showCustomSnackBar(
-                      "Lỗi đăng ký tài khoản: " + status.message);
-                }
-              });
-            }
-          });
-        },
-        timeout: const Duration(seconds: 30),
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
-          } else {
-            showCustomSnackBar(e.message, isError: true);
-          }
-          setState(() {
-            isLoading = false;
-          });
-        },
-        codeSent: (String verificationId, int resendToken) async {
-          if (otpSent.length == 6) {
-            PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                verificationId: verificationId, smsCode: otpSent);
-
+          phoneNumber: _numberWithCountryCode,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            setState(() {
+              isLoading = false;
+            });
             // Sign the user in (or link) with the credential
             await auth.signInWithCredential(credential).then((value) async {
               if (value.user != null) {
@@ -374,17 +344,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         referralCode: _number,
                         uid: value.user.uid,
                         qrCode: _number + _firstName);
-                    _registerZopay(user);
-                    authController
-                        .login(value.user.phoneNumber, value.user.uid)
-                        .then((value) => {
-                              if (value.isSuccess)
-                                {
-                                  Get.toNamed(
-                                      RouteHelper.getAccessLocationRoute(
-                                          RouteHelper.signUp))
-                                }
-                            });
+                    final userIsExits = await ApiZopay().checkUserIsExits();
+                    if (!userIsExits) {
+                      _registerZopay(user).then((value) => {
+                            if (!value)
+                              {
+                                showCustomSnackBar("Lỗi đã xảy ra!",
+                                    isError: true)
+                              }
+                            else
+                              {
+                                authController
+                                    .login(user.phone, user.uid)
+                                    .then((value) => {
+                                          if (value.isSuccess)
+                                            {
+                                              Get.toNamed(RouteHelper
+                                                  .getAccessLocationRoute(
+                                                      RouteHelper.signUp))
+                                            }
+                                        })
+                              }
+                          });
+                    } else {
+                      authController
+                          .login(user.phone, user.uid)
+                          .then((value) => {
+                                if (value.isSuccess)
+                                  {
+                                    Get.toNamed(
+                                        RouteHelper.getAccessLocationRoute(
+                                            RouteHelper.signUp))
+                                  }
+                              });
+                    }
                   } else {
                     showCustomSnackBar(
                         "Lỗi đăng ký tài khoản: " + status.message);
@@ -392,16 +385,102 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 });
               }
             });
-          }
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
+          },
+          timeout: const Duration(seconds: 60),
+          verificationFailed: (FirebaseAuthException e) {
+            if (e.code == 'invalid-phone-number') {
+              showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
+            } else {
+              showCustomSnackBar(e.message, isError: true);
+            }
+            setState(() {
+              isLoading = false;
+            });
+          },
+          codeSent: (String verificationId, int resendToken) async {
+            if (otpSent.length == 6) {
+              PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                  verificationId: verificationId, smsCode: otpSent);
+
+              // Sign the user in (or link) with the credential
+              await auth.signInWithCredential(credential).then((value) async {
+                if (value.user != null) {
+                  setState(() {
+                    isLoading = authController.isLoading;
+                  });
+                  SignUpBody signUpBody = SignUpBody(
+                    fName: _firstName,
+                    email: value.user.uid,
+                    phone: value.user.phoneNumber,
+                    password: value.user.uid,
+                    refCode: _referCode,
+                  );
+                  authController.registration(signUpBody).then((status) async {
+                    if (status.isSuccess) {
+                      if (authController.isActiveRememberMe) {
+                        authController.saveUserNumberAndPassword(
+                            _number, value.user.uid, countryCode);
+                      } else {
+                        authController.clearUserNumberAndPassword();
+                      }
+
+                      final user = UserInfoZopay(
+                          name: _firstName,
+                          phone: value.user.phoneNumber,
+                          pin: base64.encode(utf8.encode("1111")),
+                          referralCode: _number,
+                          uid: value.user.uid,
+                          qrCode: _number + _firstName);
+                      final userIsExits = await ApiZopay().checkUserIsExits();
+                      if (!userIsExits) {
+                        _registerZopay(user).then((value) => {
+                              if (!value)
+                                {
+                                  showCustomSnackBar("Lỗi đã xảy ra!",
+                                      isError: true)
+                                }
+                              else
+                                {
+                                  authController
+                                      .login(user.phone, user.uid)
+                                      .then((value) => {
+                                            if (value.isSuccess)
+                                              {
+                                                Get.toNamed(RouteHelper
+                                                    .getAccessLocationRoute(
+                                                        RouteHelper.signUp))
+                                              }
+                                          })
+                                }
+                            });
+                      } else {
+                        authController
+                            .login(user.phone, user.uid)
+                            .then((value) => {
+                                  if (value.isSuccess)
+                                    {
+                                      Get.toNamed(
+                                          RouteHelper.getAccessLocationRoute(
+                                              RouteHelper.signUp))
+                                    }
+                                });
+                      }
+                    } else {
+                      showCustomSnackBar(
+                          "Lỗi đăng ký tài khoản: " + status.message);
+                    }
+                  });
+                }
+              });
+            }
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {},
+          autoRetrievedSmsCodeForTesting: "123456");
     }
   }
 
-  void _registerZopay(UserInfoZopay userInfoZopay) {
-    ApiZopay().register(userInfoZopay).then((onValue) => {
-          if (!onValue) {showCustomSnackBar("Lỗi đã xảy ra!", isError: true)}
-        });
+  Future<bool> _registerZopay(UserInfoZopay userInfoZopay) async {
+    await ApiZopay().requestMoneyForFirstTime(NewUser(uid: userInfoZopay.uid));
+    return await ApiZopay().register(userInfoZopay);
   }
 }

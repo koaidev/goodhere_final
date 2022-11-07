@@ -20,7 +20,6 @@ class AppbarHomeElement extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           //SizedBox(height: 74.0),
-
           Text(
             title,
             style: notoSerifBold.copyWith(

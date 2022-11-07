@@ -10,7 +10,7 @@ class MenuController extends GetxController implements GetxService{
   int get currentTab => _currentTab;
   final List<Widget> screen = [
     HomeScreen(),
-    HistoryScreen(),
+    // HistoryScreen(),
     NotificationScreen(),
     // ProfileScreen()
   ];
@@ -28,15 +28,15 @@ class MenuController extends GetxController implements GetxService{
      update();
   }
 
-  selectHistoryPage() {
-    _currentScreen = HistoryScreen();
-    _currentTab = 1;
-    update();
-  }
+  // selectHistoryPage() {
+  //   _currentScreen = HistoryScreen();
+  //   _currentTab = 1;
+  //   update();
+  // }
 
   selectNotificationPage() {
     _currentScreen = NotificationScreen();
-    _currentTab = 2;
+    _currentTab = 1;
     update();
   }
 

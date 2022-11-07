@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class PlaceOrderBody {
   List<Cart> _cart;
-  double _couponDiscountAmount;
-  double _orderAmount;
+  int _couponDiscountAmount;
+  int _orderAmount;
   String _orderType;
   String _paymentMethod;
   String _orderNote;
@@ -15,8 +15,8 @@ class PlaceOrderBody {
   int _storeId;
   double _distance;
   String _scheduleAt;
-  double _discountAmount;
-  double _taxAmount;
+  int _discountAmount;
+  int _taxAmount;
   String _address;
   String _latitude;
   String _longitude;
@@ -33,16 +33,16 @@ class PlaceOrderBody {
 
   PlaceOrderBody(
       {@required List<Cart> cart,
-        @required double couponDiscountAmount,
+        @required int couponDiscountAmount,
         @required String couponCode,
-        @required double orderAmount,
+        @required int orderAmount,
         @required String orderType,
         @required String paymentMethod,
         @required int storeId,
         @required double distance,
         @required String scheduleAt,
-        @required double discountAmount,
-        @required double taxAmount,
+        @required int discountAmount,
+        @required int taxAmount,
         @required String orderNote,
         @required String address,
         @required AddressModel receiverDetails,
@@ -86,8 +86,8 @@ class PlaceOrderBody {
   }
 
   List<Cart> get cart => _cart;
-  double get couponDiscountAmount => _couponDiscountAmount;
-  double get orderAmount => _orderAmount;
+  int get couponDiscountAmount => _couponDiscountAmount;
+  int get orderAmount => _orderAmount;
   String get orderType => _orderType;
   String get paymentMethod => _paymentMethod;
   String get orderNote => _orderNote;
@@ -95,8 +95,8 @@ class PlaceOrderBody {
   int get storeId => _storeId;
   double get distance => _distance;
   String get scheduleAt => _scheduleAt;
-  double get discountAmount => _discountAmount;
-  double get taxAmount => _taxAmount;
+  int get discountAmount => _discountAmount;
+  int get taxAmount => _taxAmount;
   String get address => _address;
   AddressModel get receiverDetails => _receiverDetails;
   String get latitude => _latitude;

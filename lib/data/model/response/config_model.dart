@@ -20,7 +20,7 @@ class ConfigModel {
   bool orderDeliveryVerification;
   bool cashOnDelivery;
   bool digitalPayment;
-  double perKmShippingCharge;
+  int perKmShippingCharge;
   double minimumShippingCharge;
   double freeDeliveryOver;
   bool demo;
@@ -129,7 +129,7 @@ class ConfigModel {
     orderDeliveryVerification = json['order_delivery_verification'];
     cashOnDelivery = json['cash_on_delivery'];
     digitalPayment = json['digital_payment'];
-    perKmShippingCharge = json['per_km_shipping_charge'].toDouble();
+    perKmShippingCharge = json['per_km_shipping_charge'].toInt();
     minimumShippingCharge = json['minimum_shipping_charge'].toDouble();
     freeDeliveryOver = json['free_delivery_over'] != null ? json['free_delivery_over'].toDouble() : null;
     demo = json['demo'];

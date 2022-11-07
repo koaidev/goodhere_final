@@ -197,7 +197,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr);
       }
     }else {
-      List<double> _prices = [];
+      List<int> _prices = [];
       if(!Get.find<SearchController>().isStore) {
         Get.find<SearchController>().allItemList.forEach((product) => _prices.add(product.price));
         _prices.sort();

@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
-class NewUser{
+class NewUser {
   String uid;
   bool status;
+
+  NewUser({@required this.uid, this.status = false});
 
   NewUser.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions options){
@@ -12,7 +15,7 @@ class NewUser{
   }
 
   Map<String, dynamic> toJson() {
-    return{
+    return {
       'uid': uid,
       'status': status
     };

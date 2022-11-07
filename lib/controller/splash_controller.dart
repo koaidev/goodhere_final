@@ -103,11 +103,10 @@ class SplashController extends GetxController implements GetxService {
     //todo
     final prefs = Get.find<SharedPreferences>();
 
-    prefs.setInt('module_id', module.id);
-    prefs.setString('module_type', module.moduleType);
-
-    print("module: ${module.id}");
-    if (module != null) {
+    if (module != null && module.id!=null) {
+      prefs.setInt('module_id', module.id);
+      prefs.setString('module_type', module.moduleType);
+      print("module: ${module.id}");
       _configModel.moduleConfig.module =
           Module.fromJson(_data['module_config'][module.moduleType]);
     }

@@ -1,10 +1,10 @@
 import 'package:sixam_mart/data/model/response/item_model.dart';
 
 class CartModel {
-  double _price;
-  double _discountedPrice;
+  int _price;
+  int _discountedPrice;
   List<Variation> _variation;
-  double _discountAmount;
+  int _discountAmount;
   int _quantity;
   List<AddOn> _addOnIds;
   List<AddOns> _addOns;
@@ -13,10 +13,10 @@ class CartModel {
   Item _item;
 
   CartModel(
-        double price,
-        double discountedPrice,
+        int price,
+        int discountedPrice,
         List<Variation> variation,
-        double discountAmount,
+        int discountAmount,
         int quantity,
         List<AddOn> addOnIds,
         List<AddOns> addOns,
@@ -35,10 +35,10 @@ class CartModel {
     this._item = item;
   }
 
-  double get price => _price;
-  double get discountedPrice => _discountedPrice;
+  int get price => _price;
+  int get discountedPrice => _discountedPrice;
   List<Variation> get variation => _variation;
-  double get discountAmount => _discountAmount;
+  int get discountAmount => _discountAmount;
   // ignore: unnecessary_getters_setters
   int get quantity => _quantity;
   // ignore: unnecessary_getters_setters
@@ -50,15 +50,15 @@ class CartModel {
   Item get item => _item;
 
   CartModel.fromJson(Map<String, dynamic> json) {
-    _price = json['price'].toDouble();
-    _discountedPrice = json['discounted_price'].toDouble();
+    _price = json['price'].toInt();
+    _discountedPrice = json['discounted_price'].toInt();
     if (json['variation'] != null) {
       _variation = [];
       json['variation'].forEach((v) {
         _variation.add(new Variation.fromJson(v));
       });
     }
-    _discountAmount = json['discount_amount'].toDouble();
+    _discountAmount = json['discount_amount'].toInt();
     _quantity = json['quantity'];
     _stock = json['stock'];
     if (json['add_on_ids'] != null) {

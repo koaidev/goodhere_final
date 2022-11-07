@@ -42,7 +42,8 @@ class CameraScreenController extends GetxController implements GetxService{
   }
 
   Future startLiveFeed({bool isQrCodeScan = false,bool isHome = false, String transactionType = ''}) async {
-    final camera = cameras[isQrCodeScan ? 0 : 1];
+    final List<CameraDescription> cameraList = Get.find();
+    final camera = cameraList[isQrCodeScan ? 0 : 1];
     controller = CameraController(
       camera,
       ResolutionPreset.high,
@@ -88,7 +89,8 @@ class CameraScreenController extends GetxController implements GetxService{
     final Size imageSize =
     Size(image.width.toDouble(), image.height.toDouble());
 
-    final camera = cameras[1];
+    final List<CameraDescription> cameraList = Get.find();
+    final camera = cameraList[0];
     final imageRotation =
     InputImageRotationValue.fromRawValue(camera.sensorOrientation);
     if (imageRotation == null) return;

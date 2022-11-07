@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
-import 'package:sixam_mart/controller/store_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/controller/store_controller.dart';
 import 'package:sixam_mart/controller/wishlist_controller.dart';
 import 'package:sixam_mart/data/model/response/address_model.dart';
 import 'package:sixam_mart/data/model/response/store_model.dart';
@@ -12,14 +15,12 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/view/base/custom_image.dart';
 import 'package:sixam_mart/view/base/custom_snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../../../controller/localization_controller.dart';
 import '../../../../util/app_constants.dart';
 
 class StoreDescriptionView extends StatelessWidget {
   final Store store;
+  final Position newLocalData = Get.find();
 
   StoreDescriptionView({@required this.store});
 
@@ -32,11 +33,23 @@ class StoreDescriptionView extends StatelessWidget {
     String timeVN;
     if (store.deliveryTime.toString().contains("mins")) {
       timeVN = store.deliveryTime.toString().replaceAll("mins", "phút");
+    } else if (store.deliveryTime.toString().contains("min")) {
+      timeVN = store.deliveryTime.toString().replaceAll("min", "phút");
     } else if (store.deliveryTime.toString().contains("hours")) {
       timeVN = store.deliveryTime.toString().replaceAll("hours", "giờ");
+    } else if (store.deliveryTime.toString().contains("hour")) {
+      timeVN = store.deliveryTime.toString().replaceAll("hour", "giờ");
     } else if (store.deliveryTime.toString().contains("days")) {
       timeVN = store.deliveryTime.toString().replaceAll("days", "ngày");
+    } else if (store.deliveryTime.toString().contains("day")) {
+      timeVN = store.deliveryTime.toString().replaceAll("day", "ngày");
     }
+    final distance = Geolocator.distanceBetween(
+        newLocalData.latitude,
+        newLocalData.longitude,
+        double.parse(store.latitude),
+        double.parse(store.longitude));
+
     return Column(children: [
       Row(children: [
         ClipRRect(
@@ -141,13 +154,27 @@ class StoreDescriptionView extends StatelessWidget {
             }),
           ]),
           SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          Text(
-            store.address ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: notoSerifRegular.copyWith(
-                fontSize: Dimensions.fontSizeSmall,
-                color: Theme.of(context).disabledColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "${(distance / 1000).toStringAsFixed(1)} Km - ",
+                style: notoSerifMedium.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall,
+                    color: Theme.of(context).primaryColor),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Expanded(
+                  child: Text(
+                store.address ?? "",
+                style: notoSerifMedium.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall,
+                    color: Theme.of(context).disabledColor),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ))
+            ],
           ),
           SizedBox(
               height: ResponsiveHelper.isDesktop(context)
@@ -225,10 +252,10 @@ class StoreDescriptionView extends StatelessWidget {
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
               (Get.find<SharedPreferences>()
-                          .getString(AppConstants.COUNTRY_CODE) ==
+                          .getString(AppConstants.COUNTRY_CODE) !=
                       "VN")
-                  ? timeVN
-                  : store.deliveryTime,
+                  ? store.deliveryTime
+                  : timeVN ?? store.deliveryTime,
               style: notoSerifMedium.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor),
             ),

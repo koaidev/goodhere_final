@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-
+class TransactionType{
+  static const String TYPE_NEED_HANDLE = "need_handle";
+  static const String TYPE_PAYMENT = "payment";
+  static const String TYPE_TRANSFER = "transfer";
+}
 class TransactionZopay {
   String transactionId; //datecreate+ random 3 ký tự trong bảng chữ cái
   String uidSender;
@@ -8,7 +12,7 @@ class TransactionZopay {
   int amount;
   int createdAt;
   int completeAt;
-  String status;/// need_handle|| verify|| admin_handled||denied
+  String status;/// need_handle||denied||success||fail
   String message;
   String typeTransaction;/// payment||transfer
 
@@ -19,7 +23,7 @@ class TransactionZopay {
       @required this.amount,
       @required this.createdAt,
       this.completeAt = 0,
-      this.status = "need_handle",
+      this.status = TransactionType.TYPE_NEED_HANDLE,
       this.message,
       @required this.typeTransaction});
 

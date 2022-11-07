@@ -80,8 +80,10 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   app_settings: ^4.1.8
   percent_indicator: ^4.2.2
-  cloud_firestore: ^4.0.2
-
+  cloud_firestore: ^4.0.3
+  firebase_app_check: ^0.1.1+2
+  flutter_native_splash: ^2.2.13
+  flutter_countdown_timer: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +92,14 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/image/logo.png"
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/image/logo.png
+  android_12:
+    image: assets/image/logo.png
+    icon_background_color: "#ffffff"
+  android: true
+  ios: true
 flutter:
   uses-material-design: true
 
@@ -101,11 +111,11 @@ flutter:
   fonts:
     - family: NotoSerif
       fonts:
-        - asset: assets/font/NotoSerif-Regular.ttf
+        - asset: assets/font/LatoRegular.ttf
           weight: 400
-        - asset: assets/font/NotoSerif-Regular.ttf
+        - asset: assets/font/LatoMedium.ttf
           weight: 500
-        - asset: assets/font/NotoSerif-Bold.ttf
+        - asset: assets/font/LatoBold.ttf
           weight: 700
-        - asset: assets/font/NotoSerif-Bold.ttf
+        - asset: assets/font/Lato_Semibold.ttf
           weight: 900

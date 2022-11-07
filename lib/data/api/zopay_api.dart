@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sixam_mart/data/model/zopay/transaction_zopay.dart';
-import 'package:sixam_mart/data/model/zopay/user_wallet.dart';
 import 'package:sixam_mart/data/model/zopay/new_user.dart';
+import 'package:sixam_mart/data/model/zopay/transaction_zopay.dart';
 import 'package:sixam_mart/data/model/zopay/user_info.dart';
+
+import '../model/zopay/user_wallet.dart';
 
 class ApiZopay {
   final db = FirebaseFirestore.instance;
-  final uid = FirebaseAuth.instance.currentUser.uid;
+  final uid =  FirebaseAuth.instance.currentUser.uid;
   static const String USERS = "users";
   static const String BANKS_ACCOUNT = "account";
   static const String NEW_USER_LIST = "new_users";
   static const String WALLET = "wallets";
   static const String TRANSACTION_HISTORY = "transaction_history";
+
+  bool isLogin() => FirebaseAuth.instance.currentUser!=null;
 
   CollectionReference getUserCollection() => db.collection(USERS);
 
@@ -54,8 +57,10 @@ class ApiZopay {
 
   //giao dịch được lọc tại client lần 1, check lại tại admin lần 2, xác minh giao dịch đạt, duyệt giao dịch.
 
-  Future<bool> register(UserInfoZopay userZopay) async =>
-      getUser().set(userZopay).then((value) => true).catchError((onError)=> false);
+  Future<bool> register(UserInfoZopay userZopay) async => getUser()
+      .set(userZopay)
+      .then((value) => true)
+      .catchError((onError) => false);
 
   // Future<void> getWallet(UserWallet userWallet) async =>
 
@@ -71,6 +76,7 @@ class ApiZopay {
           toFirestore: (UserWallet wallet, options) => wallet.toJson())
       .doc(uid);
 
+
   // nhận toàn bộ lịch sử gửi tiền
   Query getSendMoneyTransactionHistory() => getTransactionHistoryCollection()
       .withConverter(
@@ -79,7 +85,9 @@ class ApiZopay {
           toFirestore: (TransactionZopay transaction, options) =>
               transaction.toJson())
       .where('uid_sender', isEqualTo: uid)
-      .where('create_at', isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch).limit(50);
+      .where('create_at',
+          isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
+      .limit(50);
 
   //nhận toàn bộ lịch sử nhận tiền
   Query getReceiveMoneyTransactionHistory() => getTransactionHistoryCollection()
@@ -89,7 +97,9 @@ class ApiZopay {
           toFirestore: (TransactionZopay transaction, options) =>
               transaction.toJson())
       .where('uid_receiver', isEqualTo: uid)
-      .where('create_at', isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch).limit(50);
+      .where('create_at',
+          isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
+      .limit(50);
 
   //tạo 1 giao dịch mới
   Future<void> createNewTransaction(TransactionZopay transactionZopay) =>
@@ -102,7 +112,7 @@ class ApiZopay {
           .doc(transactionZopay.transactionId)
           .set(transactionZopay);
 
-  //cho mua bán: đặt hàng chọn thanh toán qua zopay thì sẽ ngay lập tức tạo 1 giao dịch chờ,
+//cho mua bán: đặt hàng chọn thanh toán qua zopay thì sẽ ngay lập tức tạo 1 giao dịch chờ,
 // trừ số tiền của người dùng tại tk khuyển mại
 //nếu tk khuyến mại hết, tiếp tục trừ bên tài khoản chính.
 }

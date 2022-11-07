@@ -41,9 +41,9 @@ class Item {
   List<Variation> variations;
   List<AddOns> addOns;
   List<ChoiceOptions> choiceOptions;
-  double price;
+  int price;
   double tax;
-  double discount;
+  int discount;
   String discountType;
   String availableTimeStarts;
   String availableTimeEnds;
@@ -119,9 +119,9 @@ class Item {
         choiceOptions.add(new ChoiceOptions.fromJson(v));
       });
     }
-    price = json['price'].toDouble();
+    price = json['price'].toInt();
     tax = json['tax'] != null ? json['tax'].toDouble() : null;
-    discount = json['discount'].toDouble();
+    discount = json['discount'].toInt();
     discountType = json['discount_type'];
     availableTimeStarts = json['available_time_starts'];
     availableTimeEnds = json['available_time_ends'];
@@ -198,14 +198,14 @@ class CategoryIds {
 
 class Variation {
   String type;
-  double price;
+  int price;
   int stock;
 
   Variation({this.type, this.price, this.stock});
 
   Variation.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    price = json['price'].toDouble();
+    price = json['price'].toInt();
     stock = int.parse(json['stock'].toString());
   }
 
@@ -221,7 +221,7 @@ class Variation {
 class AddOns {
   int id;
   String name;
-  double price;
+  int price;
 
   AddOns(
       {this.id,
@@ -231,7 +231,7 @@ class AddOns {
   AddOns.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    price = json['price'].toDouble();
+    price = json['price'].toInt();
   }
 
   Map<String, dynamic> toJson() {

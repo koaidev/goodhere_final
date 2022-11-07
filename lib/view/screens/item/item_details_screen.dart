@@ -49,7 +49,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       builder: (itemController) {
         int _stock = 0;
         CartModel _cartModel;
-        double _priceWithAddons = 0;
+        int _priceWithAddons = 0;
         if(itemController.item != null && itemController.variationIndex != null){
           List<String> _variationList = [];
           for (int index = 0; index < itemController.item.choiceOptions.length; index++) {
@@ -66,7 +66,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             }
           });
 
-          double price = itemController.item.price;
+          int price = itemController.item.price;
           Variation _variation;
           _stock = itemController.item.stock;
           for (Variation variation in itemController.item.variations) {
@@ -78,11 +78,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
             }
           }
 
-          double _discount = (itemController.item.availableDateStarts != null || itemController.item.storeDiscount == 0) ? itemController.item.discount : itemController.item.storeDiscount;
+          int _discount = (itemController.item.availableDateStarts != null || itemController.item.storeDiscount == 0) ? itemController.item.discount : itemController.item.storeDiscount;
           String _discountType = (itemController.item.availableDateStarts != null || itemController.item.storeDiscount == 0) ? itemController.item.discountType : 'percent';
-          double priceWithDiscount = PriceConverter.convertWithDiscount(price, _discount, _discountType);
-          double priceWithQuantity = priceWithDiscount * itemController.quantity;
-          double addonsCost = 0;
+          int priceWithDiscount = PriceConverter.convertWithDiscount(price, _discount, _discountType);
+          int priceWithQuantity = priceWithDiscount * itemController.quantity;
+          int addonsCost = 0;
           List<AddOn> _addOnIdList = [];
           List<AddOns> _addOnsList = [];
           for (int index = 0; index < itemController.item.addOns.length; index++) {
@@ -272,6 +272,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 } : null,
               ),
             ),
+            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
 
           ]) : Center(child: CircularProgressIndicator()),
         );

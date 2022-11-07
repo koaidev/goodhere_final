@@ -1,58 +1,70 @@
 import 'dart:convert';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/banner_controller.dart';
 import 'package:sixam_mart/controller/campaign_controller.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
 import 'package:sixam_mart/controller/category_controller.dart';
 import 'package:sixam_mart/controller/coupon_controller.dart';
+import 'package:sixam_mart/controller/item_controller.dart';
 import 'package:sixam_mart/controller/localization_controller.dart';
 import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/controller/notification_controller.dart';
 import 'package:sixam_mart/controller/onboarding_controller.dart';
 import 'package:sixam_mart/controller/order_controller.dart';
-import 'package:sixam_mart/controller/item_controller.dart';
 import 'package:sixam_mart/controller/parcel_controller.dart';
-import 'package:sixam_mart/controller/store_controller.dart';
 import 'package:sixam_mart/controller/search_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/controller/store_controller.dart';
 import 'package:sixam_mart/controller/theme_controller.dart';
 import 'package:sixam_mart/controller/user_controller.dart';
 import 'package:sixam_mart/controller/wallet_controller.dart';
 import 'package:sixam_mart/controller/wishlist_controller.dart';
+import 'package:sixam_mart/data/api/api_client.dart';
+import 'package:sixam_mart/data/api/zopay_api.dart';
+import 'package:sixam_mart/data/model/response/language_model.dart';
+import 'package:sixam_mart/data/model/zopay/user_wallet.dart';
 import 'package:sixam_mart/data/repository/auth_repo.dart';
 import 'package:sixam_mart/data/repository/banner_repo.dart';
 import 'package:sixam_mart/data/repository/campaign_repo.dart';
 import 'package:sixam_mart/data/repository/cart_repo.dart';
 import 'package:sixam_mart/data/repository/category_repo.dart';
 import 'package:sixam_mart/data/repository/coupon_repo.dart';
+import 'package:sixam_mart/data/repository/item_repo.dart';
 import 'package:sixam_mart/data/repository/language_repo.dart';
 import 'package:sixam_mart/data/repository/location_repo.dart';
 import 'package:sixam_mart/data/repository/notification_repo.dart';
 import 'package:sixam_mart/data/repository/onboarding_repo.dart';
 import 'package:sixam_mart/data/repository/order_repo.dart';
-import 'package:sixam_mart/data/repository/item_repo.dart';
 import 'package:sixam_mart/data/repository/parcel_repo.dart';
-import 'package:sixam_mart/data/repository/store_repo.dart';
 import 'package:sixam_mart/data/repository/search_repo.dart';
 import 'package:sixam_mart/data/repository/splash_repo.dart';
-import 'package:sixam_mart/data/api/api_client.dart';
+import 'package:sixam_mart/data/repository/store_repo.dart';
 import 'package:sixam_mart/data/repository/user_repo.dart';
 import 'package:sixam_mart/data/repository/wallet_repo.dart';
 import 'package:sixam_mart/data/repository/wishlist_repo.dart';
 import 'package:sixam_mart/util/app_constants.dart';
-import 'package:sixam_mart/data/model/response/language_model.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
+
+import '../controller/zopay/camera_screen_controller.dart';
+import '../controller/zopay/home_controller.dart';
+import '../controller/zopay/menu_controller.dart';
+import '../controller/zopay/qr_code_scanner_controller.dart';
+import '../controller/zopay/screen_shot_widget_controller.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
   final firstCamera = await availableCameras();
+
   Get.lazyPut(() => sharedPreferences);
-  Get.lazyPut(() => firstCamera[0]);
+  Get.lazyPut(() => firstCamera);
   Get.lazyPut(() => ApiClient(
       appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
 
@@ -106,6 +118,25 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => CampaignController(campaignRepo: Get.find()));
   Get.lazyPut(() => ParcelController(parcelRepo: Get.find()));
   Get.lazyPut(() => WalletController(walletRepo: Get.find()));
+  Get.lazyPut(() => MenuController());
+  Get.lazyPut(() => HomeController());
+  Get.lazyPut(() => CameraScreenController());
+  Get.lazyPut(() => QrCodeScannerController());
+  Get.lazyPut(() => ScreenShootWidgetController());
+  // Get.lazyPut(() => BottomSliderController());
+
+  if (FirebaseAuth.instance.currentUser != null) {
+    ApiZopay().getUserWallet().get().then((value) {
+      final UserWallet walletUser = value.data();
+      Get.lazyPut(() => walletUser);
+    }).catchError((onError) => null);
+  }
+
+  if (await Permission.location.isGranted) {
+    final newLocalData = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    Get.lazyPut(() => newLocalData);
+  }
 
   // Retrieving localized data
   Map<String, Map<String, String>> _languages = Map();

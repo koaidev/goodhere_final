@@ -41,9 +41,9 @@ class _MenuScreenState extends State<MenuScreen> {
     if(Get.find<SplashController>().configModel.customerWalletStatus == 1 ){
       _menuList.add(MenuModel(icon: Images.wallet, title: 'wallet'.tr, route: RouteHelper.getWalletRoute(true)));
     }
-    if(Get.find<SplashController>().configModel.loyaltyPointStatus == 1 ){
-      _menuList.add(MenuModel(icon: Images.loyal, title: 'loyalty_points'.tr, route: RouteHelper.getWalletRoute(false)));
-    }
+    //if(Get.find<SplashController>().configModel.loyaltyPointStatus == 1 ){
+    //   _menuList.add(MenuModel(icon: Images.loyal, title: 'loyalty_points'.tr, route: RouteHelper.getWalletRoute(false)));
+    //}
     if(Get.find<SplashController>().configModel.toggleDmRegistration && !ResponsiveHelper.isDesktop(context)) {
       _menuList.add(MenuModel(
         icon: Images.delivery_man_join, title: 'join_as_a_delivery_man'.tr,

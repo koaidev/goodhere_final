@@ -41,7 +41,7 @@ class OrderController extends GetxController implements GetxService {
   int _addressIndex = -1;
   XFile _orderAttachment;
   Uint8List _rawAttachment;
-  double _tips = 0.0;
+  int _tips = 0;
   int _selectedTips = -1;
 
   PaginatedOrderModel get runningOrderModel => _runningOrderModel;
@@ -61,7 +61,7 @@ class OrderController extends GetxController implements GetxService {
   int get addressIndex => _addressIndex;
   XFile get orderAttachment => _orderAttachment;
   Uint8List get rawAttachment => _rawAttachment;
-  double get tips => _tips;
+  int get tips => _tips;
   int get selectedTips => _selectedTips;
 
   Future<void> getRunningOrders(int offset) async {
@@ -131,7 +131,7 @@ class OrderController extends GetxController implements GetxService {
     update();
   }
 
-  void addTips(double tips){
+  void addTips(int tips){
     _tips = tips;
     update();
   }

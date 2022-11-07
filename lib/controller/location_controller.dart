@@ -447,4 +447,6 @@ class LocationController extends GetxController implements GetxService {
     }
   }
 
+
+
 }

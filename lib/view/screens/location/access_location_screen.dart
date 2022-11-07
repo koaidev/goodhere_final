@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -241,6 +242,10 @@ class BottomButton extends StatelessWidget {
                       showCustomSnackBar(
                           'service_not_available_in_current_location'.tr);
                     }
+
+                    final newLocalData = await Geolocator.getCurrentPosition(
+                        desiredAccuracy: LocationAccuracy.low);
+                    Get.lazyPut(() => newLocalData);
                   });
                 },
                 icon: Icons.my_location,

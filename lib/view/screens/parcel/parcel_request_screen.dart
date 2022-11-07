@@ -64,11 +64,11 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
       appBar: CustomAppBar(title: 'parcel_request'.tr),
       endDrawer: MenuDrawer(),
       body: GetBuilder<ParcelController>(builder: (parcelController) {
-        double _charge = -1;
+        int _charge = -1;
         if(parcelController.distance != -1 && _isLoggedIn) {
-          _charge = parcelController.distance * Get.find<SplashController>().configModel.parcelPerKmShippingCharge;
+          _charge = (parcelController.distance * Get.find<SplashController>().configModel.parcelPerKmShippingCharge) as int;
           if(_charge < Get.find<SplashController>().configModel.parcelMinimumShippingCharge) {
-            _charge = Get.find<SplashController>().configModel.parcelMinimumShippingCharge;
+            _charge = Get.find<SplashController>().configModel.parcelMinimumShippingCharge as int;
           }
         }
 
@@ -160,9 +160,9 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                           controller: _tipController,
                           onChanged: (String value) {
                             if(value.isNotEmpty){
-                              orderController.addTips(double.parse(value));
+                              orderController.addTips(int.parse(value));
                             }else{
-                              orderController.addTips(0.0);
+                              orderController.addTips(0);
                             }
                           },
                           maxLength: 10,
@@ -193,7 +193,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                               isSelected: orderController.selectedTips == index,
                               onTap: () {
                                 orderController.updateTips(index);
-                                orderController.addTips(AppConstants.tips[index].toDouble());
+                                orderController.addTips(AppConstants.tips[index].toInt());
                                 _tipController.text = orderController.tips.toString();
                               },
                             );
@@ -294,7 +294,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
     }
   }
 
-  Widget _bottomButton(ParcelController parcelController, double charge) {
+  Widget _bottomButton(ParcelController parcelController, int charge) {
     return !parcelController.isLoading ? CustomButton(
       buttonText: 'confirm_parcel_request'.tr,
       margin: ResponsiveHelper.isDesktop(context) ? null : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),

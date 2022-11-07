@@ -4,19 +4,19 @@ class OrderDetailsModel {
   int id;
   int itemId;
   int orderId;
-  double price;
+  int price;
   Item itemDetails;
   List<Variation> variation;
   List<AddOn> addOns;
-  double discountOnItem;
+  int discountOnItem;
   String discountType;
   int quantity;
-  double taxAmount;
+  int taxAmount;
   String variant;
   String createdAt;
   String updatedAt;
   int itemCampaignId;
-  double totalAddOnPrice;
+  int totalAddOnPrice;
 
   OrderDetailsModel(
       {this.id,
@@ -40,7 +40,7 @@ class OrderDetailsModel {
     id = json['id'];
     itemId = json['item_id'];
     orderId = json['order_id'];
-    price = json['price'].toDouble();
+    price = json['price'].toInt();
     itemDetails = json['item_details'] != null
         ? new Item.fromJson(json['item_details'])
         : null;
@@ -56,15 +56,15 @@ class OrderDetailsModel {
         addOns.add(new AddOn.fromJson(v));
       });
     }
-    discountOnItem = json['discount_on_item'].toDouble();
+    discountOnItem = json['discount_on_item'].toInt();
     discountType = json['discount_type'];
     quantity = json['quantity'];
-    taxAmount = json['tax_amount'].toDouble();
+    taxAmount = json['tax_amount'].toInt();
     variant = json['variant'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     itemCampaignId = json['item_campaign_id'];
-    totalAddOnPrice = json['total_add_on_price'].toDouble();
+    totalAddOnPrice = json['total_add_on_price'].toInt();
   }
 
   Map<String, dynamic> toJson() {
@@ -97,14 +97,14 @@ class OrderDetailsModel {
 
 class AddOn {
   String name;
-  double price;
+  int price;
   int quantity;
 
   AddOn({this.name, this.price, this.quantity});
 
   AddOn.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    price = json['price'].toDouble();
+    price = json['price'].toInt();
     quantity = json['quantity'];
   }
 

@@ -39,7 +39,7 @@ class Store {
   String latitude;
   String longitude;
   String address;
-  double minimumOrder;
+  int minimumOrder;
   String currency;
   bool freeDelivery;
   String coverPhoto;
@@ -53,7 +53,7 @@ class Store {
   int zoneId;
   int selfDeliverySystem;
   bool posSystem;
-  double deliveryCharge;
+  int deliveryCharge;
   int open;
   bool active;
   String deliveryTime;
@@ -110,7 +110,7 @@ class Store {
     latitude = json['latitude'];
     longitude = json['longitude'];
     address = json['address'];
-    minimumOrder = json['minimum_order'] == null ? 0 : json['minimum_order'].toDouble();
+    minimumOrder = json['minimum_order'] == null ? 0 : json['minimum_order'].toInt();
     currency = json['currency'];
     freeDelivery = json['free_delivery'];
     coverPhoto = json['cover_photo'] != null ? json['cover_photo'] : '';
@@ -122,7 +122,7 @@ class Store {
     ratingCount = json['rating_count '];
     selfDeliverySystem = json['self_delivery_system'];
     posSystem = json['pos_system'];
-    deliveryCharge = json['delivery_charge'].toDouble();
+    deliveryCharge = json['delivery_charge'].toInt();
     open = json['open'];
     active = json['active'];
     featured = int.parse(json['featured']);
@@ -191,9 +191,9 @@ class Discount {
   String endDate;
   String startTime;
   String endTime;
-  double minPurchase;
-  double maxDiscount;
-  double discount;
+  int minPurchase;
+  int maxDiscount;
+  int discount;
   String discountType;
   int storeId;
   String createdAt;
@@ -219,9 +219,9 @@ class Discount {
     endDate = json['end_date'];
     startTime = json['start_time'] != null ? json['start_time'].substring(0, 5) : null;
     endTime = json['end_time'] != null ? json['end_time'].substring(0, 5) : null;
-    minPurchase = json['min_purchase'].toDouble();
-    maxDiscount = json['max_discount'].toDouble();
-    discount = json['discount'].toDouble();
+    minPurchase = json['min_purchase'].toInt();
+    maxDiscount = json['max_discount'].toInt();
+    discount = json['discount'].toInt();
     discountType = json['discount_type'];
     storeId = json['store_id'];
     createdAt = json['created_at'];

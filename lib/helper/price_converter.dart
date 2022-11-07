@@ -2,12 +2,12 @@ import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 class PriceConverter {
-  static String convertPrice(double price, {double discount, String discountType}) {
+  static String convertPrice(int price, {int discount, String discountType}) {
     if(discount != null && discountType != null){
       if(discountType == 'amount') {
         price = price - discount;
       }else if(discountType == 'percent') {
-        price = price - ((discount / 100) * price);
+        price = int.parse((price - ((discount / 100) * price)).toStringAsFixed(0));
       }
     }
     bool _isRightSide = Get.find<SplashController>().configModel.currencySymbolDirection == 'right';
@@ -17,11 +17,11 @@ class PriceConverter {
         '${_isRightSide ? ' '+Get.find<SplashController>().configModel.currencySymbol : ''}';
   }
 
-  static double convertWithDiscount(double price, double discount, String discountType) {
+  static int convertWithDiscount(int price, int discount, String discountType) {
     if(discountType == 'amount') {
       price = price - discount;
     }else if(discountType == 'percent') {
-      price = price - ((discount / 100) * price);
+      price = int.parse((price - ((discount / 100) * price)).toStringAsFixed(0));
     }
     return price;
   }

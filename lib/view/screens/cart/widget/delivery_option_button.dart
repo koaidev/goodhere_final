@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class DeliveryOptionButton extends StatelessWidget {
   final String value;
   final String title;
-  final double charge;
+  final int charge;
   final bool isFree;
   final String typeModule;
 

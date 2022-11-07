@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:sixam_mart/data/model/zopay/referral.dart';
 
 class UserWallet {
   String uid;
   int pointPromotion;
   int pointMain;
+  List<Referral> listReferral;
 
-  UserWallet({
-    this.pointPromotion,
-    this.pointMain,
-  });
+  UserWallet(
+      {@required this.uid,
+      this.pointPromotion = 0,
+      this.pointMain = 0,
+      this.listReferral});
 
   UserWallet.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions options) {
@@ -16,13 +20,21 @@ class UserWallet {
     this.uid = json['uid'];
     this.pointPromotion = json['point_promotion'];
     this.pointMain = json['point_main'];
+    if (json['list_referral'] != null) {
+      listReferral = <Referral>[];
+      json['list_referral'].forEach((v) {
+        listReferral.add(new Referral.fromJson(v, null));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    return{
+
+    return {
       'uid': uid,
       'point_promotion': pointPromotion,
       'point_main': pointMain,
+      'list_referral' : this.listReferral.map((v) => v.toJson()).toList()
     };
   }
 }

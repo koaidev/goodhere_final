@@ -36,10 +36,10 @@ class Transaction {
 
   int userId;
   String transactionId;
-  double credit;
-  double debit;
-  double adminBonus;
-  double balance;
+  int credit;
+  int debit;
+  int adminBonus;
+  int balance;
   String transactionType;
   DateTime createdAt;
   DateTime updatedAt;

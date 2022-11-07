@@ -1,9 +1,8 @@
-import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/data/api/zopay_api.dart';
+import 'package:sixam_mart/data/model/zopay/user_wallet.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/home/widget/app_bar_base.dart';
-import 'package:sixam_mart/view/screens/wallet/zopay/home/widget/bottom_sheet/expandable_contant.dart';
-import 'package:sixam_mart/view/screens/wallet/zopay/home/widget/bottom_sheet/persistent_header.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/home/widget/first_card_portion.dart';
 
 import '../../../../../controller/zopay/home_controller.dart';
@@ -19,8 +18,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isFirst = true;
+  final ScrollController _scrollController = ScrollController();
+
+  // final TransactionZopay transactions;
 
   Future<void> _loadData(BuildContext context, bool reload) async {
+
     // await Get.find<ProfileController>().profileData(loading: true).then((value) {
     //   if(value.isOk){
     //      Get.find<BannerController>().getBannerList(reload);
@@ -41,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _loadData(context, true);
+
     isFirst = false;
     super.initState();
   }
@@ -52,34 +56,108 @@ class _HomeScreenState extends State<HomeScreen> {
         //backgroundColor: Theme.of(context).canvasColor,
         backgroundColor: ColorResources.getBackgroundColor(),
         appBar: AppBarBase(),
-        body: ExpandableBottomSheet(
-            enableToggle: true,
-            background: RefreshIndicator(
-              onRefresh: () async {
-                await _loadData(context, true);
-              },
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    FirstCardPortion(),
-                    // SecondCardPortion(),
-                    // ThirdCardPortion(),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-
-                    // GetBuilder<WebsiteLinkController>(builder: (websiteLinkController){
-                    //   return websiteLinkController.isLoading ?
-                    //   WebSiteShimmer() : websiteLinkController.websiteList.length > 0 ?  LinkedWebsite(websiteLinkController: websiteLinkController) : SizedBox();
-                    // }),
-                    // const SizedBox(height: 80),
-                  ],
-                ),
-              ),
-            ),
-            persistentContentHeight: 70,
-            persistentHeader: CustomPersistentHeader(),
-            expandableContent: CustomExpandableContant()),
+        body: RefreshIndicator(
+            onRefresh: () async {
+              // await _loadData(context, true);
+            },
+            child: Column(
+              children: [
+                FirstCardPortion(),
+                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                // CustomScrollView(
+                //   physics: AlwaysScrollableScrollPhysics(),
+                //   controller: _scrollController,
+                //   slivers: [
+                //     SliverPersistentHeader(
+                //         pinned: true,
+                //         delegate: SliverDelegate(
+                //             child: Container(
+                //                 padding: EdgeInsets.symmetric(
+                //                     vertical: Dimensions.PADDING_SIZE_SMALL),
+                //                 height: 50,
+                //                 alignment: Alignment.centerLeft,
+                //                 child: ListView(
+                //                     shrinkWrap: true,
+                //                     padding: const EdgeInsets.only(
+                //                         left: Dimensions.PADDING_SIZE_SMALL),
+                //                     scrollDirection: Axis.horizontal,
+                //                     children: [
+                //                       TransactionTypeButton(
+                //                           text: 'all'.tr,
+                //                           index: 0,
+                //                           transactionHistoryList: null),
+                //                       SizedBox(width: 10),
+                //                       TransactionTypeButton(
+                //                           text: 'send_money'.tr,
+                //                           index: 1,
+                //                           transactionHistoryList: null),
+                //                       SizedBox(width: 10),
+                //                       TransactionTypeButton(
+                //                           text: 'cash_in'.tr,
+                //                           index: 2,
+                //                           transactionHistoryList: null),
+                //                       SizedBox(width: 10),
+                //                       TransactionTypeButton(
+                //                           text: 'add_money'.tr,
+                //                           index: 3,
+                //                           transactionHistoryList: null),
+                //                       SizedBox(width: 10),
+                //                       TransactionTypeButton(
+                //                           text: 'received_money'.tr,
+                //                           index: 4,
+                //                           transactionHistoryList: null),
+                //                       SizedBox(width: 10),
+                //                       TransactionTypeButton(
+                //                           text: 'cash_out'.tr,
+                //                           index: 5,
+                //                           transactionHistoryList: null),
+                //                     ])))),
+                //     SliverToBoxAdapter(
+                //       child: Scrollbar(
+                //         child: Padding(
+                //           padding:
+                //               EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                //           child: TransactionViewScreen(
+                //               scrollController: _scrollController,
+                //               isHome: false),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // )
+                // GetBuilder<WebsiteLinkController>(builder: (websiteLinkController){
+                //   return websiteLinkController.isLoading ?
+                //   WebSiteShimmer() : websiteLinkController.websiteList.length > 0 ?  LinkedWebsite(websiteLinkController: websiteLinkController) : SizedBox();
+                // }),
+                // const SizedBox(height: 80),
+              ],
+            )),
       );
     });
+  }
+}
+
+class SliverDelegate extends SliverPersistentHeaderDelegate {
+  Widget child;
+
+  SliverDelegate({@required this.child});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  double get maxExtent => 50;
+
+  @override
+  double get minExtent => 50;
+
+  @override
+  bool shouldRebuild(SliverDelegate oldDelegate) {
+    return oldDelegate.maxExtent != 50 ||
+        oldDelegate.minExtent != 50 ||
+        child != oldDelegate.child;
   }
 }

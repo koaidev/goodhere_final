@@ -20,10 +20,10 @@ class ItemTitleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
-    double _startingPrice;
-    double _endingPrice;
+    int _startingPrice;
+    int _endingPrice;
     if(item.variations.length != 0) {
-      List<double> _priceList = [];
+      List<int> _priceList = [];
       item.variations.forEach((variation) => _priceList.add(variation.price));
       _priceList.sort((a, b) => a.compareTo(b));
       _startingPrice = _priceList[0];

@@ -4,9 +4,9 @@ class CouponModel {
   String code;
   String startDate;
   String expireDate;
-  double minPurchase;
-  double maxDiscount;
-  double discount;
+  int minPurchase;
+  int maxDiscount;
+  int discount;
   String discountType;
   String couponType;
   int limit;
@@ -36,8 +36,8 @@ class CouponModel {
     code = json['code'];
     startDate = json['start_date'];
     expireDate = json['expire_date'];
-    minPurchase = json['min_purchase'].toDouble();
-    maxDiscount = json['max_discount'].toDouble();
+    minPurchase = json['min_purchase'].toInt();
+    maxDiscount = json['max_discount'].toInt();
     discount = json['discount'].toDouble();
     discountType = json['discount_type'];
     couponType = json['coupon_type'];

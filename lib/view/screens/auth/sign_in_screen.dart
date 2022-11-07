@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -21,6 +23,9 @@ import 'package:sixam_mart/view/base/menu_drawer.dart';
 import 'package:sixam_mart/view/base/web_menu_bar.dart';
 import 'package:sixam_mart/view/screens/auth/widget/condition_check_box.dart';
 import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
+
+import '../../../data/api/zopay_api.dart';
+import '../../../data/model/zopay/user_wallet.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
@@ -43,13 +48,19 @@ class _SignInScreenState extends State<SignInScreen> {
   String loginButtonName = 'sign_in'.tr;
   bool isLoading = false;
   bool firstLaunch = true;
+  int endTime = 0;
 
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-
+    if (FirebaseAuth.instance.currentUser != null) {
+      final walletUser = await ApiZopay()
+          .getUserWallet()
+          .get();
+      Get.lazyPut(() => walletUser.data());
+    }
     _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
   }
 
@@ -130,11 +141,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       : null,
                   child: GetBuilder<AuthController>(builder: (authController) {
                     var user = FirebaseAuth.instance.currentUser;
-                    if (user != null && user.uid!=null &&
-                        firstLaunch){
+                    if (user != null && user.uid != null && firstLaunch) {
                       authController
-                          .login(user.phoneNumber,
-                          user.uid)
+                          .login(user.phoneNumber, user.uid)
                           .then((status) async {
                         if (status.isSuccess) {
                           Get.toNamed(
@@ -143,11 +152,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           showCustomSnackBar(status.message);
                         }
                       });
+
                       if (firstLaunch) {
                         firstLaunch = false;
                       }
                     }
-
 
                     return Column(children: [
                       Image.asset(Images.logo, width: 200),
@@ -234,7 +243,24 @@ class _SignInScreenState extends State<SignInScreen> {
                                   return true;
                                 },
                                 appContext: context,
-                              )
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CountdownTimer(
+                                // controller: controller,
+                                widgetBuilder: (_, CurrentRemainingTime time) {
+                                  if (time == null) {
+                                    return TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Bạn chưa nhận được mã OTP? Gửi lại'),
+                                    );
+                                  }
+                                  return Text('${time.sec}s');
+                                },
+                                endTime: endTime,
+                              ),
                             ],
                           ),
                         ),
@@ -323,6 +349,7 @@ class _SignInScreenState extends State<SignInScreen> {
           isCodeSent = true;
           otpFocusNode.requestFocus();
           loginButtonName = "Xác Minh";
+          endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60;
         });
       } else {
         setState(() {
@@ -331,76 +358,79 @@ class _SignInScreenState extends State<SignInScreen> {
       }
 
       await auth.verifyPhoneNumber(
-        phoneNumber: _numberWithCountryCode,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          setState(() {
-            isLoading = false;
-          });
-          // Sign the user in (or link) with the credential
-          await auth.signInWithCredential(credential).then((value) async {
-            if (value.user != null) {
-              setState(() {
-                isLoading = authController.isLoading;
-              });
-              await authController
-                  .login(value.user.phoneNumber, value.user.uid)
-                  .then((status) async {
-                if (status.isSuccess) {
-                  if (authController.isActiveRememberMe) {
-                    authController.saveUserNumberAndPassword(_phone, value.user.uid, countryDialCode);
-                  } else {
-                    authController.clearUserNumberAndPassword();
-                  }
-                  Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
-                } else {
-                  showCustomSnackBar(status.message);
-                }
-              });
-            }
-          });
-        },
-        timeout: const Duration(seconds: 30),
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
-          } else {
-            showCustomSnackBar(e.message, isError: true);
-          }
-          setState(() {
-            isLoading = false;
-          });
-        },
-        codeSent: (String verificationId, int resendToken) async {
-          if (otpSent.length == 6) {
-            PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                verificationId: verificationId, smsCode: otpSent);
-
+          phoneNumber: _numberWithCountryCode,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            setState(() {
+              isLoading = false;
+            });
             // Sign the user in (or link) with the credential
             await auth.signInWithCredential(credential).then((value) async {
               if (value.user != null) {
                 setState(() {
-                  isLoading = false;
+                  isLoading = authController.isLoading;
                 });
                 await authController
                     .login(value.user.phoneNumber, value.user.uid)
                     .then((status) async {
                   if (status.isSuccess) {
                     if (authController.isActiveRememberMe) {
-                      authController.saveUserNumberAndPassword(_phone,value.user.uid, countryDialCode);
+                      authController.saveUserNumberAndPassword(
+                          _phone, value.user.uid, countryDialCode);
                     } else {
                       authController.clearUserNumberAndPassword();
                     }
                     Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
                   } else {
-                    showCustomSnackBar("Lỗi đăng nhập: " + status.message);
+                    showCustomSnackBar(status.message);
                   }
                 });
               }
             });
-          }
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
+          },
+          timeout: const Duration(seconds: 60),
+          verificationFailed: (FirebaseAuthException e) {
+            if (e.code == 'invalid-phone-number') {
+              showCustomSnackBar("Số điện thoại không khả dụng", isError: true);
+            } else {
+              showCustomSnackBar(e.message, isError: true);
+            }
+            setState(() {
+              isLoading = false;
+            });
+          },
+          codeSent: (String verificationId, int resendToken) async {
+            if (otpSent.length == 6) {
+              PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                  verificationId: verificationId, smsCode: otpSent);
+
+              // Sign the user in (or link) with the credential
+              await auth.signInWithCredential(credential).then((value) async {
+                if (value.user != null) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  await authController
+                      .login(value.user.phoneNumber, value.user.uid)
+                      .then((status) async {
+                    if (status.isSuccess) {
+                      if (authController.isActiveRememberMe) {
+                        authController.saveUserNumberAndPassword(
+                            _phone, value.user.uid, countryDialCode);
+                      } else {
+                        authController.clearUserNumberAndPassword();
+                      }
+                      Get.toNamed(
+                          RouteHelper.getAccessLocationRoute('sign-in'));
+                    } else {
+                      showCustomSnackBar("Lỗi đăng nhập: " + status.message);
+                    }
+                  });
+                }
+              });
+            }
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {},
+          autoRetrievedSmsCodeForTesting: "123456");
     }
   }
 }

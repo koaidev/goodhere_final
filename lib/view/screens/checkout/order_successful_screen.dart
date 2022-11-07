@@ -99,7 +99,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
 
               Padding(
                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                child: CustomButton(buttonText: 'back_to_home'.tr, onPressed: () => Get.offAllNamed(RouteHelper.getInitialRoute())),
+                child: CustomButton(buttonText: 'back_to_home'.tr, onPressed: () => Get.offNamed(RouteHelper.getInitialRoute())),
               ),
             ]))),
           ),

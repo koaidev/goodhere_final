@@ -87,13 +87,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         }),
         endDrawer: MenuDrawer(),
         body: GetBuilder<OrderController>(builder: (orderController) {
-          double _deliveryCharge = 0;
-          double _itemsPrice = 0;
-          double _discount = 0;
-          double _couponDiscount = 0;
-          double _tax = 0;
-          double _addOns = 0;
-          double _dmTips = 0;
+          int _deliveryCharge = 0;
+          int _itemsPrice = 0;
+          int _discount = 0;
+          int _couponDiscount = 0;
+          int _tax = 0;
+          int _addOns = 0;
+          int _dmTips = 0;
           OrderModel _order = orderController.trackModel;
           bool _parcel = false;
           if(orderController.orderDetails != null) {
@@ -110,8 +110,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               _itemsPrice = _itemsPrice + (orderDetails.price * orderDetails.quantity);
             }
           }
-          double _subTotal = _itemsPrice + _addOns;
-          double _total = _itemsPrice + _addOns - _discount + _tax + _deliveryCharge - _couponDiscount + _dmTips;
+          int _subTotal = _itemsPrice + _addOns;
+          int _total = _itemsPrice + _addOns - _discount + _tax + _deliveryCharge - _couponDiscount + _dmTips;
 
           return orderController.orderDetails != null ? Column(children: [
 

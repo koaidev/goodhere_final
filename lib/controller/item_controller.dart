@@ -326,10 +326,10 @@ class ItemController extends GetxController implements GetxService {
     update();
   }
 
-  double getStartingPrice(Item item) {
-    double _startingPrice = 0;
+  int getStartingPrice(Item item) {
+    int _startingPrice = 0;
     if (item.choiceOptions.length != 0) {
-      List<double> _priceList = [];
+      List<int> _priceList = [];
       item.variations.forEach((variation) => _priceList.add(variation.price));
       _priceList.sort((a, b) => a.compareTo(b));
       _startingPrice = _priceList[0];
@@ -343,7 +343,7 @@ class ItemController extends GetxController implements GetxService {
     return DateConverter.isAvailable(item.availableTimeStarts, item.availableTimeEnds);
   }
 
-  double getDiscount(Item item) => item.storeDiscount == 0 ? item.discount : item.storeDiscount;
+  int getDiscount(Item item) => item.storeDiscount == 0 ? item.discount : item.storeDiscount;
 
   String getDiscountType(Item item) => item.storeDiscount == 0 ? item.discountType : 'percent';
 

@@ -12,12 +12,12 @@ class CouponController extends GetxController implements GetxService {
 
   List<CouponModel> _couponList;
   CouponModel _coupon;
-  double _discount = 0.0;
+  int _discount = 0;
   bool _isLoading = false;
   bool _freeDelivery = false;
 
   CouponModel get coupon => _coupon;
-  double get discount => _discount;
+  int get discount => _discount;
   bool get isLoading => _isLoading;
   bool get freeDelivery => _freeDelivery;
   List<CouponModel> get couponList => _couponList;
@@ -33,7 +33,7 @@ class CouponController extends GetxController implements GetxService {
     }
   }
 
-  Future<double> applyCoupon(String coupon, double order, double deliveryCharge, int storeID) async {
+  Future<int> applyCoupon(String coupon, int order, int deliveryCharge, int storeID) async {
     _isLoading = true;
     _discount = 0;
     update();
@@ -61,20 +61,20 @@ class CouponController extends GetxController implements GetxService {
             if (_coupon.maxDiscount != null && _coupon.maxDiscount > 0) {
               _discount = (_coupon.discount * order / 100) < _coupon.maxDiscount ? (_coupon.discount * order / 100) : _coupon.maxDiscount;
             } else {
-              _discount = _coupon.discount * order / 100;
+              _discount =_coupon.discount * order ~/ 100;
             }
           } else {
             _discount = _coupon.discount;
           }
         } else {
-          _discount = 0.0;
+          _discount = 0;
           showCustomSnackBar('${'the_minimum_item_purchase_amount_for_this_coupon_is'.tr} '
               '${PriceConverter.convertPrice(_coupon.minPurchase)} '
               '${'but_you_have'.tr} ${PriceConverter.convertPrice(order)}');
         }
       }
     } else {
-      _discount = 0.0;
+      _discount = 0;
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
@@ -85,7 +85,7 @@ class CouponController extends GetxController implements GetxService {
   void removeCouponData(bool notify) {
     _coupon = null;
     _isLoading = false;
-    _discount = 0.0;
+    _discount = 0;
     _freeDelivery = false;
     if(notify) {
       update();

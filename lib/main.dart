@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
 import 'package:sixam_mart/controller/localization_controller.dart';
@@ -27,23 +30,20 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'helper/get_di.dart' as di;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-List<CameraDescription> cameras;
 
 Future<void> main() async {
+  print("Bắt đầu: ${DateTime.now()}");
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   if (ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = new MyHttpOverrides();
   }
 
   setPathUrlStrategy();
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  cameras = await availableCameras();
 
-  Map<String, Map<String, String>> _languages = await di.init();
 
   int _orderID;
   try {
@@ -55,14 +55,15 @@ Future<void> main() async {
             ? int.parse(remoteMessage.notification.titleLocKey)
             : null;
       }
+      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   } catch (e) {}
 
-// Obtain a list of the available cameras on the device.
-// Get a specific camera from the list of available cameras.
-  final firstCamera = cameras.first;
+  Map<String, Map<String, String>> _languages = await di.init();
+
   runApp(MyApp(languages: _languages, orderID: _orderID));
 }
 
@@ -98,6 +99,8 @@ class MyApp extends StatelessWidget {
     return GetBuilder<ThemeController>(builder: (themeController) {
       return GetBuilder<LocalizationController>(builder: (localizeController) {
         return GetBuilder<SplashController>(builder: (splashController) {
+          FlutterNativeSplash.remove();
+          print("Kết thúc init: ${DateTime.now()}");
           return (GetPlatform.isWeb && splashController.configModel == null)
               ? SizedBox()
               : GetMaterialApp(
@@ -126,7 +129,7 @@ class MyApp extends StatelessWidget {
                       : RouteHelper.getSplashRoute(orderID),
                   getPages: RouteHelper.routes,
                   defaultTransition: Transition.topLevel,
-                  transitionDuration: Duration(milliseconds: 500),
+                  transitionDuration: Duration(milliseconds: 250),
                 );
         });
       });

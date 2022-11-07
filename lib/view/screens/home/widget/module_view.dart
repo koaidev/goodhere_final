@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/banner_controller.dart';
@@ -18,7 +19,7 @@ import 'package:sixam_mart/view/screens/home/widget/popular_store_view.dart';
 
 class ModuleView extends StatelessWidget {
   final SplashController splashController;
-  ModuleView({@required this.splashController});
+  ModuleView({@required this.splashController,});
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,7 @@ class ModuleView extends StatelessWidget {
         ) : AddressShimmer(isEnabled: Get.find<AuthController>().isLoggedIn() && locationController.addressList == null);
       }),
 
-      PopularStoreView(isPopular: false, isFeatured: true),
+      PopularStoreView(isPopular: false, isFeatured: true, ),
 
       SizedBox(height: 30),
 

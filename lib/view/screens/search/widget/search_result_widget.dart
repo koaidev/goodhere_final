@@ -57,7 +57,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> with TickerProv
             )),
             widget.searchText.isNotEmpty ? InkWell(
               onTap: () {
-                List<double> _prices = [];
+                List<int> _prices = [];
                 if(!Get.find<SearchController>().isStore) {
                   Get.find<SearchController>().allItemList.forEach((product) => _prices.add(product.price));
                   _prices.sort();

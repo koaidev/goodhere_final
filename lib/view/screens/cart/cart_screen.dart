@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/controller/cart_controller.dart';
 import 'package:sixam_mart/controller/coupon_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -16,11 +18,10 @@ import 'package:sixam_mart/view/base/menu_drawer.dart';
 import 'package:sixam_mart/view/base/no_data_screen.dart';
 import 'package:sixam_mart/view/base/web_constrained_box.dart';
 import 'package:sixam_mart/view/screens/cart/widget/cart_item_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CartScreen extends StatefulWidget {
   final fromNav;
+
   CartScreen({@required this.fromNav});
 
   @override
@@ -31,20 +32,21 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'my_cart'.tr, backButton: (ResponsiveHelper.isDesktop(context) || !widget.fromNav)),
+      appBar: CustomAppBar(
+          title: 'my_cart'.tr,
+          backButton: (ResponsiveHelper.isDesktop(context) || !widget.fromNav)),
       endDrawer: MenuDrawer(),
       body: GetBuilder<CartController>(
         builder: (cartController) {
           List<List<AddOns>> _addOnsList = [];
           List<bool> _availableList = [];
-          double _itemPrice = 0;
-          double _addOns = 0;
+          int _itemPrice = 0;
+          int _addOns = 0;
           cartController.cartList.forEach((cartModel) {
-
             List<AddOns> _addOnList = [];
             cartModel.addOnIds.forEach((addOnId) {
-              for(AddOns addOns in cartModel.item.addOns) {
-                if(addOns.id == addOnId.id) {
+              for (AddOns addOns in cartModel.item.addOns) {
+                if (addOns.id == addOnId.id) {
                   _addOnList.add(addOns);
                   break;
                 }
@@ -52,113 +54,191 @@ class _CartScreenState extends State<CartScreen> {
             });
             _addOnsList.add(_addOnList);
 
-            _availableList.add(DateConverter.isAvailable(cartModel.item.availableTimeStarts, cartModel.item.availableTimeEnds));
+            _availableList.add(DateConverter.isAvailable(
+                cartModel.item.availableTimeStarts,
+                cartModel.item.availableTimeEnds));
 
-            for(int index=0; index<_addOnList.length; index++) {
-              _addOns = _addOns + (_addOnList[index].price * cartModel.addOnIds[index].quantity);
+            for (int index = 0; index < _addOnList.length; index++) {
+              _addOns = _addOns +
+                  (_addOnList[index].price *
+                      cartModel.addOnIds[index].quantity);
             }
             _itemPrice = _itemPrice + (cartModel.price * cartModel.quantity);
           });
-          double _subTotal = _itemPrice + _addOns;
+          int _subTotal = _itemPrice + _addOns;
 
-          return cartController.cartList.length > 0 ? Column(
-            children: [
+          return cartController.cartList.length > 0
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: Scrollbar(
+                        child: SingleChildScrollView(
+                          padding: ResponsiveHelper.isDesktop(context)
+                              ? EdgeInsets.only(
+                                  top: Dimensions.PADDING_SIZE_SMALL,
+                                )
+                              : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                          physics: BouncingScrollPhysics(),
+                          child: FooterView(
+                            child: SizedBox(
+                              width: Dimensions.WEB_MAX_WIDTH,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Product
+                                    WebConstrainedBox(
+                                      dataLength:
+                                          cartController.cartList.length,
+                                      minLength: 5,
+                                      minHeight: 0.6,
+                                      child: ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            cartController.cartList.length,
+                                        itemBuilder: (context, index) {
+                                          return CartItemWidget(
+                                              cart: cartController
+                                                  .cartList[index],
+                                              cartIndex: index,
+                                              addOns: _addOnsList[index],
+                                              isAvailable:
+                                                  _availableList[index]);
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: Dimensions.PADDING_SIZE_SMALL),
 
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    padding: ResponsiveHelper.isDesktop(context) ? EdgeInsets.only(
-                      top: Dimensions.PADDING_SIZE_SMALL,
-                    ) : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                    physics: BouncingScrollPhysics(),
-                    child: FooterView(
-                      child: SizedBox(
-                        width: Dimensions.WEB_MAX_WIDTH,
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    // Total
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('item_price'.tr,
+                                              style: notoSerifRegular),
+                                          Text(
+                                              PriceConverter.convertPrice(
+                                                  _itemPrice),
+                                              style: notoSerifRegular),
+                                        ]),
+                                    SizedBox(
+                                        height: Get.find<SplashController>()
+                                                .configModel
+                                                .moduleConfig
+                                                .module
+                                                .addOn
+                                            ? 10
+                                            : 0),
 
-                          // Product
-                          WebConstrainedBox(
-                            dataLength: cartController.cartList.length, minLength: 5, minHeight: 0.6,
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: cartController.cartList.length,
-                              itemBuilder: (context, index) {
-                                return CartItemWidget(cart: cartController.cartList[index], cartIndex: index, addOns: _addOnsList[index], isAvailable: _availableList[index]);
-                              },
+                                    Get.find<SplashController>()
+                                            .configModel
+                                            .moduleConfig
+                                            .module
+                                            .addOn
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('addons'.tr,
+                                                  style: notoSerifRegular),
+                                              Text(
+                                                  '(+) ${PriceConverter.convertPrice(_addOns)}',
+                                                  style: notoSerifRegular),
+                                            ],
+                                          )
+                                        : SizedBox(),
+
+                                    Get.find<SplashController>()
+                                            .configModel
+                                            .moduleConfig
+                                            .module
+                                            .addOn
+                                        ? Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: Dimensions
+                                                    .PADDING_SIZE_SMALL),
+                                            child: Divider(
+                                                thickness: 1,
+                                                color: Theme.of(context)
+                                                    .hintColor
+                                                    .withOpacity(0.5)),
+                                          )
+                                        : SizedBox(),
+
+                                    Get.find<SplashController>()
+                                            .configModel
+                                            .moduleConfig
+                                            .module
+                                            .addOn
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('subtotal'.tr,
+                                                  style: notoSerifMedium),
+                                              Text(
+                                                  PriceConverter.convertPrice(
+                                                      _subTotal),
+                                                  style: notoSerifMedium),
+                                            ],
+                                          )
+                                        : SizedBox(),
+
+                                    ResponsiveHelper.isDesktop(context)
+                                        ? CheckoutButton(
+                                            cartController: cartController,
+                                            availableList: _availableList)
+                                        : SizedBox.shrink(),
+                                  ]),
                             ),
                           ),
-                          SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-
-                          // Total
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text('item_price'.tr, style: notoSerifRegular),
-                            Text(PriceConverter.convertPrice(_itemPrice), style: notoSerifRegular),
-                          ]),
-                          SizedBox(height: Get.find<SplashController>().configModel.moduleConfig.module.addOn ? 10 : 0),
-
-                          Get.find<SplashController>().configModel.moduleConfig.module.addOn ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('addons'.tr, style: notoSerifRegular),
-                              Text('(+) ${PriceConverter.convertPrice(_addOns)}', style: notoSerifRegular),
-                            ],
-                          ) : SizedBox(),
-
-                          Get.find<SplashController>().configModel.moduleConfig.module.addOn ? Padding(
-                            padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
-                            child: Divider(thickness: 1, color: Theme.of(context).hintColor.withOpacity(0.5)),
-                          ) : SizedBox(),
-
-                          Get.find<SplashController>().configModel.moduleConfig.module.addOn ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('subtotal'.tr, style: notoSerifMedium),
-                              Text(PriceConverter.convertPrice(_subTotal), style: notoSerifMedium),
-                            ],
-                          ) : SizedBox(),
-
-                          ResponsiveHelper.isDesktop(context) ? CheckoutButton(cartController: cartController, availableList: _availableList) : SizedBox.shrink(),
-
-
-                        ]),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-
-              ResponsiveHelper.isDesktop(context) ? SizedBox.shrink() : CheckoutButton(cartController: cartController, availableList: _availableList),
-
-            ],
-          ) : NoDataScreen(isCart: true, text: '', showFooter: true);
+                    ResponsiveHelper.isDesktop(context)
+                        ? SizedBox.shrink()
+                        : CheckoutButton(
+                            cartController: cartController,
+                            availableList: _availableList),
+                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
+                  ],
+                )
+              : NoDataScreen(isCart: true, text: '', showFooter: true);
         },
       ),
     );
   }
-
 }
 
 class CheckoutButton extends StatelessWidget {
   final CartController cartController;
   final List<bool> availableList;
-  const CheckoutButton({Key key, @required this.cartController, @required this.availableList}) : super(key: key);
+
+  const CheckoutButton(
+      {Key key, @required this.cartController, @required this.availableList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: Dimensions.WEB_MAX_WIDTH,
-      padding: ResponsiveHelper.isDesktop(context) ? EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE) : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-      child: CustomButton(buttonText: 'proceed_to_checkout'.tr, onPressed: () {
-        if(Get.find<SplashController>().module == null) {
-          showCustomSnackBar('choose_a_module_first'.tr);
-        }else if(!cartController.cartList.first.item.scheduleOrder && availableList.contains(false)) {
-          showCustomSnackBar('one_or_more_product_unavailable'.tr);
-        } else {
-          Get.find<CouponController>().removeCouponData(false);
-          Get.toNamed(RouteHelper.getCheckoutRoute('cart'));
-        }
-      }),
+      padding: ResponsiveHelper.isDesktop(context)
+          ? EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE)
+          : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+      child: CustomButton(
+          buttonText: 'proceed_to_checkout'.tr,
+          onPressed: () {
+            if (Get.find<SplashController>().module == null) {
+              showCustomSnackBar('choose_a_module_first'.tr);
+            } else if (!cartController.cartList.first.item.scheduleOrder &&
+                availableList.contains(false)) {
+              showCustomSnackBar('one_or_more_product_unavailable'.tr);
+            } else {
+              Get.find<CouponController>().removeCouponData(false);
+              Get.toNamed(RouteHelper.getCheckoutRoute('cart'));
+            }
+          }),
     );
   }
 }

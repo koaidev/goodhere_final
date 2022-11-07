@@ -57,7 +57,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
 
                   Text(
                       'one_referral'.tr + '= ' + PriceConverter.convertPrice(Get.find<SplashController>().configModel != null
-                          ? Get.find<SplashController>().configModel.refEarningExchangeRate.toDouble() : 0.0),
+                          ? Get.find<SplashController>().configModel.refEarningExchangeRate.toInt() : 0.0),
                       style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeDefault),
                   ),
                   SizedBox(height: 40),
@@ -78,7 +78,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                         Image.asset(Images.earn_money, width: ResponsiveHelper.isDesktop(context) ? 200 : 100,
                             height: ResponsiveHelper.isDesktop(context) ? 250 : 150, fit: BoxFit.contain),
                         SizedBox(width: 120, child: Text(
-                            'get'.tr + ' ${PriceConverter.convertPrice(Get.find<SplashController>().configModel != null ? Get.find<SplashController>().configModel.refEarningExchangeRate.toDouble() : 0.0)} ' +
+                            'get'.tr + ' ${PriceConverter.convertPrice(Get.find<SplashController>().configModel != null ? Get.find<SplashController>().configModel.refEarningExchangeRate.toInt() : 0.0)} ' +
                                 'on_joining'.tr , style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
                         ),
                       ]),

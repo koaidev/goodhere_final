@@ -8,7 +8,7 @@ class UserInfoModel {
   String password;
   int orderCount;
   int memberSinceDays;
-  double walletBalance;
+  int walletBalance;
   int loyaltyPoint;
   String refCode;
 
@@ -36,7 +36,7 @@ class UserInfoModel {
     password = json['password'];
     orderCount = json['order_count'];
     memberSinceDays = json['member_since_days'];
-    walletBalance = json['wallet_balance'].toDouble();
+    walletBalance = json['wallet_balance'].toInt();
     loyaltyPoint = json['loyalty_point'];
     refCode = json['ref_code'];
   }

@@ -58,10 +58,10 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
             : BorderRadius.all(Radius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
       ),
       child: GetBuilder<ItemController>(builder: (itemController) {
-        double _startingPrice;
-        double _endingPrice;
+        int _startingPrice;
+        int _endingPrice;
         if (widget.item.choiceOptions.length != 0) {
-          List<double> _priceList = [];
+          List<int> _priceList = [];
           widget.item.variations.forEach((variation) => _priceList.add(variation.price));
           _priceList.sort((a, b) => a.compareTo(b));
           _startingPrice = _priceList[0];
@@ -87,7 +87,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
           }
         });
 
-        double price = widget.item.price;
+        int price = widget.item.price;
         Variation _variation;
         int _stock = widget.item.stock;
         for (Variation variation in widget.item.variations) {
@@ -99,11 +99,11 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
           }
         }
 
-        double _discount = (widget.isCampaign || widget.item.storeDiscount == 0) ? widget.item.discount : widget.item.storeDiscount;
+        int _discount = ((widget.isCampaign || widget.item.storeDiscount == 0) ? widget.item.discount : widget.item.storeDiscount) as int;
         String _discountType = (widget.isCampaign || widget.item.storeDiscount == 0) ? widget.item.discountType : 'percent';
-        double priceWithDiscount = PriceConverter.convertWithDiscount(price, _discount, _discountType);
-        double priceWithQuantity = priceWithDiscount * itemController.quantity;
-        double addonsCost = 0;
+        int priceWithDiscount = PriceConverter.convertWithDiscount(price, _discount, _discountType);
+        int priceWithQuantity = priceWithDiscount * itemController.quantity;
+        int addonsCost = 0;
         List<AddOn> _addOnIdList = [];
         List<AddOns> _addOnsList = [];
         for (int index = 0; index < widget.item.addOns.length; index++) {
@@ -113,7 +113,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
             _addOnsList.add(widget.item.addOns[index]);
           }
         }
-        double priceWithAddons = priceWithQuantity + (Get.find<SplashController>().configModel.moduleConfig.module.addOn ? addonsCost : 0);
+        int priceWithAddons = priceWithQuantity + (Get.find<SplashController>().configModel.moduleConfig.module.addOn ? addonsCost : 0);
         // bool _isRestAvailable = DateConverter.isAvailable(widget.product.restaurantOpeningTime, widget.product.restaurantClosingTime);
         bool _isAvailable = DateConverter.isAvailable(widget.item.availableTimeStarts, widget.item.availableTimeEnds);
 

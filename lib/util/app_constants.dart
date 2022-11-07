@@ -140,7 +140,8 @@ class AppConstants {
 
 
   // Delivery Tips
-  static List<int> tips = [0, 5, 10, 15, 20, 30, 50];
+  static List<int> tips = [5000, 10000, 20000, 50000];
+  static List<String> tipsTitle = ['5.000', '10.000', '20.000', '50.000'];
 
   static List<ChooseUsModel> whyChooseUsList = [
     ChooseUsModel(

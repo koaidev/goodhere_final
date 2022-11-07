@@ -1,5 +1,3 @@
-
-
 class ContactModel {
   ContactModel({
     this.phoneNumber,

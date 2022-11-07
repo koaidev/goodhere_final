@@ -70,7 +70,7 @@ class CategoryController extends GetxController implements GetxService {
         _categoryList = [];
         _interestSelectedList = [];
         response.body.forEach((category) {
-          print("ABC Category: "+ category);
+          print("ABC Category: "+ category.toString());
           _categoryList.add(CategoryModel.fromJson(category));
           _interestSelectedList.add(false);
         });

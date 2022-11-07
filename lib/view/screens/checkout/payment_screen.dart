@@ -1,18 +1,20 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:collection';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/data/model/response/order_model.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/view/base/custom_app_bar.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:sixam_mart/view/screens/checkout/widget/payment_failed_dialog.dart';
 
 class PaymentScreen extends StatefulWidget {
   final OrderModel orderModel;
+
   PaymentScreen({@required this.orderModel});
 
   @override
@@ -29,23 +31,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
-    selectedUrl = '${AppConstants.BASE_URL}/payment-mobile?customer_id=${widget.orderModel.userId}&order_id=${widget.orderModel.id}';
+    selectedUrl =
+        '${AppConstants.BASE_URL}/payment-mobile?customer_id=${widget.orderModel.userId}&order_id=${widget.orderModel.id}';
 
     _initData();
   }
 
   void _initData() async {
-    browser = MyInAppBrowser(orderID: widget.orderModel.id.toString(), orderType: widget.orderModel.orderType);
+    browser = MyInAppBrowser(
+        orderID: widget.orderModel.id.toString(),
+        orderType: widget.orderModel.orderType);
 
     if (Platform.isAndroid) {
       await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
-      bool swAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      bool swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+      bool swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+          AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+      bool swInterceptAvailable =
+          await AndroidWebViewFeature.isFeatureSupported(
+              AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
 
       if (swAvailable && swInterceptAvailable) {
-        AndroidServiceWorkerController serviceWorkerController = AndroidServiceWorkerController.instance();
-        await serviceWorkerController.setServiceWorkerClient(AndroidServiceWorkerClient(
+        AndroidServiceWorkerController serviceWorkerController =
+            AndroidServiceWorkerController.instance();
+        await serviceWorkerController
+            .setServiceWorkerClient(AndroidServiceWorkerClient(
           shouldInterceptRequest: (request) async {
             print(request);
             return null;
@@ -62,7 +72,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         if (Platform.isAndroid) {
           browser.webViewController.reload();
         } else if (Platform.isIOS) {
-          browser.webViewController.loadUrl(urlRequest: URLRequest(url: await browser.webViewController.getUrl()));
+          browser.webViewController.loadUrl(
+              urlRequest:
+                  URLRequest(url: await browser.webViewController.getUrl()));
         }
       },
     );
@@ -72,7 +84,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       urlRequest: URLRequest(url: Uri.parse(selectedUrl)),
       options: InAppBrowserClassOptions(
         inAppWebViewGroupOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true, useOnLoadResource: true),
+          crossPlatform: InAppWebViewOptions(
+              useShouldOverrideUrlLoading: true, useOnLoadResource: true),
         ),
       ),
     );
@@ -84,15 +97,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
       onWillPop: () => _exitApp(),
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        appBar: CustomAppBar(title: 'payment'.tr, onBackPressed: () => _exitApp()),
+        appBar:
+            CustomAppBar(title: 'payment'.tr, onBackPressed: () => _exitApp()),
         body: Center(
           child: Container(
             width: Dimensions.WEB_MAX_WIDTH,
             child: Stack(
               children: [
-                _isLoading ? Center(
-                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-                ) : SizedBox.shrink(),
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor)),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),
@@ -102,15 +120,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Future<bool> _exitApp() async {
-    return Get.dialog(PaymentFailedDialog(orderID: widget.orderModel.id.toString()));
+    return Get.dialog(
+        PaymentFailedDialog(orderID: widget.orderModel.id.toString()));
   }
-
 }
 
 class MyInAppBrowser extends InAppBrowser {
   final String orderID;
   final String orderType;
-  MyInAppBrowser({@required this.orderID, @required this.orderType, int windowId, UnmodifiableListView<UserScript> initialUserScripts})
+
+  MyInAppBrowser(
+      {@required this.orderID,
+      @required this.orderType,
+      int windowId,
+      UnmodifiableListView<UserScript> initialUserScripts})
       : super(windowId: windowId, initialUserScripts: initialUserScripts);
 
   bool _canRedirect = true;
@@ -149,21 +172,27 @@ class MyInAppBrowser extends InAppBrowser {
 
   @override
   void onExit() {
-    if(_canRedirect) {
+    if (_canRedirect) {
       Get.dialog(PaymentFailedDialog(orderID: orderID));
     }
     print("\n\nBrowser closed!\n\n");
   }
 
   @override
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(navigationAction) async {
+  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
+      navigationAction) async {
     print("\n\nOverride ${navigationAction.request.url}\n\n");
     return NavigationActionPolicy.ALLOW;
   }
 
   @override
   void onLoadResource(response) {
-    print("Started at: " + response.startTime.toString() + "ms ---> duration: " + response.duration.toString() + "ms " + (response.url ?? '').toString());
+    print("Started at: " +
+        response.startTime.toString() +
+        "ms ---> duration: " +
+        response.duration.toString() +
+        "ms " +
+        (response.url ?? '').toString());
   }
 
   @override
@@ -176,10 +205,13 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   void _redirect(String url) {
-    if(_canRedirect) {
-      bool _isSuccess = url.contains('success') && url.contains(AppConstants.BASE_URL);
-      bool _isFailed = url.contains('fail') && url.contains(AppConstants.BASE_URL);
-      bool _isCancel = url.contains('cancel') && url.contains(AppConstants.BASE_URL);
+    if (_canRedirect) {
+      bool _isSuccess =
+          url.contains('success') && url.contains(AppConstants.BASE_URL);
+      bool _isFailed =
+          url.contains('fail') && url.contains(AppConstants.BASE_URL);
+      bool _isCancel =
+          url.contains('cancel') && url.contains(AppConstants.BASE_URL);
       if (_isSuccess || _isFailed || _isCancel) {
         _canRedirect = false;
         close();
@@ -191,5 +223,4 @@ class MyInAppBrowser extends InAppBrowser {
       }
     }
   }
-
 }

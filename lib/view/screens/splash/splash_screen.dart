@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _route() {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if (isSuccess) {
-        Timer(Duration(seconds: 1), () async {
+        Timer(Duration(seconds: 0), () async {
           int _minimumVersion = 0;
           if (GetPlatform.isAndroid) {
             _minimumVersion = Get.find<SplashController>()
@@ -82,10 +82,12 @@ class _SplashScreenState extends State<SplashScreen> {
           }
           if (AppConstants.APP_VERSION < _minimumVersion ||
               Get.find<SplashController>().configModel.maintenanceMode) {
+            print("Bắt đầu 2: ${DateTime.now()}");
             Get.offNamed(RouteHelper.getUpdateRoute(
                 AppConstants.APP_VERSION < _minimumVersion));
           } else {
             if (widget.orderID != null) {
+              print("Bắt đầu 3: ${DateTime.now()}");
               Get.offNamed(
                   RouteHelper.getOrderDetailsRoute(int.parse(widget.orderID)));
             } else {
@@ -93,20 +95,24 @@ class _SplashScreenState extends State<SplashScreen> {
                 Get.find<AuthController>().updateToken();
                 await Get.find<WishListController>().getWishList();
                 if (Get.find<LocationController>().getUserAddress() != null) {
+                  print("Bắt đầu 4: ${DateTime.now()}");
                   Get.offNamed(RouteHelper.getInitialRoute());
                 } else {
+                  print("Bắt đầu 5: ${DateTime.now()}");
                   Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
                 }
               } else {
-                if (Get.find<SplashController>().showIntro()) {
-                  // if (AppConstants.languages.length > 1) {
-                  //   Get.offNamed(RouteHelper.getLanguageRoute('splash'));
-                  // } else {
-                    Get.offNamed(RouteHelper.getOnBoardingRoute());
-                  // }
-                } else {
+                // if (Get.find<SplashController>().showIntro()) {
+                //   // if (AppConstants.languages.length > 1) {
+                //   //   Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+                //   // } else {
+                //   print("Bắt đầu 7: ${DateTime.now()}");
+                //   Get.offNamed(RouteHelper.getOnBoardingRoute());
+                //   // }
+                // } else {
+                  print("Bắt đầu 8: ${DateTime.now()}");
                   Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-                }
+                // }
               }
             }
           }

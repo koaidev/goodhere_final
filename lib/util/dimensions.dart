@@ -84,7 +84,7 @@ class Dimensions {
 
   static const double MAIN_BACKGROUND_CARD_WEIGHT = 180.0;
   static const double ADD_MONEY_CARD_HEIGHT = 90.0;
-  static const double TRANSACTION_TYPE_CARD_HEIGHT = 120.0;
+  static const double TRANSACTION_TYPE_CARD_HEIGHT = 150.0;
 
 
   static const double ARROW_ICON_SIZE = 12.0;
