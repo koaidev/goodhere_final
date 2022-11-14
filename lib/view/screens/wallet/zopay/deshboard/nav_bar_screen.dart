@@ -29,7 +29,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
-  Future<void> initState() {
+  void initState() {
     super.initState();
 
     var androidInitialize =

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sixam_mart/data/model/zopay/new_user.dart';
+import 'package:sixam_mart/data/model/zopay/response_zopay.dart';
 import 'package:sixam_mart/data/model/zopay/transaction_zopay.dart';
 import 'package:sixam_mart/data/model/zopay/user_info.dart';
 
@@ -8,14 +9,16 @@ import '../model/zopay/user_wallet.dart';
 
 class ApiZopay {
   final db = FirebaseFirestore.instance;
-  final uid =  FirebaseAuth.instance.currentUser.uid;
+  final uid = FirebaseAuth.instance.currentUser.uid;
   static const String USERS = "users";
   static const String BANKS_ACCOUNT = "account";
   static const String NEW_USER_LIST = "new_users";
   static const String WALLET = "wallets";
   static const String TRANSACTION_HISTORY = "transaction_history";
+  static const String STATUS_SUCCESS = "status_success";
+  static const String STATUS_FAIL = "status_fail";
 
-  bool isLogin() => FirebaseAuth.instance.currentUser!=null;
+  bool isLogin() => FirebaseAuth.instance.currentUser != null;
 
   CollectionReference getUserCollection() => db.collection(USERS);
 
@@ -65,8 +68,13 @@ class ApiZopay {
   // Future<void> getWallet(UserWallet userWallet) async =>
 
   //quyền create vào thư mục user mới, không có quyền update, sửa.
-  Future<void> requestMoneyForFirstTime(NewUser newUser) async =>
-      getNewUser().set(newUser);
+  Future<ResponseZopay> requestMoneyForFirstTime(NewUser newUser) async {
+    ResponseZopay responseZopay = await getNewUser()
+        .set(newUser)
+        .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
+        .onError((error, stackTrace) => ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+    return responseZopay;
+  }
 
   //for zopay wallet xem tài khoản hiện tại
   DocumentReference getUserWallet() => getWalletCollection()
@@ -75,7 +83,6 @@ class ApiZopay {
               UserWallet.fromJson(snapshot, options),
           toFirestore: (UserWallet wallet, options) => wallet.toJson())
       .doc(uid);
-
 
   // nhận toàn bộ lịch sử gửi tiền
   Query getSendMoneyTransactionHistory() => getTransactionHistoryCollection()
@@ -102,15 +109,21 @@ class ApiZopay {
       .limit(50);
 
   //tạo 1 giao dịch mới
-  Future<void> createNewTransaction(TransactionZopay transactionZopay) =>
-      getTransactionHistoryCollection()
-          .withConverter(
-              fromFirestore: (snapshot, options) =>
-                  TransactionZopay.fromJson(snapshot, options),
-              toFirestore: (TransactionZopay transaction, options) =>
-                  transaction.toJson())
-          .doc(transactionZopay.transactionId)
-          .set(transactionZopay);
+  Future<ResponseZopay> createNewTransaction(
+      TransactionZopay transactionZopay) async {
+    ResponseZopay response = await getTransactionHistoryCollection()
+        .withConverter(
+            fromFirestore: (snapshot, options) =>
+                TransactionZopay.fromJson(snapshot, options),
+            toFirestore: (TransactionZopay transaction, options) =>
+                transaction.toJson())
+        .doc(transactionZopay.transactionId)
+        .set(transactionZopay)
+        .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
+        .onError((error, stackTrace) =>
+            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+    return response;
+  }
 
 //cho mua bán: đặt hàng chọn thanh toán qua zopay thì sẽ ngay lập tức tạo 1 giao dịch chờ,
 // trừ số tiền của người dùng tại tk khuyển mại

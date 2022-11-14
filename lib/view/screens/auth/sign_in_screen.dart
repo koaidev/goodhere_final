@@ -25,7 +25,6 @@ import 'package:sixam_mart/view/screens/auth/widget/condition_check_box.dart';
 import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
 
 import '../../../data/api/zopay_api.dart';
-import '../../../data/model/zopay/user_wallet.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
@@ -53,15 +52,17 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+    checkUser();
+    _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
+  }
+
+  Future<void> checkUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
-      final walletUser = await ApiZopay()
-          .getUserWallet()
-          .get();
+      final walletUser = await ApiZopay().getUserWallet().get();
       Get.lazyPut(() => walletUser.data());
     }
-    _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
   }
 
   @override
@@ -252,7 +253,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                 widgetBuilder: (_, CurrentRemainingTime time) {
                                   if (time == null) {
                                     return TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _login(authController, "+84", true);
+                                      },
                                       child: Text(
                                           'Bạn chưa nhận được mã OTP? Gửi lại'),
                                     );
