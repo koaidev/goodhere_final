@@ -102,7 +102,7 @@ class CartItemWidget extends StatelessWidget {
                             child: Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), color: Colors.black.withOpacity(0.6)),
-                              child: Text('not_available_now_break'.tr, textAlign: TextAlign.center, style: notoSerifRegular.copyWith(
+                              child: Text('not_available_now_break'.tr, textAlign: TextAlign.center, style: robotoRegular.copyWith(
                                 color: Colors.white, fontSize: 8,
                               )),
                             ),
@@ -115,7 +115,7 @@ class CartItemWidget extends StatelessWidget {
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                           Text(
                             cart.item.name,
-                            style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                             maxLines: 2, overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(height: 2),
@@ -123,7 +123,7 @@ class CartItemWidget extends StatelessWidget {
                           SizedBox(height: 5),
                           Text(
                             PriceConverter.convertPrice(cart.discountedPrice+cart.discountAmount),
-                            style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                           ),
                         ]),
                       ),
@@ -139,7 +139,7 @@ class CartItemWidget extends StatelessWidget {
                           child: Text(
                             Get.find<SplashController>().configModel.moduleConfig.module.unit ? cart.item.unitType ?? ''
                                 : cart.item.veg == 0 ? 'non_veg'.tr : 'veg'.tr,
-                            style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
                           ),
                         ) : SizedBox(),
                         SizedBox(height: Get.find<SplashController>().configModel.toggleVegNonVeg ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
@@ -154,7 +154,7 @@ class CartItemWidget extends StatelessWidget {
                             },
                             isIncrement: false,
                           ),
-                          Text(cart.quantity.toString(), style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
+                          Text(cart.quantity.toString(), style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                           QuantityButton(
                             onTap: () => Get.find<CartController>().setQuantity(true, cartIndex, cart.stock),
                             isIncrement: true,
@@ -178,10 +178,10 @@ class CartItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       child: Row(children: [
                         SizedBox(width: 80),
-                        Text('${'addons'.tr}: ', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                        Text('${'addons'.tr}: ', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
                         Flexible(child: Text(
                           _addOnText,
-                          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                         )),
                       ]),
                     ) : SizedBox(),
@@ -190,10 +190,10 @@ class CartItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       child: Row(children: [
                         SizedBox(width: 80),
-                        Text('${'variations'.tr}: ', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                        Text('${'variations'.tr}: ', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
                         Flexible(child: Text(
                           _variationText,
-                          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                         )),
                       ]),
                     ) : SizedBox(),

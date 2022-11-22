@@ -23,7 +23,7 @@ class PermissionDialog extends StatelessWidget {
 
             Text(
               'you_denied_location_permission'.tr, textAlign: TextAlign.center,
-              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 

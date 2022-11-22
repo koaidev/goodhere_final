@@ -116,11 +116,11 @@ class _CartScreenState extends State<CartScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('item_price'.tr,
-                                              style: notoSerifRegular),
+                                              style: robotoRegular),
                                           Text(
                                               PriceConverter.convertPrice(
                                                   _itemPrice),
-                                              style: notoSerifRegular),
+                                              style: robotoRegular),
                                         ]),
                                     SizedBox(
                                         height: Get.find<SplashController>()
@@ -141,10 +141,10 @@ class _CartScreenState extends State<CartScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('addons'.tr,
-                                                  style: notoSerifRegular),
+                                                  style: robotoRegular),
                                               Text(
                                                   '(+) ${PriceConverter.convertPrice(_addOns)}',
-                                                  style: notoSerifRegular),
+                                                  style: robotoRegular),
                                             ],
                                           )
                                         : SizedBox(),
@@ -176,11 +176,11 @@ class _CartScreenState extends State<CartScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text('subtotal'.tr,
-                                                  style: notoSerifMedium),
+                                                  style: robotoMedium),
                                               Text(
                                                   PriceConverter.convertPrice(
                                                       _subTotal),
-                                                  style: notoSerifMedium),
+                                                  style: robotoMedium),
                                             ],
                                           )
                                         : SizedBox(),

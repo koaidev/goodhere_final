@@ -345,12 +345,10 @@ class RouteHelper {
     GetPage(name: itemDetails, page: () => getRoute(Get.arguments != null ? Get.arguments : ItemDetailsScreen(item: Item(id: int.parse(Get.parameters['id'])), inStorePage: Get.parameters['page'] == 'restaurant'))),
     // GetPage(name: wallet, page: () => getRoute(WalletScreen(fromWallet: Get.parameters['page'] == 'wallet'))),
     GetPage(name: wallet, page: () => getRoute(NavBarScreen())),
-
     GetPage(name: referAndEarn, page: () => getRoute(ReferAndEarnScreen())),
     // GetPage(name: qr_code_download_or_share, page: () => QrCodeDownloadOrShareScreen(qrCode:  utf8.decode(base64Url.decode(Get.parameters['qr-code'].replaceAll(' ', '+'))),
     //   phoneNumber: utf8.decode(base64Url.decode(Get.parameters['phone-number'].replaceAll(' ', '+'))),)),
     GetPage(name: selfie_screen, page: () => CameraScreen(fromEditProfile: Get.parameters['page'] == 'edit-profile')),
-
   ];
 
   static getRoute(Widget navigateTo) {

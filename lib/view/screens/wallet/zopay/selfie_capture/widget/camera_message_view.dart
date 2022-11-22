@@ -26,7 +26,7 @@ class CameraMessageView extends StatelessWidget {
         children: [
           Text(
             'take_a_selfie'.tr,
-            style: notoSerifRegular.copyWith(
+            style: robotoRegular.copyWith(
               color: ColorResources.getPrimaryColor(),
               fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
             ),
@@ -37,7 +37,7 @@ class CameraMessageView extends StatelessWidget {
           Text(
             'place_your_face_inside_the_frame_camera_will_auto_capture_your_face_upon_eye_blinking'
                 .tr,
-            style: notoSerifRegular.copyWith(
+            style: robotoRegular.copyWith(
               color: ColorResources.getOnboardGreyColor(),
               fontSize: Dimensions.FONT_SIZE_DEFAULT,
             ),

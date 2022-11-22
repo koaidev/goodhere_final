@@ -48,23 +48,22 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.goodhere.user"
+        applicationId "vn.goodhere.user"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 1
-        versionName "v0.0.1-Beta"
-        multiDexEnabled true
-        ndk { debugSymbolLevel 'SYMBOL_TABLE' }
-        testInstrumentationRunnerArguments clearPackageData: 'true'
+        versionCode 4
+        versionName "v0.0.1"
+//        multiDexEnabled true
+//        ndk { debugSymbolLevel 'SYMBOL_TABLE' }
+//        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
-    configurations.all {
-        resolutionStrategy {
-            exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
-
-        }
-    }
+//    configurations.all {
+//        resolutionStrategy {
+//            exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+//
+//        }
+//    }
 
     signingConfigs {
         release {
@@ -85,15 +84,15 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/INDEX.LIST'
-    }
-    dependenciesInfo {
-        // Disables dependency metadata when building APKs.
-        includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
-        includeInBundle = false
-    }
+//    packagingOptions {
+//        exclude 'META-INF/INDEX.LIST'
+//    }
+//    dependenciesInfo {
+//        // Disables dependency metadata when building APKs.
+//        includeInApk = false
+//        // Disables dependency metadata when building Android App Bundles.
+//        includeInBundle = false
+//    }
 }
 
 flutter {

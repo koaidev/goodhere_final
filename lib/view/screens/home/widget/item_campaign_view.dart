@@ -80,14 +80,14 @@ class ItemCampaignView extends StatelessWidget {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
                                 campaignController.itemCampaignList[index].name,
-                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 2),
 
                               Text(
                                 campaignController.itemCampaignList[index].storeName,
-                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 2),
@@ -97,13 +97,13 @@ class ItemCampaignView extends StatelessWidget {
                                   Expanded(
                                     child: Text(
                                       PriceConverter.convertPrice(campaignController.itemCampaignList[index].price),
-                                      style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                     ),
                                   ),
                                   Icon(Icons.star, color: Theme.of(context).primaryColor, size: 12),
                                   Text(
                                     campaignController.itemCampaignList[index].avgRating.toStringAsFixed(1),
-                                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
+                                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
                                   ),
                                 ],
                               ),

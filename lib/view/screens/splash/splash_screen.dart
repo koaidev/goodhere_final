@@ -14,6 +14,8 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/view/base/no_internet_screen.dart';
 
+import '../../../data/api/zopay_api.dart';
+
 class SplashScreen extends StatefulWidget {
   final String orderID;
 
@@ -30,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     bool _firstTime = true;
     _onConnectivityChanged = Connectivity()
         .onConnectivityChanged
@@ -111,7 +112,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 //   // }
                 // } else {
                   print("Bắt đầu 8: ${DateTime.now()}");
-                  Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+                  // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+                  Get.offNamed(RouteHelper.getSignUpRoute());
                 // }
               }
             }

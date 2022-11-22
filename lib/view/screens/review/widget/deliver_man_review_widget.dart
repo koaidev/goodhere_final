@@ -47,7 +47,7 @@ class _DeliveryManReviewWidgetState extends State<DeliveryManReviewWidget> {
             child: Column(children: [
               Text(
                 'rate_his_service'.tr,
-                style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
+                style: robotoMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               SizedBox(
@@ -75,7 +75,7 @@ class _DeliveryManReviewWidgetState extends State<DeliveryManReviewWidget> {
 
               Text(
                 'share_your_opinion'.tr,
-                style: notoSerifMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
+                style: robotoMedium.copyWith(color: Theme.of(context).disabledColor), overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               MyTextField(

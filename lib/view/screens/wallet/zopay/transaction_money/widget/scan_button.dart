@@ -19,7 +19,7 @@ class ScanButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SIZE_OVER_LARGE),
-        color: Theme.of(context).secondaryHeaderColor,
+        color: Colors.green,
       ),
       child: CustomInkWell(
         onTap: onTap,
@@ -43,9 +43,9 @@ class ScanButton extends StatelessWidget {
                         horizontal: Dimensions.PADDING_SIZE_SMALL),
                     child: Text(
                       'scan_qr_code'.tr,
-                      style: notoSerifRegular.copyWith(
+                      style: robotoRegular.copyWith(
                           fontSize: Dimensions.FONT_SIZE_LARGE,
-                          color: ColorResources.blackColor),
+                          color: ColorResources.whiteColor),
                     ),
                   )
                 ],

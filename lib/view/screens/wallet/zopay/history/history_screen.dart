@@ -118,7 +118,7 @@ class TransactionTypeButton extends StatelessWidget {
                   vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
               child: Text(
                 text,
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                     fontSize: Dimensions.FONT_SIZE_DEFAULT,
                     color: ColorResources.blackColor
                     // : ColorResources.getPrimaryTextColor())),

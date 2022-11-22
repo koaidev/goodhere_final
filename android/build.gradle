@@ -2,7 +2,7 @@ buildscript {
     ext.kotlin_version = '1.7.20'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -16,11 +16,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
-    }
-
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << '-Xlint:-options'
+        mavenCentral()
     }
 }
 
@@ -35,3 +31,4 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

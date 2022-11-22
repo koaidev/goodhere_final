@@ -99,7 +99,7 @@ class Theme1HomeScreen extends StatelessWidget {
                         Flexible(
                           child: Text(
                             locationController.getUserAddress().address,
-                            style: notoSerifRegular.copyWith(
+                            style: robotoRegular.copyWith(
                               color:
                                   Theme.of(context).textTheme.bodyText1.color,
                               fontSize: Dimensions.fontSizeSmall,
@@ -191,7 +191,7 @@ class Theme1HomeScreen extends StatelessWidget {
                                   .showRestaurantText
                               ? 'search_food_or_restaurant'.tr
                               : 'search_item_or_store'.tr,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                             fontSize: Dimensions.fontSizeSmall,
                             color: Theme.of(context).hintColor,
                           ),
@@ -230,7 +230,7 @@ class Theme1HomeScreen extends StatelessWidget {
                                       .showRestaurantText
                                   ? 'all_restaurants'.tr
                                   : 'all_stores'.tr,
-                              style: notoSerifMedium.copyWith(
+                              style: robotoMedium.copyWith(
                                   fontSize: Dimensions.fontSizeLarge),
                             )),
                             FilterView(),

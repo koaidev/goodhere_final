@@ -76,7 +76,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
                   Text(
                     'first_name'.tr,
-                    style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                   ),
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   MyTextField(
@@ -91,7 +91,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
                   Text(
                     'last_name'.tr,
-                    style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                   ),
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   MyTextField(
@@ -106,7 +106,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
                   Text(
                     'email'.tr,
-                    style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                   ),
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   MyTextField(
@@ -121,10 +121,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   Row(children: [
                     Text(
                       'phone'.tr,
-                      style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                     ),
                     SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    Text('(${'non_changeable'.tr})', style: notoSerifRegular.copyWith(
+                    Text('(${'non_changeable'.tr})', style: robotoRegular.copyWith(
                       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).errorColor,
                     )),
                   ]),

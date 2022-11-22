@@ -39,18 +39,18 @@ class TrackDetailsView extends StatelessWidget {
       child: (!_takeAway && track.deliveryMan == null) ? Padding(
         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
         child: Text(
-          'delivery_man_not_assigned'.tr, style: notoSerifMedium, textAlign: TextAlign.center,
+          'delivery_man_not_assigned'.tr, style: robotoMedium, textAlign: TextAlign.center,
         ),
       ) : Column(children: [
 
-        Text('trip_route'.tr, style: notoSerifMedium),
+        Text('trip_route'.tr, style: robotoMedium),
         SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
         Row(children: [
 
           Expanded(flex: 3, child: Text(
             _takeAway ? track.deliveryAddress.address : track.deliveryMan.location,
-            style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
             maxLines: 5, overflow: TextOverflow.ellipsis,
           )),
           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -62,7 +62,7 @@ class TrackDetailsView extends StatelessWidget {
 
           Expanded(
             flex: 5,
-            child: (_takeAway && track.orderType != 'parcel') ? Text(track.store != null ? track.store.address : '', style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+            child: (_takeAway && track.orderType != 'parcel') ? Text(track.store != null ? track.store.address : '', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
               maxLines: 2, overflow: TextOverflow.ellipsis,
             ) : (track.orderType == 'parcel' && status == 'picked_up') ? AddressDetails(addressDetails: track.receiverDetails)
                 : AddressDetails(addressDetails: track.deliveryAddress),
@@ -84,7 +84,7 @@ class TrackDetailsView extends StatelessWidget {
             Icon(Icons.directions, size: 25, color: Theme.of(context).primaryColor),
             Text(
               'direction'.tr,
-              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
           ]),
@@ -92,7 +92,7 @@ class TrackDetailsView extends StatelessWidget {
           Image.asset(Images.route, height: 20, width: 20, color: Theme.of(context).primaryColor),
           Text(
             '$_distance ${'km'.tr}',
-            style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
           ),
           SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
         ]),
@@ -100,7 +100,7 @@ class TrackDetailsView extends StatelessWidget {
         Align(alignment: Alignment.centerLeft, child: Text(
           _takeAway ? Get.find<SplashController>().configModel.moduleConfig.module.showRestaurantText
               ? 'store'.tr : 'store'.tr : 'delivery_man'.tr,
-          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
         )),
         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
@@ -116,7 +116,7 @@ class TrackDetailsView extends StatelessWidget {
             Text(
               _takeAway ? track.store != null ? track.store.name : '' : '${track.deliveryMan.fName} ${track.deliveryMan.lName}',
               maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
+              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
             ),
             RatingBar(
               rating: _takeAway ? track.store != null ? track.store.avgRating : '' : track.deliveryMan.avgRating, size: 10,
@@ -139,7 +139,7 @@ class TrackDetailsView extends StatelessWidget {
               ),
               child: Text(
                 'call'.tr,
-                style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
+                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor),
               ),
             ),
           ),

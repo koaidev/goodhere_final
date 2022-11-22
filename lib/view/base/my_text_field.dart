@@ -53,7 +53,7 @@ class _MyTextFieldState extends State<MyTextField> {
       maxLines: widget.maxLines,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      style: notoSerifRegular,
+      style: robotoRegular,
       textInputAction: widget.inputAction,
       keyboardType: widget.inputType,
       cursorColor: Theme.of(context).primaryColor,
@@ -69,7 +69,7 @@ class _MyTextFieldState extends State<MyTextField> {
         filled: true,
         fillColor: widget.fillColor != null ? widget.fillColor : Theme.of(context).cardColor,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), borderSide: BorderSide.none),
-        hintStyle: notoSerifRegular.copyWith(color: Theme.of(context).hintColor),
+        hintStyle: robotoRegular.copyWith(color: Theme.of(context).hintColor),
         suffixIcon: widget.isPassword ? IconButton(
           icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
           onPressed: _toggle,

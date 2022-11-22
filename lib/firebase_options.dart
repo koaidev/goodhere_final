@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1sswvFkexF72r2-UWCwPM1vPmW_QHo84',
-    appId: '1:977332047026:android:b6c661cb6008e5a72f4dab',
+    appId: '1:977332047026:android:a01fd47e4bcb6a2a2f4dab',
     messagingSenderId: '977332047026',
     projectId: 'zopay-e17da',
     storageBucket: 'zopay-e17da.appspot.com',
@@ -70,7 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '977332047026',
     projectId: 'zopay-e17da',
     storageBucket: 'zopay-e17da.appspot.com',
-    androidClientId: '977332047026-esa4oitmeotcg5sosmapno8lperpthor.apps.googleusercontent.com',
+    androidClientId: '977332047026-3edsjk9tjp48udc2qppuppi8aql1tjj9.apps.googleusercontent.com',
     iosClientId: '977332047026-rvfl60ak6ouhrb3rirm5koond7ts20vv.apps.googleusercontent.com',
     iosBundleId: 'com.sixamtech.sixamMart',
   );

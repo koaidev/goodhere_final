@@ -79,7 +79,7 @@ class StoreDescriptionView extends StatelessWidget {
                       child: Text(
                         'closed_now'.tr,
                         textAlign: TextAlign.center,
-                        style: notoSerifRegular.copyWith(
+                        style: robotoRegular.copyWith(
                             color: Colors.white,
                             fontSize: Dimensions.fontSizeSmall),
                       ),
@@ -95,7 +95,7 @@ class StoreDescriptionView extends StatelessWidget {
             Expanded(
                 child: Text(
               store.name,
-              style: notoSerifMedium.copyWith(
+              style: robotoMedium.copyWith(
                   fontSize: Dimensions.fontSizeLarge, color: _textColor),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -159,7 +159,7 @@ class StoreDescriptionView extends StatelessWidget {
             children: [
               Text(
                 "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                style: notoSerifMedium.copyWith(
+                style: robotoMedium.copyWith(
                     fontSize: Dimensions.fontSizeExtraSmall,
                     color: Theme.of(context).primaryColor),
                 maxLines: 1,
@@ -168,7 +168,7 @@ class StoreDescriptionView extends StatelessWidget {
               Expanded(
                   child: Text(
                 store.address ?? "",
-                style: notoSerifMedium.copyWith(
+                style: robotoMedium.copyWith(
                     fontSize: Dimensions.fontSizeExtraSmall,
                     color: Theme.of(context).disabledColor),
                 maxLines: 1,
@@ -182,14 +182,14 @@ class StoreDescriptionView extends StatelessWidget {
                   : 0),
           Row(children: [
             Text('minimum_order'.tr,
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                   fontSize: Dimensions.fontSizeExtraSmall,
                   color: Theme.of(context).disabledColor,
                 )),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
               PriceConverter.convertPrice(store.minimumOrder),
-              style: notoSerifMedium.copyWith(
+              style: robotoMedium.copyWith(
                   fontSize: Dimensions.fontSizeExtraSmall,
                   color: Theme.of(context).primaryColor),
             ),
@@ -210,14 +210,14 @@ class StoreDescriptionView extends StatelessWidget {
               SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
               Text(
                 store.avgRating.toStringAsFixed(1),
-                style: notoSerifMedium.copyWith(
+                style: robotoMedium.copyWith(
                     fontSize: Dimensions.fontSizeSmall, color: _textColor),
               ),
             ]),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
               '${store.ratingCount} ${'ratings'.tr}',
-              style: notoSerifRegular.copyWith(
+              style: robotoRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor),
             ),
           ]),
@@ -241,7 +241,7 @@ class StoreDescriptionView extends StatelessWidget {
                 color: Theme.of(context).primaryColor, size: 20),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text('location'.tr,
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall, color: _textColor)),
           ]),
         ),
@@ -256,13 +256,13 @@ class StoreDescriptionView extends StatelessWidget {
                       "VN")
                   ? store.deliveryTime
                   : timeVN ?? store.deliveryTime,
-              style: notoSerifMedium.copyWith(
+              style: robotoMedium.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor),
             ),
           ]),
           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
           Text('delivery_time'.tr,
-              style: notoSerifRegular.copyWith(
+              style: robotoRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall, color: _textColor)),
         ]),
         (store.delivery && store.freeDelivery)
@@ -274,7 +274,7 @@ class StoreDescriptionView extends StatelessWidget {
                     color: Theme.of(context).primaryColor, size: 20),
                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                 Text('free_delivery'.tr,
-                    style: notoSerifRegular.copyWith(
+                    style: robotoRegular.copyWith(
                         fontSize: Dimensions.fontSizeSmall, color: _textColor)),
               ])
             : SizedBox(),

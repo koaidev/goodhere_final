@@ -1,20 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-class TransactionType{
+
+class TransactionType {
   static const String TYPE_NEED_HANDLE = "need_handle";
   static const String TYPE_PAYMENT = "payment";
   static const String TYPE_TRANSFER = "transfer";
 }
+
 class TransactionZopay {
   String transactionId; //datecreate+ random 3 ký tự trong bảng chữ cái
   String uidSender;
   String uidReceiver;
+  String nameReceiver;
+  String phoneReceiver;
   int amount;
   int createdAt;
   int completeAt;
-  String status;/// need_handle||denied||success||fail
+  String status;
+
+  /// need_handle||denied||success||fail
   String message;
-  String typeTransaction;/// payment||transfer
+  String typeTransaction;
+
+  /// payment||transfer
 
   TransactionZopay(
       {@required this.transactionId,
@@ -22,13 +30,15 @@ class TransactionZopay {
       @required this.uidReceiver,
       @required this.amount,
       @required this.createdAt,
+      @required this.phoneReceiver,
+      @required this.nameReceiver,
       this.completeAt = 0,
       this.status = TransactionType.TYPE_NEED_HANDLE,
       this.message,
       @required this.typeTransaction});
 
   TransactionZopay.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions options){
+      SnapshotOptions options) {
     final json = snapshot.data();
 
     this.transactionId = json['transaction_id'];
@@ -40,10 +50,12 @@ class TransactionZopay {
     this.status = json['status'];
     this.message = json['message'];
     this.typeTransaction = json['type_transaction'];
+    this.nameReceiver = json['name_receiver'];
+    this.phoneReceiver = json['phone_receiver'];
   }
 
   Map<String, dynamic> toJson() {
-    return{
+    return {
       'transaction_id': transactionId,
       'uid_sender': uidSender,
       'uid_receiver': uidReceiver,
@@ -52,7 +64,9 @@ class TransactionZopay {
       'complete_at': completeAt,
       'status': status,
       'message': message,
-      'type_transaction': typeTransaction
+      'type_transaction': typeTransaction,
+      'name_receiver': nameReceiver,
+      'phone_receiver': phoneReceiver
     };
   }
 }

@@ -27,7 +27,7 @@ class CartWidget extends StatelessWidget {
             ),
             child: Text(
               cartController.cartList.length.toString(),
-              style: notoSerifRegular.copyWith(
+              style: robotoRegular.copyWith(
                 fontSize: size < 20 ? size/3 : size/3.8,
                 color: fromStore ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
               ),

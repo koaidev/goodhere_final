@@ -52,6 +52,7 @@ import 'package:sixam_mart/data/repository/wallet_repo.dart';
 import 'package:sixam_mart/data/repository/wishlist_repo.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
+import '../controller/zopay/bootom_slider_controller.dart';
 import '../controller/zopay/camera_screen_controller.dart';
 import '../controller/zopay/home_controller.dart';
 import '../controller/zopay/menu_controller.dart';
@@ -94,6 +95,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => CampaignRepo(apiClient: Get.find()));
   Get.lazyPut(() => ParcelRepo(apiClient: Get.find()));
   Get.lazyPut(() => WalletRepo(apiClient: Get.find()));
+  Get.lazyPut(() => BottomSliderController());
 
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
@@ -125,12 +127,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => ScreenShootWidgetController());
   // Get.lazyPut(() => BottomSliderController());
 
-  if (FirebaseAuth.instance.currentUser != null) {
-    ApiZopay().getUserWallet().get().then((value) {
-      final UserWallet walletUser = value.data();
-      Get.lazyPut(() => walletUser);
-    }).catchError((onError) => null);
-  }
+  Get.lazyPut(() => ApiZopay());
 
   if (await Permission.location.isGranted) {
     final newLocalData = await Geolocator.getCurrentPosition(

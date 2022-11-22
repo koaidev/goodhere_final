@@ -24,7 +24,7 @@ class ShowAmountView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 vertical: Dimensions.PADDING_SIZE_DEFAULT),
             child: Text('amount_in_bdt'.tr,
-                style: notoSerifMedium.copyWith(
+                style: robotoMedium.copyWith(
                     fontSize: Dimensions.FONT_SIZE_LARGE,
                     color: ColorResources.getGreyBaseGray1())),
           ),
@@ -32,8 +32,8 @@ class ShowAmountView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('199.000',
-                    style: notoSerifMedium.copyWith(
+                Text(amountText,
+                    style: robotoMedium.copyWith(
                         fontSize: Dimensions.FONT_SIZE_LARGE)),
                 InkWell(
                     onTap: onTap,

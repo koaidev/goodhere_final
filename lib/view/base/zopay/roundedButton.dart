@@ -31,7 +31,7 @@ class RoundedButton extends StatelessWidget {
                   : Dimensions.PADDING_SIZE_SMALL),
           child: Text(
             buttonText,
-            style: notoSerifRegular.copyWith(
+            style: robotoRegular.copyWith(
               color: Theme.of(context).primaryColor,
               fontSize: Dimensions.FONT_SIZE_DEFAULT,
             ),

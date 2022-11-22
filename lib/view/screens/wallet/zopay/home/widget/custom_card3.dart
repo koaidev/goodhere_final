@@ -25,7 +25,7 @@ class CustomCard3 extends StatelessWidget {
             Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
 
               child: Text(text, textAlign: TextAlign.center, maxLines: 2,
-                style: notoSerifRegular.copyWith(fontSize: Dimensions.FONT_SIZE_DEFAULT, color: ColorResources.whiteColor,
+                style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_DEFAULT, color: ColorResources.whiteColor,
                 ),
               ),
             )

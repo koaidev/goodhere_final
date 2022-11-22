@@ -64,19 +64,19 @@ class ShareStatementWidgetState extends State<ShareStatementWidget> {
                       child: Image.asset(Images.success_icon)),
                   Center(
                       child: Text('successful'.tr,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
                               color: ColorResources.getPrimaryColor()))),
                   const SizedBox(
                     height: Dimensions.PADDING_SIZE_DEFAULT,
                   ),
                   Text('100.000 Test',
-                      style: notoSerifBold.copyWith(
+                      style: robotoBold.copyWith(
                           fontSize: 40,
                           color: ColorResources.getPrimaryColor())),
                   widget.transactionType != 'request_money'
                       ? Text('charge'.tr + ' ' + widget.charge,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_LARGE,
                               color: ColorResources.getPrimaryColor()))
                       : SizedBox.shrink(),
@@ -107,20 +107,20 @@ class ShareStatementWidgetState extends State<ShareStatementWidget> {
                           : widget.transactionType == 'cash_out'
                               ? 'cash_out'.tr
                               : 'request_money'.tr,
-                      style: notoSerifRegular.copyWith(
+                      style: robotoRegular.copyWith(
                           fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
                   const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                   Center(
                       child: Text(
                           '${widget.contactModel.name == null ? '' : widget.contactModel.name} (${widget.contactModel.phoneNumber})',
                           textAlign: TextAlign.center,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_DEFAULT,
                               color: ColorResources.getPrimaryColor()))),
                   const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                   widget.trxId != null
                       ? Text('trx_id'.tr + ': ${widget.trxId}',
-                          style: notoSerifMedium.copyWith(
+                          style: robotoMedium.copyWith(
                               fontSize: Dimensions.FONT_SIZE_DEFAULT))
                       : SizedBox(),
                   const SizedBox(
@@ -135,7 +135,7 @@ class ShareStatementWidgetState extends State<ShareStatementWidget> {
                             horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         child: Text(
                             'Good Here',
-                            style: notoSerifMedium.copyWith(
+                            style: robotoMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_OVER_OVER_LARGE,
                                 color: ColorResources.getPrimaryColor())),
                       ),

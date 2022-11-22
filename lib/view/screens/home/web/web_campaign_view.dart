@@ -26,7 +26,7 @@ class WebCampaignView extends StatelessWidget {
 
         Padding(
           padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
-          child: Text('campaigns'.tr, style: notoSerifMedium.copyWith(fontSize: 24)),
+          child: Text('campaigns'.tr, style: robotoMedium.copyWith(fontSize: 24)),
         ),
 
         campaignController.itemCampaignList != null ? GridView.builder(
@@ -54,7 +54,7 @@ class WebCampaignView extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '+${campaignController.itemCampaignList.length-3}\n${'more'.tr}', textAlign: TextAlign.center,
-                    style: notoSerifBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
+                    style: robotoBold.copyWith(fontSize: 24, color: Theme.of(context).cardColor),
                   ),
                 ),
               );
@@ -102,14 +102,14 @@ class WebCampaignView extends StatelessWidget {
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text(
                           campaignController.itemCampaignList[index].name,
-                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                           maxLines: 2, overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                         Text(
                           campaignController.itemCampaignList[index].storeName,
-                          style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -119,13 +119,13 @@ class WebCampaignView extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 PriceConverter.convertPrice(campaignController.itemCampaignList[index].price),
-                                style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
                               ),
                             ),
                             Icon(Icons.star, color: Theme.of(context).primaryColor, size: 12),
                             Text(
                               campaignController.itemCampaignList[index].avgRating.toStringAsFixed(1),
-                              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                             ),
                           ],
                         ),

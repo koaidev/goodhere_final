@@ -33,7 +33,7 @@ class DiscountTag extends StatelessWidget {
         child: Text(
           discount > 0 ? '$discount${discountType == 'percent' ? '%'
               : Get.find<SplashController>().configModel.currencySymbol} ${'off'.tr}' : 'free_delivery'.tr,
-          style: notoSerifMedium.copyWith(
+          style: robotoMedium.copyWith(
             color: Colors.white,
             fontSize: fontSize != null ? fontSize : ResponsiveHelper.isMobile(context) ? 8 : 12,
           ),

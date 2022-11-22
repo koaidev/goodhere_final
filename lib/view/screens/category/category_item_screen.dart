@@ -133,7 +133,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                             hintText: 'Search...',
                             border: InputBorder.none,
                           ),
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.fontSizeLarge),
                           onSubmitted: (String query) =>
                               catController.searchData(
@@ -149,7 +149,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                           ),
                         )
                       : Text(widget.categoryName,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                             fontSize: Dimensions.fontSizeLarge,
                             color: Theme.of(context).textTheme.bodyText1.color,
                           )),
@@ -256,10 +256,10 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                                 Text(
                                   catController.subCategoryList[index].name,
                                   style: index == catController.subCategoryIndex
-                                      ? notoSerifMedium.copyWith(
+                                      ? robotoMedium.copyWith(
                                           fontSize: Dimensions.fontSizeSmall,
                                           color: Theme.of(context).primaryColor)
-                                      : notoSerifRegular.copyWith(
+                                      : robotoRegular.copyWith(
                                           fontSize: Dimensions.fontSizeSmall,
                                           color:
                                               Theme.of(context).disabledColor),
@@ -291,10 +291,10 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                   indicatorWeight: 3,
                   labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: Theme.of(context).disabledColor,
-                  unselectedLabelStyle: notoSerifRegular.copyWith(
+                  unselectedLabelStyle: robotoRegular.copyWith(
                       color: Theme.of(context).disabledColor,
                       fontSize: Dimensions.fontSizeSmall),
-                  labelStyle: notoSerifBold.copyWith(
+                  labelStyle: robotoBold.copyWith(
                       fontSize: Dimensions.fontSizeSmall,
                       color: Theme.of(context).primaryColor),
                   tabs: [

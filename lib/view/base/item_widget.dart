@@ -157,7 +157,7 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         isStore ? store.name : item.name,
-                        style: notoSerifMedium.copyWith(
+                        style: robotoMedium.copyWith(
                             fontSize: Dimensions.fontSizeSmall),
                         maxLines: _desktop ? 2 : 1,
                         overflow: TextOverflow.ellipsis,
@@ -173,7 +173,7 @@ class ItemWidget extends StatelessWidget {
                                 if(isStore)
                                   Text(
                                     "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                                    style: notoSerifMedium.copyWith(
+                                    style: robotoMedium.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall,
                                         color: Theme.of(context).primaryColor),
                                     maxLines: 1,
@@ -183,7 +183,7 @@ class ItemWidget extends StatelessWidget {
                                   Expanded(
                                       child: Text(
                                         store.address ?? "",
-                                        style: notoSerifMedium.copyWith(
+                                        style: robotoMedium.copyWith(
                                             fontSize: Dimensions.fontSizeExtraSmall,
                                             color: Theme.of(context).disabledColor),
                                         maxLines: 1,
@@ -227,7 +227,7 @@ class ItemWidget extends StatelessWidget {
                                 PriceConverter.convertPrice(item.price,
                                     discount: _discount,
                                     discountType: _discountType),
-                                style: notoSerifMedium.copyWith(
+                                style: robotoMedium.copyWith(
                                     fontSize: Dimensions.fontSizeSmall),
                               ),
                               SizedBox(
@@ -237,7 +237,7 @@ class ItemWidget extends StatelessWidget {
                               _discount > 0
                                   ? Text(
                                       PriceConverter.convertPrice(item.price),
-                                      style: notoSerifMedium.copyWith(
+                                      style: robotoMedium.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall,
                                         color: Theme.of(context).disabledColor,
                                         decoration: TextDecoration.lineThrough,

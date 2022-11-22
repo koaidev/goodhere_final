@@ -177,13 +177,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Center(child: Text(
                   'add_the_location_correctly'.tr,
-                  style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeExtraSmall),
+                  style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeExtraSmall),
                 )),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                 Text(
                   'label_as'.tr,
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 SizedBox(height: 50, child: ListView.builder(
@@ -210,7 +210,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         Text(
                           locationController.addressTypeList[index].tr,
-                          style: notoSerifRegular.copyWith(color: locationController.addressTypeIndex == index
+                          style: robotoRegular.copyWith(color: locationController.addressTypeIndex == index
                               ? Theme.of(context).textTheme.bodyText1.color : Theme.of(context).disabledColor),
                         ),
                       ]),
@@ -221,7 +221,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   'delivery_address'.tr,
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(
@@ -236,7 +236,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   'contact_person_name'.tr,
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(
@@ -251,7 +251,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   'contact_person_number'.tr,
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(
@@ -265,7 +265,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   "${'street_number'.tr} (${'optional'.tr})",
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(
@@ -279,7 +279,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   "${'house'.tr} (${'optional'.tr})",
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(
@@ -293,7 +293,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 Text(
                   "${'floor'.tr} (${'optional'.tr})",
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                 MyTextField(

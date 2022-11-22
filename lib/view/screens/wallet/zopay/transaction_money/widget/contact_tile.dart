@@ -30,12 +30,12 @@ class ContactTile extends StatelessWidget {
             children: [
               Text(
                 "Khánh",
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                     fontSize: Dimensions.FONT_SIZE_LARGE),
               ),
               Text(
                 "0394998716",
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                     fontSize: Dimensions.FONT_SIZE_LARGE,
                     color: ColorResources.getGreyBaseGray1()),
               ),

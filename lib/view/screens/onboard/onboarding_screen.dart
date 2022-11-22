@@ -46,7 +46,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
                   Text(
                     onBoardingController.onBoardingList[index].title,
-                    style: notoSerifMedium.copyWith(fontSize: context.height*0.022),
+                    style: robotoMedium.copyWith(fontSize: context.height*0.022),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: context.height*0.025),
@@ -55,7 +55,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                     child: Text(
                       onBoardingController.onBoardingList[index].description,
-                      style: notoSerifRegular.copyWith(fontSize: context.height*0.015, color: Theme.of(context).disabledColor),
+                      style: robotoRegular.copyWith(fontSize: context.height*0.015, color: Theme.of(context).disabledColor),
                       textAlign: TextAlign.center,
                     ),
                   ),

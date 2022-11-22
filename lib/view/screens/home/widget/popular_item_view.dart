@@ -131,7 +131,7 @@ class PopularItemView extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     _itemList[index].name,
-                                                    style: notoSerifMedium
+                                                    style: robotoMedium
                                                         .copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeSmall),
@@ -144,7 +144,7 @@ class PopularItemView extends StatelessWidget {
                                                           .PADDING_SIZE_EXTRA_SMALL),
                                                   Text(
                                                     _itemList[index].storeName,
-                                                    style: notoSerifMedium.copyWith(
+                                                    style: robotoMedium.copyWith(
                                                         fontSize: Dimensions
                                                             .fontSizeExtraSmall,
                                                         color: Theme.of(context)
@@ -183,7 +183,7 @@ class PopularItemView extends StatelessWidget {
                                                                             index]
                                                                         .discountType,
                                                               ),
-                                                              style: notoSerifBold
+                                                              style: robotoBold
                                                                   .copyWith(
                                                                       fontSize:
                                                                           Dimensions
@@ -204,7 +204,7 @@ class PopularItemView extends StatelessWidget {
                                                                     PriceConverter.convertPrice(
                                                                         itemController
                                                                             .getStartingPrice(_itemList[index])),
-                                                                    style: notoSerifMedium
+                                                                    style: robotoMedium
                                                                         .copyWith(
                                                                       fontSize:
                                                                           Dimensions

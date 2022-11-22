@@ -1,13 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/transaction_money/widget/scan_button.dart';
+import 'package:sixam_mart/view/screens/wallet/zopay/transaction_money/widget/transaction_money_balance_input.dart';
 
+import '../../../../../data/api/zopay_api.dart';
+import '../../../../../data/model/zopay/contact_model.dart';
+import '../../../../../data/model/zopay/response_zopay.dart';
+import '../../../../../data/model/zopay/transaction_zopay.dart';
+import '../../../../../data/model/zopay/user_info.dart';
 import '../../../../../util/color_resources.dart';
 import '../../../../../util/dimensions.dart';
 import '../../../../../util/images.dart';
+import '../../../../base/custom_snackbar.dart';
 import '../../../../base/zopay/custom_app_bar.dart';
 import '../../../../base/zopay/custom_ink_well.dart';
+import '../../../checkout/checkout_screen.dart';
 import '../selfie_capture/camera_screen.dart';
 
 class TransactionMoneyScreen extends StatefulWidget {
@@ -25,13 +35,8 @@ class TransactionMoneyScreen extends StatefulWidget {
 
 class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
   ScrollController _scrollController = ScrollController();
-  String _countryCode = '';
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  ContactModel userReceiver;
+  ResponseZopay responseZopay;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +66,23 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                       Expanded(
                           child: TextField(
                               controller: _searchController,
-                              onChanged: (inputText) {},
+                              onChanged: (inputText) async {
+                                if (inputText.isNotEmpty) {
+                                  var _isValid = false;
+                                  try {
+                                    PhoneNumber phoneNumber =
+                                        await PhoneNumberUtil()
+                                            .parse("+84$inputText");
+                                    _isValid = true;
+                                  } catch (e) {}
+                                  if (_isValid && inputText!=widget.phoneNumber) {
+                                    await findUserViaPhone(inputText);
+                                    setState(() {});
+                                  }else{
+
+                                  }
+                                }
+                              },
                               keyboardType: widget.transactionType == 'cash_out'
                                   ? TextInputType.phone
                                   : TextInputType.name,
@@ -69,10 +90,8 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
                                     top: Dimensions.PADDING_SIZE_DEFAULT),
-                                hintText: widget.transactionType == 'cash_out'
-                                    ? 'Enter Agent Number'
-                                    : 'enter_name_or_number'.tr,
-                                hintStyle: notoSerifRegular.copyWith(
+                                hintText: 'Nhập số điện thoại người nhận',
+                                hintStyle: robotoRegular.copyWith(
                                     fontSize: Dimensions.FONT_SIZE_LARGE,
                                     color: ColorResources.getGreyBaseGray1()),
                               ))),
@@ -99,16 +118,38 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                     transactionType: widget.transactionType,
                                   ))),
                           InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                if (_searchController.text.isEmpty) {
+                                  showCustomSnackBar('input_field_is_empty'.tr,
+                                      isError: true);
+                                } else {
+                                  if (widget.transactionType == "cash_out") {
+                                    Get.to(() => TransactionMoneyBalanceInput(
+                                        transactionType: widget.transactionType,
+                                        contactModel: ContactModel(
+                                            phoneNumber:
+                                                userReceiver.phoneNumber,
+                                            name: userReceiver.name,
+                                            avatarImage: userReceiver.avatarImage)));
+                                  } else {
+                                    Get.to(() => TransactionMoneyBalanceInput(
+                                        transactionType: widget.transactionType,
+                                        contactModel: ContactModel(
+                                            phoneNumber:
+                                                userReceiver.phoneNumber,
+                                            name: userReceiver.name,
+                                            avatarImage: userReceiver.avatarImage)));
+                                  }
+                                }
+                              },
                               child: Container(
                                   width: Dimensions.RADIUS_SIZE_OVER_LARGE,
                                   height: Dimensions.RADIUS_SIZE_OVER_LARGE,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Theme.of(context)
-                                          .secondaryHeaderColor),
+                                      color: Colors.green),
                                   child: Icon(Icons.arrow_forward,
-                                      color: ColorResources.blackColor))),
+                                      color: ColorResources.whiteColor))),
                         ],
                       ),
                     ),
@@ -130,20 +171,27 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                         padding: const EdgeInsets.only(
                             bottom: Dimensions.PADDING_SIZE_SMALL),
                         child: Text('suggested'.tr,
-                            style: notoSerifMedium.copyWith(
+                            style: robotoMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_LARGE)),
                       ),
                       Container(
                         height: 80.0,
                         child: ListView.builder(
-                            itemCount: 0,
+                            itemCount: userReceiver != null ? 1 : 0,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => CustomInkWell(
                                   radius: Dimensions.RADIUS_SIZE_VERY_SMALL,
                                   highlightColor:
                                       ColorResources.getPrimaryTextColor()
                                           .withOpacity(0.3),
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.to(() => TransactionMoneyBalanceInput(transactionType: widget.transactionType,
+                                        contactModel: ContactModel(
+                                            phoneNumber: userReceiver.phoneNumber,
+                                            name: userReceiver.name,
+                                            avatarImage: userReceiver.avatarImage))
+                                    );
+                                  },
                                   child: Container(
                                     margin: EdgeInsets.only(
                                         right: Dimensions.PADDING_SIZE_SMALL),
@@ -155,16 +203,9 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                           width: Dimensions
                                               .RADIUS_SIZE_EXTRA_EXTRA_LARGE,
                                           child: ClipRRect(
-                                            child: FadeInImage.assetNetwork(
+                                            child: Image.asset(
+                                              Images.avatar,
                                               fit: BoxFit.cover,
-                                              image: Images.avatar,
-                                              placeholder: Images.avatar,
-                                              imageErrorBuilder:
-                                                  (context, url, error) =>
-                                                      Image.asset(
-                                                Images.avatar,
-                                                fit: BoxFit.cover,
-                                              ),
                                             ),
                                             borderRadius: BorderRadius.circular(
                                                 Dimensions
@@ -175,8 +216,11 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
                                           padding: const EdgeInsets.only(
                                               top: Dimensions
                                                   .PADDING_SIZE_SMALL),
-                                          child: Text("ABC test",
-                                              style: notoSerifRegular.copyWith(
+                                          child: Text(
+                                              userReceiver != null
+                                                  ? "${userReceiver.name} - ${userReceiver.phoneNumber}"
+                                                  : "",
+                                              style: robotoRegular.copyWith(
                                                   fontSize: Dimensions
                                                       .FONT_SIZE_SMALL)),
                                         )
@@ -467,6 +511,25 @@ class _TransactionMoneyScreenState extends State<TransactionMoneyScreen> {
         ],
       ),
     );
+  }
+
+  Future<ResponseZopay> findUserViaPhone(String phoneNumber) async {
+    final response = await ApiZopay()
+        .getPublicUserCollection()
+        .where('phone_number', isEqualTo: phoneNumber)
+        .limit(1)
+        .get();
+    if (response.docs.isNotEmpty) {
+      userReceiver = ContactModel.fromJson(
+          response.docs.first as DocumentSnapshot<Map<String, dynamic>>);
+      final responseZopay = ResponseZopay(status: ApiZopay.STATUS_SUCCESS);
+      return responseZopay;
+    } else {
+      final responseZopay = ResponseZopay(
+          status: ApiZopay.STATUS_FAIL,
+          message: "Số điện thoại chưa tham gia Zopay");
+      return responseZopay;
+    }
   }
 }
 

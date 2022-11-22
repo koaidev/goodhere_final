@@ -13,36 +13,36 @@ class DetailsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-      Text(title, style: notoSerifMedium),
+      Text(title, style: robotoMedium),
       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
       Text(
         address.contactPersonName ?? '',
-        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
       ),
 
       Text(
         address.address ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
       ),
 
       Wrap(children: [
         (address.streetNumber != null && address.streetNumber.isNotEmpty) ? Text('street_number'.tr+ ': ' + address.streetNumber + ', ',
-          maxLines: 1, overflow: TextOverflow.ellipsis, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+          maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
         ) : SizedBox(),
 
         (address.house != null && address.house.isNotEmpty) ? Text('house'.tr +': ' + address.house + ', ',
-          maxLines: 1, overflow: TextOverflow.ellipsis, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+          maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
         ) : SizedBox(),
 
         (address.floor != null && address.floor.isNotEmpty) ? Text('floor'.tr+': ' + address.floor,
-          maxLines: 1, overflow: TextOverflow.ellipsis, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+          maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
         ) : SizedBox(),
       ]),
 
       Text(
         address.contactPersonNumber ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
       ),
 
     ]);

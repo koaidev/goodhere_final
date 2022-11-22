@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 Text(
                   _isLoggedIn ? '${userController.userInfoModel.lName??""} ${userController.userInfoModel.fName}' : 'guest'.tr,
-                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                 ),
                 SizedBox(height: 30),
 
@@ -110,11 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }) : SizedBox(),
                 SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 0),
 
-                // _isLoggedIn ? ProfileButton(icon: Icons.lock, title: 'change_password'.tr, onTap: () {
-                //   Get.toNamed(RouteHelper.getResetPasswordRoute('', '', 'password-change'));
-                // }) : SizedBox(),
-                SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 0),
-
                 ProfileButton(icon: Icons.edit, title: 'edit_profile'.tr, onTap: () {
                   Get.toNamed(RouteHelper.getUpdateProfileRoute());
                 }),
@@ -133,9 +128,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_LARGE : 0),
 
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text('${'version'.tr}:', style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
+                  Text('${'version'.tr}:', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(AppConstants.APP_VERSION.toString(), style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
+                  Text(AppConstants.APP_VERSION.toString(), style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
                 ]),
 
               ]),

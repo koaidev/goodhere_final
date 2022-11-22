@@ -29,7 +29,7 @@ class PurposeWidget extends StatelessWidget {
           child: Text(
             'select_your_purpose'.tr,
             style:
-                notoSerifRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE),
+                robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE),
           ),
         ),
         Container(

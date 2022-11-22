@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //for zp
 class UserInfoZopay {
@@ -15,17 +14,18 @@ class UserInfoZopay {
   String verifyStatus;
   String qrCode;
 
-  UserInfoZopay({@required this.name,
-    @required this.phone,
-    this.email,
-    @required this.pin,
-    @required this.referralCode,
-    this.role="user",
-    @required this.uid,
-    this.fcmToken,
-    this.image,
-    this.verifyStatus="0",
-    @required this.qrCode});
+  UserInfoZopay(
+      {this.name,
+      this.phone,
+      this.email,
+      this.pin,
+      this.referralCode,
+      this.role = "user",
+      this.uid,
+      this.fcmToken,
+      this.image,
+      this.verifyStatus = "0",
+      this.qrCode});
 
   UserInfoZopay.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions options) {

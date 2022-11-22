@@ -27,7 +27,7 @@ class ProfileButton extends StatelessWidget {
         child: Row(children: [
           Icon(icon, size: 25),
           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-          Expanded(child: Text(title, style: notoSerifRegular)),
+          Expanded(child: Text(title, style: robotoRegular)),
           isButtonActive != null ? Switch(
             value: isButtonActive,
             onChanged: (bool isActive) => onTap(),

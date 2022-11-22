@@ -79,11 +79,11 @@ class _WebLandingPageState extends State<WebLandingPage> {
           child: Row(children: [
             SizedBox(width: 40),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(AppConstants.APP_NAME, style: notoSerifBold.copyWith(fontSize: 35)),
+              Text(AppConstants.APP_NAME, style: robotoBold.copyWith(fontSize: 35)),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               Text(
                 'more_than_just_a_reliable_ecommerce_platform'.tr,
-                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
+                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
               ),
             ])),
             Expanded(child: ClipPath(clipper: CustomPath(isRtl: _isRtl), child: ClipRRect(
@@ -122,7 +122,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                     child: Text(
                       'choose_your_location_to_start_shopping'.tr, textAlign: TextAlign.center,
-                      style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                     ),
                   ),
                 ]),
@@ -227,11 +227,11 @@ class _WebLandingPageState extends State<WebLandingPage> {
 
         Text(
           'your_ecommerce_venture_starts_here'.tr,
-          style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).primaryColor),
+          style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).primaryColor),
         ),
         Text(
           'enjoy_all_services_in_one_platform'.tr,
-          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
+          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
         ),
         SizedBox(height: 40),
 
@@ -257,7 +257,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                       SizedBox(height: 80),
                       Text(
                         splashController.moduleList[index].moduleName,
-                        style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeDefault), textAlign: TextAlign.center,
+                        style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault), textAlign: TextAlign.center,
                       ),
                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                       Expanded(child: SingleChildScrollView(
@@ -335,12 +335,12 @@ class _WebLandingPageState extends State<WebLandingPage> {
           Column(children: [
             Text(
               'download_app_to_enjoy_more'.tr, textAlign: TextAlign.center,
-              style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
             Text(
               'download_our_app_from'.tr, textAlign: TextAlign.center,
-              style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+              style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
             Row(children: [

@@ -88,12 +88,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                     searchController.historyList.length > 0 ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      Text('history'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                      Text('history'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                       InkWell(
                         onTap: () => searchController.clearSearchAddress(),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL, horizontal: 4),
-                          child: Text('clear_all'.tr, style: notoSerifRegular.copyWith(
+                          child: Text('clear_all'.tr, style: robotoRegular.copyWith(
                             fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
                           )),
                         ),
@@ -114,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                   child: Text(
                                     searchController.historyList[index],
-                                    style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor),
+                                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
                                     maxLines: 1, overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -135,7 +135,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                     (_isLoggedIn && searchController.suggestedItemList != null) ? Text(
-                      'suggestions'.tr, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                      'suggestions'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                     ) : SizedBox(),
                     SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                     (_isLoggedIn && searchController.suggestedItemList != null) ? searchController.suggestedItemList.length > 0 ?  GridView.builder(
@@ -169,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
                               Expanded(child: Text(
                                 searchController.suggestedItemList[index].name,
-                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 2, overflow: TextOverflow.ellipsis,
                               )),
                             ]),

@@ -48,7 +48,7 @@ class LanguageWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-              Text(languageModel.languageName, style: notoSerifRegular),
+              Text(languageModel.languageName, style: robotoRegular),
             ]),
           ),
 

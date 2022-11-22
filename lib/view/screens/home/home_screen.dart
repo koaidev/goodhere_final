@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       locationController
                                                           .getUserAddress()
                                                           .address,
-                                                      style: notoSerifRegular
+                                                      style: robotoRegular
                                                           .copyWith(
                                                         color: Theme.of(context)
                                                             .textTheme
@@ -401,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Expanded(
                                                       child: Text(
                                                     textSearch,
-                                                    style: notoSerifRegular
+                                                    style: robotoRegular
                                                         .copyWith(
                                                       fontSize: Dimensions
                                                           .fontSizeSmall,
@@ -455,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ? 'all_restaurants'
                                                                 .tr
                                                             : 'all_stores'.tr,
-                                                        style: notoSerifMedium.copyWith(
+                                                        style: robotoMedium.copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeLarge),
                                                       )),

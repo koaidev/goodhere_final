@@ -28,7 +28,7 @@ class ForPersonWidget extends StatelessWidget {
                 left: Dimensions.PADDING_SIZE_LARGE,
                 right: Dimensions.PADDING_SIZE_LARGE),
             child: Text('for_person'.tr,
-                style: notoSerifBold.copyWith(
+                style: robotoBold.copyWith(
                     fontSize: Dimensions.FONT_SIZE_LARGE,
                     color: ColorResources.getGreyBaseGray1())),
           ),

@@ -63,7 +63,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   widget.campaign.title,
-                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white),
+                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white),
                 ),
                 background: CustomImage(
                   fit: BoxFit.cover,
@@ -95,39 +95,39 @@ class _CampaignScreenState extends State<CampaignScreen> {
                       SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text(
-                          campaignController.campaign.title, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                          campaignController.campaign.title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                           maxLines: 1, overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           campaignController.campaign.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
-                          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                         ),
                       ])),
                     ]),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                     campaignController.campaign.startTime != null ? Row(children: [
-                      Text('campaign_schedule'.tr, style: notoSerifRegular.copyWith(
+                      Text('campaign_schedule'.tr, style: robotoRegular.copyWith(
                         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
                       )),
                       SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       Text(
                         '${DateConverter.stringToLocalDateOnly(campaignController.campaign.availableDateStarts)}'
                             ' - ${DateConverter.stringToLocalDateOnly(campaignController.campaign.availableDateEnds)}',
-                        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
+                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
                       ),
                     ]) : SizedBox(),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                     campaignController.campaign.startTime != null ? Row(children: [
-                      Text('daily_time'.tr, style: notoSerifRegular.copyWith(
+                      Text('daily_time'.tr, style: robotoRegular.copyWith(
                         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
                       )),
                       SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       Text(
                         '${DateConverter.convertTimeToTime(campaignController.campaign.startTime)}'
                             ' - ${DateConverter.convertTimeToTime(campaignController.campaign.endTime)}',
-                        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
+                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
                       ),
                     ]) : SizedBox(),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),

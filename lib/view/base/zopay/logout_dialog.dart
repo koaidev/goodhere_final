@@ -63,13 +63,13 @@ class CustomDialog extends StatelessWidget {
               bigTitle
                   ? FittedBox(
                       child: Text(title,
-                          style: notoSerifRegular.copyWith(
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_LARGE),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start))
                   : Text(title,
-                      style: notoSerifRegular.copyWith(
+                      style: robotoRegular.copyWith(
                           fontSize: bigTitle
                               ? Dimensions.PADDING_SIZE_SMALL
                               : Dimensions.FONT_SIZE_LARGE),
@@ -78,7 +78,7 @@ class CustomDialog extends StatelessWidget {
                       textAlign: TextAlign.start),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               Text(description,
-                  textAlign: TextAlign.center, style: notoSerifRegular),
+                  textAlign: TextAlign.center, style: robotoRegular),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               onTapFalseText != null && onTapFalseText != null
                   ? GetBuilder<AuthController>(builder: (authController) {

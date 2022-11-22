@@ -24,12 +24,12 @@ class PreviewContactTile extends StatelessWidget {
     return ListTile(
       title: Text(contactModel.name == null ? phoneNumber : contactModel.name,
           style:
-              notoSerifRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE)),
+              robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE)),
       subtitle: phoneNumber.length <= 0
           ? SizedBox()
           : Text(
               phoneNumber,
-              style: notoSerifRegular.copyWith(
+              style: robotoRegular.copyWith(
                   fontSize: Dimensions.FONT_SIZE_LARGE,
                   color: ColorResources.getGreyBaseGray1()),
             ),

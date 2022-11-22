@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/home/widget/show_name.dart';
 
 import '../../../../../../controller/zopay/home_controller.dart';
+import '../../../../../../data/model/zopay/user_info.dart';
 import '../../../../../../util/color_resources.dart';
 import '../../../../../../util/dimensions.dart';
 import '../../../../../../util/images.dart';
@@ -11,14 +12,15 @@ import 'animated_card/hero_dialogue_route.dart';
 import 'animated_card/qr_popup_card.dart';
 
 class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
-  AppBarBase({Key key}) : super(key: key);
+  final UserInfoZopay userInfoZopay;
+
+  AppBarBase({Key key, @required this.userInfoZopay}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFFFFCC00),
-        // color: ColorResources.blackColor.withOpacity(0.1),
+        color: Colors.green,
         borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE),
             bottomRight: Radius.circular(Dimensions.RADIUS_SIZE_EXTRA_LARGE)),
@@ -49,27 +51,25 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
                     width: Dimensions.RADIUS_SIZE_OVER_LARGE,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child:
-                          // FadeInImage.assetNetwork(
-                          //         fit: BoxFit.cover,
-                          //         image: Images.user,
-                          //         placeholder: Images.avatar,
-                          //         imageErrorBuilder:
-                          //             (context, imageProvider, err) =>
-                          //                 Image.asset(Images.avatar))
-                          Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    Images.avatar,
-                                    fit: BoxFit.cover,
-                                  ))),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: FadeInImage.assetNetwork(
+                                fit: BoxFit.cover,
+                                image: userInfoZopay.image ?? "",
+                                placeholder: Images.avatar,
+                                imageErrorBuilder:
+                                    (context, imageProvider, err) =>
+                                        Image.asset(Images.avatar)),
+                          )),
                     ))),
             const SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-            ShowName(),
+            ShowName(
+              userInfoZopay: userInfoZopay,
+            ),
             // : ShowBalance(profileController: profileController),
             const Spacer(),
             GestureDetector(

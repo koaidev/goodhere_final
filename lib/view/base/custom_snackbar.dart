@@ -16,7 +16,7 @@ void showCustomSnackBar(String message, {bool isError = true}) {
       backgroundColor: isError ? Colors.red : Colors.green,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
-      content: Text(message, style: notoSerifMedium.copyWith(color: Colors.white)),
+      content: Text(message, style: robotoMedium.copyWith(color: Colors.white)),
     ));
   }
 }

@@ -96,10 +96,10 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                 SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
 
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(widget.parcelCategory.name, style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor)),
+                  Text(widget.parcelCategory.name, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
                   Text(
                     widget.parcelCategory.description, maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
                   ),
                 ])),
 
@@ -118,10 +118,10 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                   Image.asset(Images.distance, height: 30, width: 30),
                   SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('distance'.tr, style: notoSerifRegular),
+                    Text('distance'.tr, style: robotoRegular),
                     Text(
                       parcelController.distance == -1 ? 'calculating'.tr : '${parcelController.distance.toStringAsFixed(2)} ${'km'.tr}',
-                      style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor),
+                      style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
                     ),
                   ]),
                 ])),
@@ -129,10 +129,10 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                   Image.asset(Images.delivery, height: 30, width: 30),
                   SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('delivery_fee'.tr, style: notoSerifRegular),
+                    Text('delivery_fee'.tr, style: robotoRegular),
                     Text(
                       parcelController.distance == -1 ? 'calculating'.tr : PriceConverter.convertPrice(_charge),
-                      style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor),
+                      style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
                     ),
                   ]),
                 ]))
@@ -146,7 +146,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                     padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE, horizontal: Dimensions.PADDING_SIZE_SMALL),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                      Text('delivery_man_tips'.tr, style: notoSerifMedium),
+                      Text('delivery_man_tips'.tr, style: robotoMedium),
                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                       Container(
@@ -206,7 +206,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
               ) : SizedBox.shrink(),
               SizedBox(height: (Get.find<SplashController>().configModel.dmTipsStatus == 1) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
 
-              Text('charge_pay_by'.tr, style: notoSerifMedium),
+              Text('charge_pay_by'.tr, style: robotoMedium),
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
               Row(children: [
                 Expanded(child: InkWell(
@@ -218,7 +218,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                       activeColor: Theme.of(context).primaryColor,
                       onChanged: (String payerType) => parcelController.setPayerIndex(0, true),
                     ),
-                    Text(parcelController.payerTypes[0].tr, style: notoSerifRegular),
+                    Text(parcelController.payerTypes[0].tr, style: robotoRegular),
                   ]),
                 )),
                 Get.find<SplashController>().configModel.cashOnDelivery ? Expanded(child: InkWell(
@@ -230,7 +230,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                       activeColor: Theme.of(context).primaryColor,
                       onChanged: (String payerType) => parcelController.setPayerIndex(1, true),
                     ),
-                    Text(parcelController.payerTypes[1].tr, style: notoSerifRegular),
+                    Text(parcelController.payerTypes[1].tr, style: robotoRegular),
                   ]),
                 )) : SizedBox(),
               ]),

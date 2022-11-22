@@ -98,7 +98,7 @@ class DetailsWebView extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(itemController.item.choiceOptions[index].title, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                              Text(itemController.item.choiceOptions[index].title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                               GridView.builder(
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -125,7 +125,7 @@ class DetailsWebView extends StatelessWidget {
                                       ),
                                       child: Text(
                                         itemController.item.choiceOptions[index].options[i].trim(), maxLines: 1, overflow: TextOverflow.ellipsis,
-                                        style: notoSerifRegular.copyWith(
+                                        style: robotoRegular.copyWith(
                                           color: itemController.variationIndex[index] != i ? Colors.black : Colors.white,
                                         ),
                                       ),
@@ -149,7 +149,7 @@ class DetailsWebView extends StatelessWidget {
                           GetBuilder<CartController>(builder: (cartController) {
                             return Text(
                               itemController.cartIndex != -1 ? cartController.cartList[itemController.cartIndex].quantity.toString() : itemController.quantity.toString(),
-                              style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
                             );
                           }),
                           SizedBox(width: 30),
@@ -161,9 +161,9 @@ class DetailsWebView extends StatelessWidget {
                         SizedBox(height: 30),
 
                         Row(children: [
-                          Text('${'total_amount'.tr}:', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                          Text('${'total_amount'.tr}:', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                          Text(PriceConverter.convertPrice(priceWithAddOns ?? 0.0), style: notoSerifBold.copyWith(
+                          Text(PriceConverter.convertPrice(priceWithAddOns ?? 0.0), style: robotoBold.copyWith(
                             color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge,
                           )),
                         ]),
@@ -231,9 +231,9 @@ class DetailsWebView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                            Text('description'.tr, style: notoSerifMedium),
+                            Text('description'.tr, style: robotoMedium),
                             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                            Text(itemController.item.description, style: notoSerifRegular),
+                            Text(itemController.item.description, style: robotoRegular),
                             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                           ],
                         ) : SizedBox(),

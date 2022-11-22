@@ -58,7 +58,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                 SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
                 Text(
                   title,
-                  style: notoSerifMedium.copyWith(
+                  style: robotoMedium.copyWith(
                       fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
                       color: Colors.white),
                 ),

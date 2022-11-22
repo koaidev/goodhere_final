@@ -14,8 +14,8 @@ class GuestButton extends StatelessWidget {
         Navigator.pushReplacementNamed(context, RouteHelper.getInitialRoute());
       },
       child: RichText(text: TextSpan(children: [
-        TextSpan(text: '${'continue_as'.tr} ', style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor)),
-        TextSpan(text: 'guest'.tr, style: notoSerifMedium.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
+        TextSpan(text: '${'continue_as'.tr} ', style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
+        TextSpan(text: 'guest'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
       ])),
     );
   }

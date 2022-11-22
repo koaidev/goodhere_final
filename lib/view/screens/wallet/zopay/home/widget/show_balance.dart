@@ -15,7 +15,7 @@ class ShowBalance extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text("Balance",
-            style: notoSerifBlack.copyWith(
+            style: robotoBlack.copyWith(
               color: ColorResources.whiteColor,
               fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
             )),
@@ -25,7 +25,7 @@ class ShowBalance extends StatelessWidget {
           height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
         ),
         Text('available_balance'.tr,
-            style: notoSerifRegular.copyWith(
+            style: robotoRegular.copyWith(
                 fontSize: Dimensions.FONT_SIZE_DEFAULT,
                 color: ColorResources.whiteColor))
       ],

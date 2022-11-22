@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/data/model/zopay/transaction_zopay.dart';
+import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/util/styles.dart';
 
 import '../../../../../../helper/date_converter.dart';
@@ -11,20 +12,11 @@ import '../../../../../../util/images.dart';
 class TransactionHistoryCardView extends StatelessWidget {
   final TransactionZopay transaction;
 
-  const TransactionHistoryCardView({Key key, this.transaction})
+  const TransactionHistoryCardView({Key key, @required this.transaction})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _userPhone;
-    String _userName;
-    try {
-      _userPhone = "0394998716";
-      _userName = "Nguyễn KIm Khánh";
-    } catch (e) {
-      _userPhone = 'no_user'.tr;
-      _userName = 'no_user'.tr;
-    }
     String _imageLogo = Images.send_money_image;
 
     return Padding(
@@ -49,13 +41,13 @@ class TransactionHistoryCardView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('send_money'.tr,
-                            style: notoSerifMedium.copyWith(
+                            style: robotoMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_DEFAULT)),
                         SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
                         Text(
-                          _userName ?? '',
-                          style: notoSerifRegular.copyWith(
+                          transaction.nameReceiver ?? '',
+                          style: robotoRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -63,25 +55,22 @@ class TransactionHistoryCardView extends StatelessWidget {
                         SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                        Text(_userPhone ?? '',
-                            style: notoSerifMedium.copyWith(
+                        Text(transaction.phoneReceiver ?? '',
+                            style: robotoMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_SMALL)),
                         SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                        Text('TrxID: ${transaction.transactionId}',
-                            style: notoSerifRegular.copyWith(
+                        Text('TrxID: ${transaction!=null?transaction.transactionId:""}',
+                            style: robotoRegular.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL))
                         // Text(DateConverter.localDateToIsoStringAMPM(DateTime.parse(transactions.createdAt)),style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: ColorResources.getHintColor()),),
                       ]),
                   Spacer(),
-                  Text('- 100.000',
-                      style: notoSerifMedium.copyWith(
+                  Text(PriceConverter.convertPrice(transaction.amount),
+                      style: robotoMedium.copyWith(
                           fontSize: Dimensions.FONT_SIZE_DEFAULT,
                           color:
-                          // transaction.transactionType == 'send_money' ||
-                          //         transaction.transactionType == 'cash_out'
-                          //     ? Colors.redAccent
                                Colors.green)),
                 ],
               ),
@@ -94,8 +83,8 @@ class TransactionHistoryCardView extends StatelessWidget {
             right: 2,
             child: Text(
               DateConverter.localDateToIsoStringAMPM(
-                  DateTime.parse("14/03/2022")),
-              style: notoSerifRegular.copyWith(
+                  DateTime.now()),
+              style: robotoRegular.copyWith(
                   fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
                   color: ColorResources.getHintColor()),
             ),

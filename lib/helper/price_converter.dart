@@ -2,6 +2,12 @@ import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 class PriceConverter {
+  static String balanceInputHint(){
+    String _currencySymbol = Get.find<SplashController>().configModel.currencySymbol;
+    String _balance = '0';
+    return '$_balance$_currencySymbol';
+
+  }
   static String convertPrice(int price, {int discount, String discountType}) {
     if(discount != null && discountType != null){
       if(discountType == 'amount') {

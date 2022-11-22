@@ -34,14 +34,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
             Text(
               widget.isUpdate ? 'update'.tr : 'we_are_under_maintenance'.tr,
-              style: notoSerifBold.copyWith(fontSize: MediaQuery.of(context).size.height*0.023, color: Theme.of(context).primaryColor),
+              style: robotoBold.copyWith(fontSize: MediaQuery.of(context).size.height*0.023, color: Theme.of(context).primaryColor),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
             Text(
               widget.isUpdate ? 'your_app_is_deprecated'.tr : 'we_will_be_right_back'.tr,
-              style: notoSerifRegular.copyWith(fontSize: MediaQuery.of(context).size.height*0.0175, color: Theme.of(context).disabledColor),
+              style: robotoRegular.copyWith(fontSize: MediaQuery.of(context).size.height*0.0175, color: Theme.of(context).disabledColor),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: widget.isUpdate ? MediaQuery.of(context).size.height*0.04 : 0),

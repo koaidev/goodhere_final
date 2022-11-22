@@ -34,7 +34,7 @@ class _CustomExpandableContantState extends State<CustomExpandableContant> {
                   horizontal: Dimensions.PADDING_SIZE_LARGE),
               child: Text(
                 'all_transaction'.tr,
-                style: notoSerifMedium.copyWith(
+                style: robotoMedium.copyWith(
                   fontSize: Dimensions.FONT_SIZE_LARGE,
                   color: ColorResources.getPrimaryTextColor(),
                 ),

@@ -16,8 +16,8 @@ class NextButton extends StatelessWidget {
       radius:  Dimensions.RADIUS_PROFILE_AVATAR,
       child: CircleAvatar(
         maxRadius: Dimensions.RADIUS_PROFILE_AVATAR,
-        backgroundColor:isSubmittable ?  Theme.of(context).secondaryHeaderColor: ColorResources.getGreyBaseGray6(),
-        child: Icon(Icons.arrow_forward, color: ColorResources.blackColor)),
+        backgroundColor:isSubmittable ?  Colors.green: ColorResources.getGreyBaseGray6(),
+        child: Icon(Icons.arrow_forward, color: ColorResources.whiteColor)),
     );
   }
 }

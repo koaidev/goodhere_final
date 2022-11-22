@@ -64,7 +64,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
               Text(
                 success ? parcel ? 'you_placed_the_parcel_request_successfully'.tr
                     : 'you_placed_the_order_successfully'.tr : 'your_order_is_failed_to_place'.tr,
-                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
@@ -73,7 +73,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
                 child: Text(
                   success ? parcel ? 'your_parcel_request_is_placed_successfully'.tr
                       : 'your_order_is_placed_successfully'.tr : 'your_order_is_failed_to_place_because'.tr,
-                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -82,14 +82,14 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
 
                 Image.asset(Get.find<ThemeController>().darkTheme ? Images.gift_box1 : Images.gift_box, width: 150, height: 150),
 
-                Text('congratulations'.tr , style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                Text('congratulations'.tr , style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                   child: Text(
                     'you_have_earned'.tr + ' ${total.floor().toString()} ' + 'points_it_will_add_to'.tr,
-                    style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: Theme.of(context).disabledColor),
                     textAlign: TextAlign.center,
                   ),
                 ),

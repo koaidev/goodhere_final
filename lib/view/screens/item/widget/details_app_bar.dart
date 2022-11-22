@@ -50,7 +50,7 @@ class DetailsAppBarState extends State<DetailsAppBar> with SingleTickerProviderS
       elevation: 0,
       title: Text(
         'item_details'.tr,
-        style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color),
+        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color),
       ),
       centerTitle: true,
       actions: [AnimatedBuilder(
@@ -71,7 +71,7 @@ class DetailsAppBarState extends State<DetailsAppBar> with SingleTickerProviderS
                   child: GetBuilder<CartController>(builder: (cartController) {
                     return Text(
                       cartController.cartList.length.toString(),
-                      style: notoSerifMedium.copyWith(color: Colors.white, fontSize: 8),
+                      style: robotoMedium.copyWith(color: Colors.white, fontSize: 8),
                     );
                   }),
                 ),

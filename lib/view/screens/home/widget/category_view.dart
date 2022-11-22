@@ -66,7 +66,7 @@ class CategoryView extends StatelessWidget {
                                 padding: EdgeInsets.only(right: index == 0 ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
                                 child: Text(
                                   categoryController.categoryList[index].name,
-                                  style: notoSerifMedium.copyWith(fontSize: 11),
+                                  style: robotoMedium.copyWith(fontSize: 11),
                                   maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
                                 ),
                               ),

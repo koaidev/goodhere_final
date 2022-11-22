@@ -32,13 +32,13 @@ class RegistrationCard extends StatelessWidget {
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
                 isStore ? 'become_a_seller'.tr : 'join_as_a_delivery_man'.tr,
-                style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge), textAlign: TextAlign.center,
+                style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge), textAlign: TextAlign.center,
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
               Text(
                 isStore ? 'register_as_seller_and_open_shop_in'.tr + AppConstants.APP_NAME + 'to_start_your_business'.tr
                     : 'register_as_delivery_man_and_earn_money'.tr,
-                style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall), textAlign: TextAlign.center,
+                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall), textAlign: TextAlign.center,
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
               CustomButton(

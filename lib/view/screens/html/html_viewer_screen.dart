@@ -52,7 +52,7 @@ class _HtmlViewerScreenState extends State<HtmlViewerScreen> {
                   child: SelectableText(widget.htmlType == HtmlType.TERMS_AND_CONDITION ? 'terms_conditions'.tr
                       : widget.htmlType == HtmlType.ABOUT_US ? 'about_us'.tr : widget.htmlType == HtmlType.PRIVACY_POLICY
                       ? 'privacy_policy'.tr : 'no_data_found'.tr,
-                    style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.black),
+                    style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.black),
                   ),
                 ) : SizedBox(),
 

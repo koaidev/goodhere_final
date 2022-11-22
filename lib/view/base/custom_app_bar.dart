@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveHelper.isDesktop(context) ? WebMenuBar() : AppBar(
-      title: Text(title, style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color)),
+      title: Text(title, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1.color)),
       centerTitle: true,
       leading: backButton ? IconButton(
         icon: leadingIcon != null ? Image.asset(leadingIcon, height: 22, width: 22) : Icon(Icons.arrow_back_ios),

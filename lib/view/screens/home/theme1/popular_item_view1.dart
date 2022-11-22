@@ -84,14 +84,14 @@ class PopularItemView1 extends StatelessWidget {
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
                                 _itemList[index].name,
-                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                               Text(
                                 _itemList[index].storeName,
-                                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
 
@@ -105,7 +105,7 @@ class PopularItemView1 extends StatelessWidget {
                                   child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                                     _itemList[index].discount > 0 ? Flexible(child: Text(
                                       PriceConverter.convertPrice(itemController.getStartingPrice(_itemList[index])),
-                                      style: notoSerifMedium.copyWith(
+                                      style: robotoMedium.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).errorColor,
                                         decoration: TextDecoration.lineThrough,
                                       ),
@@ -116,7 +116,7 @@ class PopularItemView1 extends StatelessWidget {
                                         itemController.getStartingPrice(_itemList[index]), discount: _itemList[index].discount,
                                         discountType: _itemList[index].discountType,
                                       ),
-                                      style: notoSerifBold.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                      style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
                                     ),
                                   ]),
                                 ),

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:sixam_mart/data/model/zopay/contact_model.dart';
+import 'package:sixam_mart/data/model/zopay/new_referrals.dart';
 import 'package:sixam_mart/data/model/zopay/new_user.dart';
 import 'package:sixam_mart/data/model/zopay/response_zopay.dart';
 import 'package:sixam_mart/data/model/zopay/transaction_zopay.dart';
@@ -7,14 +10,19 @@ import 'package:sixam_mart/data/model/zopay/user_info.dart';
 
 import '../model/zopay/user_wallet.dart';
 
-class ApiZopay {
+class ApiZopay extends GetxController implements GetxService {
   final db = FirebaseFirestore.instance;
-  final uid = FirebaseAuth.instance.currentUser.uid;
+  final uid = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser.uid ?? ""
+      : "";
   static const String USERS = "users";
   static const String BANKS_ACCOUNT = "account";
   static const String NEW_USER_LIST = "new_users";
   static const String WALLET = "wallets";
   static const String TRANSACTION_HISTORY = "transaction_history";
+  static const String REFERRAL = "referrals";
+  static const String PUBLIC_INFO = "public_info";
+
   static const String STATUS_SUCCESS = "status_success";
   static const String STATUS_FAIL = "status_fail";
 
@@ -29,12 +37,31 @@ class ApiZopay {
   CollectionReference getTransactionHistoryCollection() =>
       db.collection(TRANSACTION_HISTORY);
 
+  CollectionReference getReferralsCollection() => db.collection(REFERRAL);
+
+  CollectionReference getPublicUserCollection() => db.collection(PUBLIC_INFO);
+
+  DocumentReference getPublicUser() =>getPublicUserCollection()
+      .withConverter(
+      fromFirestore: (snapshot, options) =>
+          ContactModel.fromJson(snapshot),
+      toFirestore: (ContactModel user, options) => user.toJson())
+      .doc(uid);
+
   DocumentReference getUser() => getUserCollection()
       .withConverter(
           fromFirestore: (snapshot, options) =>
               UserInfoZopay.fromJson(snapshot, options),
           toFirestore: (UserInfoZopay user, options) => user.toJson())
       .doc(uid);
+
+  Stream<DocumentSnapshot> getUserStream() => getUserCollection()
+      .withConverter(
+          fromFirestore: (snapshot, options) =>
+              UserInfoZopay.fromJson(snapshot, options),
+          toFirestore: (UserInfoZopay wallet, options) => wallet.toJson())
+      .doc(uid)
+      .snapshots(includeMetadataChanges: true);
 
   DocumentReference getNewUser() => getNewUserCollection()
       .withConverter(
@@ -72,29 +99,31 @@ class ApiZopay {
     ResponseZopay responseZopay = await getNewUser()
         .set(newUser)
         .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
-        .onError((error, stackTrace) => ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+        .onError((error, stackTrace) =>
+            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return responseZopay;
   }
 
   //for zopay wallet xem tài khoản hiện tại
-  DocumentReference getUserWallet() => getWalletCollection()
+  Stream<DocumentSnapshot> getUserWallet() => getWalletCollection()
       .withConverter(
           fromFirestore: (snapshot, options) =>
               UserWallet.fromJson(snapshot, options),
           toFirestore: (UserWallet wallet, options) => wallet.toJson())
-      .doc(uid);
+      .doc(uid)
+      .snapshots(includeMetadataChanges: true);
 
   // nhận toàn bộ lịch sử gửi tiền
-  Query getSendMoneyTransactionHistory() => getTransactionHistoryCollection()
-      .withConverter(
-          fromFirestore: (snapshot, options) =>
-              TransactionZopay.fromJson(snapshot, options),
-          toFirestore: (TransactionZopay transaction, options) =>
-              transaction.toJson())
-      .where('uid_sender', isEqualTo: uid)
-      .where('create_at',
-          isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
-      .limit(50);
+  Stream<QuerySnapshot> getSendMoneyTransactionHistory() =>
+      getTransactionHistoryCollection()
+          .withConverter(
+              fromFirestore: (snapshot, options) =>
+                  TransactionZopay.fromJson(snapshot, options),
+              toFirestore: (TransactionZopay transaction, options) =>
+                  transaction.toJson())
+          .where('uid_sender', isEqualTo: uid)
+          .limit(50)
+          .snapshots(includeMetadataChanges: true);
 
   //nhận toàn bộ lịch sử nhận tiền
   Query getReceiveMoneyTransactionHistory() => getTransactionHistoryCollection()
@@ -104,8 +133,7 @@ class ApiZopay {
           toFirestore: (TransactionZopay transaction, options) =>
               transaction.toJson())
       .where('uid_receiver', isEqualTo: uid)
-      .where('create_at',
-          isLessThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
+
       .limit(50);
 
   //tạo 1 giao dịch mới
@@ -119,6 +147,27 @@ class ApiZopay {
                 transaction.toJson())
         .doc(transactionZopay.transactionId)
         .set(transactionZopay)
+        .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
+        .onError((error, stackTrace) =>
+            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+    return response;
+  }
+
+  Future<ResponseZopay> shareMoneyForReferral(String referral) async {
+    final receiverU = NewReferral(
+        phoneSender: FirebaseAuth.instance.currentUser.phoneNumber
+            .replaceAll("+84", "0"),
+        phoneReceiver: referral,
+        status: false,
+        id: uid);
+    ResponseZopay response = await getReferralsCollection()
+        .withConverter(
+            fromFirestore: (snapshot, options) =>
+                NewReferral.fromJson(snapshot, options),
+            toFirestore: (NewReferral newReferral, options) =>
+                newReferral.toJson())
+        .doc(uid)
+        .set(receiverU)
         .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
         .onError((error, stackTrace) =>
             ResponseZopay(status: STATUS_FAIL, message: error.toString()));

@@ -121,36 +121,36 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               child: FooterView(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                 Row(children: [
-                  Text('${_parcel ? 'delivery_id'.tr : 'order_id'.tr}:', style: notoSerifRegular),
+                  Text('${_parcel ? 'delivery_id'.tr : 'order_id'.tr}:', style: robotoRegular),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(_order.id.toString(), style: notoSerifMedium),
+                  Text(_order.id.toString(), style: robotoMedium),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   Expanded(child: SizedBox()),
                   Icon(Icons.watch_later, size: 17),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   Text(
                     DateConverter.dateTimeStringToDateTime(_order.createdAt),
-                    style: notoSerifRegular,
+                    style: robotoRegular,
                   ),
                 ]),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                 _order.scheduled == 1 ? Row(children: [
-                  Text('${'scheduled_at'.tr}:', style: notoSerifRegular),
+                  Text('${'scheduled_at'.tr}:', style: robotoRegular),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(DateConverter.dateTimeStringToDateTime(_order.scheduleAt), style: notoSerifMedium),
+                  Text(DateConverter.dateTimeStringToDateTime(_order.scheduleAt), style: robotoMedium),
                 ]) : SizedBox(),
                 SizedBox(height: _order.scheduled == 1 ? Dimensions.PADDING_SIZE_SMALL : 0),
 
                 Get.find<SplashController>().configModel.orderDeliveryVerification ? Row(children: [
-                  Text('${'delivery_verification_code'.tr}:', style: notoSerifRegular),
+                  Text('${'delivery_verification_code'.tr}:', style: robotoRegular),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  Text(_order.otp, style: notoSerifMedium),
+                  Text(_order.otp, style: robotoMedium),
                 ]) : SizedBox(),
                 SizedBox(height: Get.find<SplashController>().configModel.orderDeliveryVerification ? 10 : 0),
 
                 Row(children: [
-                  Text(_order.orderType.tr, style: notoSerifMedium),
+                  Text(_order.orderType.tr, style: robotoMedium),
                   Expanded(child: SizedBox()),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -159,7 +159,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                     child: Text(
                       _order.paymentMethod == 'cash_on_delivery' ? 'cash_on_delivery'.tr : _order.paymentMethod == 'wallet' ? 'wallet_payment'.tr : 'digital_payment'.tr,
-                      style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeExtraSmall),
+                      style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeExtraSmall),
                     ),
                   ),
                 ]),
@@ -168,11 +168,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   child: Row(children: [
-                    Text('${_parcel ? 'charge_pay_by'.tr : 'item'.tr}:', style: notoSerifRegular),
+                    Text('${_parcel ? 'charge_pay_by'.tr : 'item'.tr}:', style: robotoRegular),
                     SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                     Text(
                       _parcel ? _order.chargePayer.tr : orderController.orderDetails.length.toString(),
-                      style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor),
+                      style: robotoMedium.copyWith(color: Theme.of(context).primaryColor),
                     ),
                     Expanded(child: SizedBox()),
                     Container(height: 7, width: 7, decoration: BoxDecoration(
@@ -183,7 +183,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     Text(
                       _order.orderStatus == 'delivered' ? '${'delivered_at'.tr} ${DateConverter.dateTimeStringToDateTime(_order.delivered)}'
                           : _order.orderStatus.tr,
-                      style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                     ),
                   ]),
                 ),
@@ -208,7 +208,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   (Get.find<SplashController>().getModule(_order.moduleType).orderAttachment && _order.orderAttachment != null
                   && _order.orderAttachment.isNotEmpty) ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('prescription'.tr, style: notoSerifRegular),
+                    Text('prescription'.tr, style: robotoRegular),
                     SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                     InkWell(
                       onTap: () => openDialog(context, '${Get.find<SplashController>().configModel.baseUrls.orderAttachmentUrl}/${_order.orderAttachment}'),
@@ -227,7 +227,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                   (_order.orderNote  != null && _order.orderNote.isNotEmpty) ? Expanded(
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('additional_note'.tr, style: notoSerifRegular),
+                      Text('additional_note'.tr, style: robotoRegular),
                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                       Container(
                         width: Dimensions.WEB_MAX_WIDTH,
@@ -238,7 +238,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ),
                         child: Text(
                           _order.orderNote,
-                          style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                         ),
                       ),
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
@@ -248,13 +248,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                 CardWidget(showCard: _parcel, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(_parcel ? 'parcel_category'.tr : Get.find<SplashController>().getModule(_order.moduleType).showRestaurantText
-                      ? 'restaurant_details'.tr : 'store_details'.tr, style: notoSerifRegular),
+                      ? 'restaurant_details'.tr : 'store_details'.tr, style: robotoRegular),
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   (_parcel && _order.parcelCategory == null) ? Text(
                     'no_parcel_category_data_found'.tr,
                   ) : (!_parcel && _order.store == null) ? Center(child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
                     child: Text('no_restaurant_data_found'.tr, maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                   )) : Row(children: [
 
                     ClipOval(child: CustomImage(
@@ -267,11 +267,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text(
                         _parcel ? _order.parcelCategory.name : _order.store.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                       ),
                       Text(
                         _parcel ? _order.parcelCategory.description : _order.store.address, maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                       ),
                     ])),
 
@@ -298,16 +298,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 // Total
                 _parcel ? SizedBox() : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Text('item_price'.tr, style: notoSerifRegular),
-                    Text(PriceConverter.convertPrice(_itemsPrice), style: notoSerifRegular),
+                    Text('item_price'.tr, style: robotoRegular),
+                    Text(PriceConverter.convertPrice(_itemsPrice), style: robotoRegular),
                   ]),
                   SizedBox(height: 10),
 
                   Get.find<SplashController>().getModule(_order.moduleType).addOn ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('addons'.tr, style: notoSerifRegular),
-                      Text('(+) ${PriceConverter.convertPrice(_addOns)}', style: notoSerifRegular),
+                      Text('addons'.tr, style: robotoRegular),
+                      Text('(+) ${PriceConverter.convertPrice(_addOns)}', style: robotoRegular),
                     ],
                   ) : SizedBox(),
 
@@ -318,47 +318,47 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   Get.find<SplashController>().getModule(_order.moduleType).addOn ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('subtotal'.tr, style: notoSerifMedium),
-                      Text(PriceConverter.convertPrice(_subTotal), style: notoSerifMedium),
+                      Text('subtotal'.tr, style: robotoMedium),
+                      Text(PriceConverter.convertPrice(_subTotal), style: robotoMedium),
                     ],
                   ) : SizedBox(),
                   SizedBox(height: Get.find<SplashController>().getModule(_order.moduleType).addOn ? 10 : 0),
 
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Text('discount'.tr, style: notoSerifRegular),
-                    Text('(-) ${PriceConverter.convertPrice(_discount)}', style: notoSerifRegular),
+                    Text('discount'.tr, style: robotoRegular),
+                    Text('(-) ${PriceConverter.convertPrice(_discount)}', style: robotoRegular),
                   ]),
                   SizedBox(height: 10),
 
                   _couponDiscount > 0 ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Text('coupon_discount'.tr, style: notoSerifRegular),
+                    Text('coupon_discount'.tr, style: robotoRegular),
                     Text(
                       '(-) ${PriceConverter.convertPrice(_couponDiscount)}',
-                      style: notoSerifRegular,
+                      style: robotoRegular,
                     ),
                   ]) : SizedBox(),
                   SizedBox(height: _couponDiscount > 0 ? 10 : 0),
 
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Text('vat_tax'.tr, style: notoSerifRegular),
-                    Text('(+) ${PriceConverter.convertPrice(_tax)}', style: notoSerifRegular),
+                    Text('vat_tax'.tr, style: robotoRegular),
+                    Text('(+) ${PriceConverter.convertPrice(_tax)}', style: robotoRegular),
                   ]),
                   SizedBox(height: 10),
 
                   (_dmTips > 0) ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('delivery_man_tips'.tr, style: notoSerifRegular),
-                      Text('(+) ${PriceConverter.convertPrice(_dmTips)}', style: notoSerifRegular),
+                      Text('delivery_man_tips'.tr, style: robotoRegular),
+                      Text('(+) ${PriceConverter.convertPrice(_dmTips)}', style: robotoRegular),
                     ],
                   ) : SizedBox(),
                   SizedBox(height: _dmTips > 0 ? 10 : 0),
 
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Text('delivery_fee'.tr, style: notoSerifRegular),
+                    Text('delivery_fee'.tr, style: robotoRegular),
                     _deliveryCharge > 0 ? Text(
-                      '(+) ${PriceConverter.convertPrice(_deliveryCharge)}', style: notoSerifRegular,
-                    ) : Text('free'.tr, style: notoSerifRegular.copyWith(color: Theme.of(context).primaryColor)),
+                      '(+) ${PriceConverter.convertPrice(_deliveryCharge)}', style: robotoRegular,
+                    ) : Text('free'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
                   ]),
                 ]),
 
@@ -368,12 +368,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 ),
 
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text('total_amount'.tr, style: notoSerifMedium.copyWith(
+                  Text('total_amount'.tr, style: robotoMedium.copyWith(
                     fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).primaryColor,
                   )),
                   Text(
                     PriceConverter.convertPrice(_total),
-                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).primaryColor),
+                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).primaryColor),
                   ),
                 ]),
 
@@ -447,7 +447,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   },
                   ));
                 },
-                child: Text(parcel ? 'cancel_delivery'.tr : 'cancel_order'.tr, style: notoSerifBold.copyWith(
+                child: Text(parcel ? 'cancel_delivery'.tr : 'cancel_order'.tr, style: robotoBold.copyWith(
                   color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeLarge,
                 )),
               ),
@@ -465,7 +465,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             border: Border.all(width: 2, color: Theme.of(context).primaryColor),
             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
           ),
-          child: Text('order_cancelled'.tr, style: notoSerifMedium.copyWith(color: Theme.of(context).primaryColor)),
+          child: Text('order_cancelled'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
         ),
       ),
 

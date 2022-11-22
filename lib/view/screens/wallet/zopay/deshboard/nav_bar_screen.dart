@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/view/base/custom_app_bar.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/deshboard/widget/unicorn_outline_button.dart';
 
 import '../../../../../controller/zopay/menu_controller.dart';
@@ -46,118 +47,107 @@ class _NavBarScreenState extends State<NavBarScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
-  }
-
-  Future<void> getZopay() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      ApiZopay().getUserWallet().snapshots().listen((event) {
-        Get.lazyPut<UserWallet>(() => event.data());
-      });
-    }
+    // if (Get.find<ApiZopay>().isLogin()) {
+      // Get.find<ApiZopay>().getUserWallet();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    getZopay();
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-            "Zopay",
-          ),
-          centerTitle: true),
-      body: WillPopScope(
-        onWillPop: () => _onWillPop(context),
-        child: GetBuilder<MenuController>(
-            builder: (MenuController menuController) {
-          return Scaffold(
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
-            body: PageStorage(
-                bucket: bucket, child: menuController.currentScreen),
-            floatingActionButton: UnicornOutlineButton(
-                strokeWidth: 1.5,
-                radius: 50,
-                gradient: LinearGradient(colors: [
-                  ColorResources.gradientColor,
-                  ColorResources.gradientColor.withOpacity(0.5),
-                  ColorResources.secondaryColor.withOpacity(0.3),
-                  ColorResources.gradientColor.withOpacity(0.05),
-                  ColorResources.gradientColor.withOpacity(0),
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                child: FloatingActionButton(
-                    backgroundColor: Color(0xFF039D55),
-                    elevation: 1,
-                    onPressed: () => Get.to(() => CameraScreen(
-                        fromEditProfile: false,
-                        isBarCodeScan: true,
-                        isHome: true)),
-                    child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Image.asset(Images.scanner_icon)))),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color:
-                    Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                      color:
-                          ColorResources.getBlackAndWhite().withOpacity(0.14),
-                      blurRadius: 80,
-                      offset: const Offset(0, 20)),
-                  BoxShadow(
-                      color:
-                          ColorResources.getBlackAndWhite().withOpacity(0.20),
-                      blurRadius: 0.5,
-                      offset: const Offset(0, 0)),
-                ],
+      appBar: CustomAppBar(
+          title: "Zopay",
+          backButton: true),
+      body: GetBuilder<MenuController>(
+          builder: (MenuController menuController) {
+            return Scaffold(
+              backgroundColor:
+              Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+              body: PageStorage(
+                  bucket: bucket, child: menuController.currentScreen),
+              floatingActionButton: UnicornOutlineButton(
+                  strokeWidth: 1.5,
+                  radius: 50,
+                  gradient: LinearGradient(colors: [
+                    ColorResources.gradientColor,
+                    ColorResources.gradientColor.withOpacity(0.5),
+                    ColorResources.secondaryColor.withOpacity(0.3),
+                    ColorResources.gradientColor.withOpacity(0.05),
+                    ColorResources.gradientColor.withOpacity(0),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  child: FloatingActionButton(
+                      backgroundColor: Color(0xFF039D55),
+                      elevation: 1,
+                      onPressed: () => Get.to(() => CameraScreen(
+                          fromEditProfile: false,
+                          isBarCodeScan: true,
+                          isHome: true)),
+                      child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Image.asset(Images.scanner_icon)))),
+              floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  color:
+                  Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                        color:
+                        ColorResources.getBlackAndWhite().withOpacity(0.14),
+                        blurRadius: 80,
+                        offset: const Offset(0, 20)),
+                    BoxShadow(
+                        color:
+                        ColorResources.getBlackAndWhite().withOpacity(0.20),
+                        blurRadius: 0.5,
+                        offset: const Offset(0, 0)),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    customBottomItem(
+                      tap: () => menuController.selectHomePage(),
+                      icon: menuController.currentTab == 0
+                          ? Images.home_icon_bold
+                          : Images.home_icon,
+                      name: '',
+                      selectIndex: 0,
+                    ),
+                    // customBottomItem(
+                    //     tap: () => menuController.selectHistoryPage(),
+                    //     icon: menuController.currentTab == 1
+                    //         ? Images.clock_icon_bold
+                    //         : Images.clock_icon,
+                    //     name: 'history'.tr,
+                    //     selectIndex: 1),
+                    const SizedBox(height: 20, width: 20),
+                    customBottomItem(
+                      tap: () => menuController.selectNotificationPage(),
+                      icon: menuController.currentTab == 2
+                          ? Images.notification_icon_bold
+                          : Images.notification_icon,
+                      name: '',
+                      selectIndex: 2,
+                    ),
+                    // customBottomItem(
+                    //   tap: () => menuController.selectProfilePage(),
+                    //   icon: menuController.currentTab == 3
+                    //       ? Images.profile_icon_bold
+                    //       : Images.profile_icon,
+                    //   name: 'profile'.tr,
+                    //   selectIndex: 3,
+                    // ),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  customBottomItem(
-                    tap: () => menuController.selectHomePage(),
-                    icon: menuController.currentTab == 0
-                        ? Images.home_icon_bold
-                        : Images.home_icon,
-                    name: '',
-                    selectIndex: 0,
-                  ),
-                  // customBottomItem(
-                  //     tap: () => menuController.selectHistoryPage(),
-                  //     icon: menuController.currentTab == 1
-                  //         ? Images.clock_icon_bold
-                  //         : Images.clock_icon,
-                  //     name: 'history'.tr,
-                  //     selectIndex: 1),
-                  const SizedBox(height: 20, width: 20),
-                  customBottomItem(
-                    tap: () => menuController.selectNotificationPage(),
-                    icon: menuController.currentTab == 2
-                        ? Images.notification_icon_bold
-                        : Images.notification_icon,
-                    name: '',
-                    selectIndex: 2,
-                  ),
-                  // customBottomItem(
-                  //   tap: () => menuController.selectProfilePage(),
-                  //   icon: menuController.currentTab == 3
-                  //       ? Images.profile_icon_bold
-                  //       : Images.profile_icon,
-                  //   name: 'profile'.tr,
-                  //   selectIndex: 3,
-                  // ),
-                ],
-              ),
-            ),
-          );
-        }),
-      ),
+            );
+          }),
     );
   }
 
@@ -170,7 +160,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
           description: 'do_you_want_to_exit_the_app'.tr,
           onTapFalse: () => Navigator.of(context).pop(false),
           onTapTrue: () {
-            Get.toNamed(RouteHelper.getNavBarRoute());
+            Get.back();
           },
           onTapTrueText: 'yes'.tr,
           onTapFalseText: 'no'.tr,

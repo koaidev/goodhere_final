@@ -50,7 +50,7 @@ class NotificationDialog extends StatelessWidget {
                 child: Text(
                   notificationModel.data.title,
                   textAlign: TextAlign.center,
-                  style: notoSerifMedium.copyWith(
+                  style: robotoMedium.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontSize: Dimensions.fontSizeLarge,
                   ),
@@ -62,7 +62,7 @@ class NotificationDialog extends StatelessWidget {
                 child: Text(
                   notificationModel.data.description,
                   textAlign: TextAlign.center,
-                  style: notoSerifRegular.copyWith(
+                  style: robotoRegular.copyWith(
                     color: Theme.of(context).disabledColor,
                   ),
                 ),

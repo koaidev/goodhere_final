@@ -91,7 +91,7 @@ class StoreWidget extends StatelessWidget {
                     children: [
                       Text(
                         store.name,
-                        style: notoSerifMedium.copyWith(
+                        style: robotoMedium.copyWith(
                             fontSize: Dimensions.fontSizeSmall),
                         maxLines: _desktop ? 2 : 1,
                         overflow: TextOverflow.ellipsis,
@@ -103,7 +103,7 @@ class StoreWidget extends StatelessWidget {
                               children: [
                                 Text(
                                   "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                                  style: notoSerifMedium.copyWith(
+                                  style: robotoMedium.copyWith(
                                       fontSize: Dimensions.fontSizeExtraSmall,
                                       color: Theme.of(context).primaryColor),
                                   maxLines: 1,
@@ -112,7 +112,7 @@ class StoreWidget extends StatelessWidget {
                                 Expanded(
                                     child: Text(
                                   store.address ?? "",
-                                  style: notoSerifMedium.copyWith(
+                                  style: robotoMedium.copyWith(
                                       fontSize: Dimensions.fontSizeExtraSmall,
                                       color: Theme.of(context).disabledColor),
                                   maxLines: 1,

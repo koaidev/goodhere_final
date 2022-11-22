@@ -45,8 +45,8 @@ class _RateReviewScreenState extends State<RateReviewScreen> with TickerProvider
               labelColor: Theme.of(context).textTheme.bodyText1.color,
               indicatorColor: Theme.of(context).primaryColor,
               indicatorWeight: 3,
-              unselectedLabelStyle: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-              labelStyle: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+              unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+              labelStyle: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
               tabs: widget.orderDetailsList.length > 0 ? widget.deliveryMan != null ? [
                 Tab(text: widget.orderDetailsList.length > 1 ? 'items'.tr : 'item'.tr),
                 Tab(text: 'delivery_man'.tr),

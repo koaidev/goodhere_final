@@ -96,11 +96,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Text(
                               notificationController.notificationList[index].data.title ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                             ),
                             Text(
                               notificationController.notificationList[index].data.description ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                             ),
                           ])),
 

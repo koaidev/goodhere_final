@@ -35,9 +35,9 @@ class SupportButton extends StatelessWidget {
           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
 
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: color)),
+            Text(title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: color)),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            Text(info, style: notoSerifRegular, maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(info, style: robotoRegular, maxLines: 1, overflow: TextOverflow.ellipsis),
           ])),
 
         ]),

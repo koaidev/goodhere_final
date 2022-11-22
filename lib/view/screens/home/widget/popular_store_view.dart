@@ -245,7 +245,7 @@ class PopularStoreView extends StatelessWidget {
                                                   Text(
                                                     _storeList[index].name ??
                                                         '',
-                                                    style: notoSerifMedium
+                                                    style: robotoMedium
                                                         .copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeSmall),
@@ -259,7 +259,7 @@ class PopularStoreView extends StatelessWidget {
                                                     children: [
                                                       Text(
                                                         "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                                                        style: notoSerifMedium.copyWith(
+                                                        style: robotoMedium.copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeExtraSmall,
                                                             color: Theme.of(
@@ -274,7 +274,7 @@ class PopularStoreView extends StatelessWidget {
                                                         _storeList[index]
                                                                 .address ??
                                                             "",
-                                                        style: notoSerifMedium.copyWith(
+                                                        style: robotoMedium.copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeExtraSmall,
                                                             color: Theme.of(

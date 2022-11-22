@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
@@ -9,6 +11,7 @@ import 'package:phone_number/phone_number.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/data/model/zopay/contact_model.dart';
 import 'package:sixam_mart/data/model/zopay/new_user.dart';
 import 'package:sixam_mart/data/model/zopay/user_info.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
@@ -27,6 +30,7 @@ import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
 
 import '../../../data/api/zopay_api.dart';
 import '../../../data/model/body/signup_body.dart';
+import '../../../data/model/zopay/new_referrals.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -98,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                     Text('sign_up'.tr.toUpperCase(),
-                        style: notoSerifBlack.copyWith(fontSize: 30)),
+                        style: robotoBlack.copyWith(fontSize: 30)),
                     SizedBox(height: 50),
 
                     Container(
@@ -216,7 +220,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         (_, CurrentRemainingTime time) {
                                       if (time == null) {
                                         return TextButton(
-                                          onPressed: () {},
+                                          onPressed: () => {
+                                            isLoading
+                                                ? null
+                                                : _register(
+                                                    authController, "+84")
+                                          },
                                           child: Text(
                                               'Bạn chưa nhận được mã OTP? Gửi lại'),
                                         );
@@ -258,9 +267,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ])
                         : Center(child: CircularProgressIndicator()),
                     SizedBox(height: 30),
-
-                    // SocialLoginWidget(),
-
                     GuestButton(),
                   ]);
                 }),
@@ -272,10 +278,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Future<void> shareMoneyForReferral(String referral) async {
+    DocumentSnapshot referralExit = await ApiZopay()
+        .getReferralsCollection()
+        .withConverter(
+            fromFirestore: (snapshot, options) =>
+                NewReferral.fromJson(snapshot, options),
+            toFirestore: (NewReferral newReferral, options) =>
+                newReferral.toJson())
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
+    if (referralExit.data() == null) {
+      await ApiZopay().shareMoneyForReferral(referral);
+    }
+  }
+
   void _register(AuthController authController, String countryCode) async {
     String _firstName = _firstNameController.text.trim();
     String _number = _phoneController.text.trim();
-    String _referCode = _referCodeController.text.trim();
+    String _referCode = _referCodeController.text.toString().trim();
     FirebaseAuth auth = FirebaseAuth.instance;
     String _numberWithCountryCode = countryCode + _number;
     bool _isValid = GetPlatform.isWeb ? true : false;
@@ -288,6 +309,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isValid = true;
       } catch (e) {}
     }
+    bool _validReferral = false;
+    if (_referCode.isNotEmpty) {
+      try {
+        await PhoneNumberUtil().parse("+84$_referCode");
+        _validReferral = true;
+      } catch (e) {}
+    }
 
     if (_firstName.isEmpty) {
       showCustomSnackBar('enter_your_first_name'.tr);
@@ -295,7 +323,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       showCustomSnackBar('enter_phone_number'.tr);
     } else if (!_isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
-    } else if (_referCode.isNotEmpty && _referCode.length != 10) {
+    } else if (_referCode.isNotEmpty &&
+        !_validReferral &&
+        _referCode == _number) {
       showCustomSnackBar('invalid_refer_code'.tr);
     } else {
       if (!isCodeSent) {
@@ -337,38 +367,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       authController.clearUserNumberAndPassword();
                     }
 
+                    var key = utf8.encode(value.user.uid);
+                    var bytes = utf8.encode("1111");
+
+                    var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256
+                    var digest = hmacSha256.convert(bytes);
+
                     final user = UserInfoZopay(
                         name: _firstName,
                         phone: value.user.phoneNumber,
-                        pin: base64.encode(utf8.encode("1111")),
+                        pin: digest.toString(),
                         referralCode: _number,
                         uid: value.user.uid,
-                        qrCode: _number + _firstName);
+                        qrCode: '$_number $_firstName');
                     final userIsExits = await ApiZopay().checkUserIsExits();
                     if (!userIsExits) {
-                      _registerZopay(user).then((value) => {
-                            if (!value)
-                              {
-                                showCustomSnackBar("Lỗi đã xảy ra!",
-                                    isError: true)
-                              }
-                            else
-                              {
-                                authController
-                                    .login(user.phone, user.uid)
-                                    .then((value) => {
-                                          if (value.isSuccess)
-                                            {
-                                              Get.toNamed(RouteHelper
-                                                  .getAccessLocationRoute(
-                                                      RouteHelper.signUp))
-                                            }
-                                        })
-                              }
-                          });
+                      _registerZopay(user).then((value2) async {
+                        if (!value2) {
+                          showCustomSnackBar("Lỗi đã xảy ra!", isError: true);
+                        } else {
+                          if (_referCode.isNotEmpty && _validReferral) {
+                            await shareMoneyForReferral(_referCode);
+                          }
+                          authController
+                              .login(value.user.phoneNumber, value.user.uid)
+                              .then((value) => {
+                                    if (value.isSuccess)
+                                      {
+                                        Get.toNamed(
+                                            RouteHelper.getAccessLocationRoute(
+                                                RouteHelper.signUp))
+                                      }
+                                  });
+                        }
+                      });
                     } else {
+                      if (_referCode.isNotEmpty && _validReferral) {
+                        await shareMoneyForReferral(_referCode);
+                      }
                       authController
-                          .login(user.phone, user.uid)
+                          .login(value.user.phoneNumber, value.user.uid)
                           .then((value) => {
                                 if (value.isSuccess)
                                   {
@@ -430,32 +468,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           pin: base64.encode(utf8.encode("1111")),
                           referralCode: _number,
                           uid: value.user.uid,
-                          qrCode: _number + _firstName);
+                          qrCode: '$_number $_firstName');
                       final userIsExits = await ApiZopay().checkUserIsExits();
                       if (!userIsExits) {
-                        _registerZopay(user).then((value) => {
-                              if (!value)
-                                {
-                                  showCustomSnackBar("Lỗi đã xảy ra!",
-                                      isError: true)
-                                }
-                              else
-                                {
-                                  authController
-                                      .login(user.phone, user.uid)
-                                      .then((value) => {
-                                            if (value.isSuccess)
-                                              {
-                                                Get.toNamed(RouteHelper
-                                                    .getAccessLocationRoute(
-                                                        RouteHelper.signUp))
-                                              }
-                                          })
-                                }
-                            });
+                        _registerZopay(user).then((value2) async {
+                          if (!value2) {
+                            showCustomSnackBar("Lỗi đã xảy ra!", isError: true);
+                          } else {
+                            if (_referCode.isNotEmpty && _validReferral) {
+                              await shareMoneyForReferral(_referCode);
+                            }
+                            authController
+                                .login(value.user.phoneNumber, value.user.uid)
+                                .then((value) => {
+                                      if (value.isSuccess)
+                                        {
+                                          Get.toNamed(RouteHelper
+                                              .getAccessLocationRoute(
+                                                  RouteHelper.signUp))
+                                        }
+                                    });
+                          }
+                        });
                       } else {
+                        if (_referCode.isNotEmpty && _validReferral) {
+                          await shareMoneyForReferral(_referCode);
+                        }
+
                         authController
-                            .login(user.phone, user.uid)
+                            .login(value.user.phoneNumber, value.user.uid)
                             .then((value) => {
                                   if (value.isSuccess)
                                     {
@@ -481,6 +522,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<bool> _registerZopay(UserInfoZopay userInfoZopay) async {
     await ApiZopay().requestMoneyForFirstTime(NewUser(uid: userInfoZopay.uid));
+    await ApiZopay().getPublicUser().set(ContactModel(
+        phoneNumber: userInfoZopay.phone,
+        name: userInfoZopay.name,
+        avatarImage: userInfoZopay.image));
     return await ApiZopay().register(userInfoZopay);
   }
 }

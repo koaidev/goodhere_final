@@ -99,7 +99,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), border: Border.all(color: Theme.of(context).primaryColor, width: 1)),
-                      child: Center(child: Text('set_from_saved_address'.tr, style: notoSerifBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge))),
+                      child: Center(child: Text('set_from_saved_address'.tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge))),
                     ),
                   )
               ),
@@ -109,7 +109,7 @@ class _ReceiverViewState extends State<ReceiverView> {
 
             Column(children: [
 
-              Center(child: Text('receiver_information'.tr, style: notoSerifMedium)),
+              Center(child: Text('receiver_information'.tr, style: robotoMedium)),
               SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
               TextFieldShadow(
@@ -138,7 +138,7 @@ class _ReceiverViewState extends State<ReceiverView> {
 
             Column(children: [
 
-              Center(child: Text('destination_information'.tr, style: notoSerifMedium)),
+              Center(child: Text('destination_information'.tr, style: robotoMedium)),
               SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
               TextFieldShadow(

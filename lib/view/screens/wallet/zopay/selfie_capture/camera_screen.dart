@@ -125,7 +125,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       cameraScreenController.eyeBlink < 3
                           ? 'straighten_your_face'.tr
                           : 'processing_image'.tr,
-                      style: notoSerifRegular.copyWith(
+                      style: robotoRegular.copyWith(
                           fontSize: Dimensions.FONT_SIZE_DEFAULT),
                       maxLines: 2,
                       textAlign: TextAlign.center,

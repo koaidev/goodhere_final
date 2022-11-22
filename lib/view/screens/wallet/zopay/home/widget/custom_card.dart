@@ -51,7 +51,7 @@ class CustomCard extends StatelessWidget {
                 text,
                 textAlign: TextAlign.center,
                 maxLines: 2,
-                style: notoSerifRegular.copyWith(
+                style: robotoRegular.copyWith(
                     fontSize: Dimensions.FONT_SIZE_DEFAULT,
                     color: Theme.of(context).textTheme.bodyText1.color),
               ),

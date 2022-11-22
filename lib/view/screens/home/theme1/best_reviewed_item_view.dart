@@ -84,7 +84,7 @@ class BestReviewedItemView extends StatelessWidget {
                               child: Row(children: [
                                 Icon(Icons.star, color: Theme.of(context).primaryColor, size: 15),
                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                Text(_itemList[index].avgRating.toStringAsFixed(1), style: notoSerifRegular),
+                                Text(_itemList[index].avgRating.toStringAsFixed(1), style: robotoRegular),
                               ]),
                             ),
                           ),
@@ -97,14 +97,14 @@ class BestReviewedItemView extends StatelessWidget {
                               child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                                 Text(
                                   _itemList[index].name ?? '', textAlign: TextAlign.center,
-                                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 2, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(height: 2),
 
                                 Text(
                                   _itemList[index].storeName ?? '', textAlign: TextAlign.center,
-                                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -112,7 +112,7 @@ class BestReviewedItemView extends StatelessWidget {
                                 Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
                                   itemController.getDiscount(_itemList[index]) > 0  ? Flexible(child: Text(
                                     PriceConverter.convertPrice(itemController.getStartingPrice(_itemList[index])),
-                                    style: notoSerifRegular.copyWith(
+                                    style: robotoRegular.copyWith(
                                       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).errorColor,
                                       decoration: TextDecoration.lineThrough,
                                     ),
@@ -123,7 +123,7 @@ class BestReviewedItemView extends StatelessWidget {
                                       itemController.getStartingPrice(_itemList[index]), discount: itemController.getDiscount(_itemList[index]),
                                       discountType: itemController.getDiscountType(_itemList[index]),
                                     ),
-                                    style: notoSerifMedium,
+                                    style: robotoMedium,
                                   ),
                                 ]),
                               ]),
@@ -202,7 +202,7 @@ class BestReviewedItemShimmer extends StatelessWidget {
                       child: Row(children: [
                         Icon(Icons.star, color: Theme.of(context).primaryColor, size: 15),
                         SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        Text('0.0', style: notoSerifRegular),
+                        Text('0.0', style: robotoRegular),
                       ]),
                     ),
                   ),

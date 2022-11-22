@@ -60,7 +60,7 @@ class ModuleView extends StatelessWidget {
                 Center(child: Text(
                   splashController.moduleList[index].moduleName,
                   textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
-                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                 )),
 
               ]),

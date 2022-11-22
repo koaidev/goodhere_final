@@ -88,7 +88,7 @@ class _CouponScreenState extends State<CouponScreen> {
 
                               Text(
                                 '${couponController.couponList[index].code} (${couponController.couponList[index].title})',
-                                style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor),
+                                style: robotoRegular.copyWith(color: Theme.of(context).cardColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -96,20 +96,20 @@ class _CouponScreenState extends State<CouponScreen> {
                               Text(
                                 '${couponController.couponList[index].discount}${couponController.couponList[index].discountType == 'percent' ? '%'
                                     : Get.find<SplashController>().configModel.currencySymbol} off',
-                                style: notoSerifMedium.copyWith(color: Theme.of(context).cardColor),
+                                style: robotoMedium.copyWith(color: Theme.of(context).cardColor),
                               ),
                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
                               Row(children: [
                                 Text(
                                   '${'valid_until'.tr}:',
-                                  style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 Text(
                                   couponController.couponList[index].expireDate,
-                                  style: notoSerifMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                               ]),
@@ -117,14 +117,14 @@ class _CouponScreenState extends State<CouponScreen> {
                               Row(children: [
                                 Text(
                                   '${'type'.tr}:',
-                                  style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 Flexible(child: Text(
                                   couponController.couponList[index].couponType.tr + '${couponController.couponList[index].couponType
                                       == 'store_wise' ? ' (${couponController.couponList[index].data})' : ''}',
-                                  style: notoSerifMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 )),
                               ]),
@@ -132,13 +132,13 @@ class _CouponScreenState extends State<CouponScreen> {
                               Row(children: [
                                 Text(
                                   '${'min_purchase'.tr}:',
-                                  style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 Text(
                                   PriceConverter.convertPrice(couponController.couponList[index].minPurchase),
-                                  style: notoSerifMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                               ]),
@@ -146,13 +146,13 @@ class _CouponScreenState extends State<CouponScreen> {
                               Row(children: [
                                 Text(
                                   '${'max_discount'.tr}:',
-                                  style: notoSerifRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 Text(
                                   PriceConverter.convertPrice(couponController.couponList[index].maxDiscount),
-                                  style: notoSerifMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                  style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 1, overflow: TextOverflow.ellipsis,
                                 ),
                               ]),

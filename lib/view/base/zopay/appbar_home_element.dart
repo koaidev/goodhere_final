@@ -22,7 +22,7 @@ class AppbarHomeElement extends StatelessWidget implements PreferredSizeWidget {
           //SizedBox(height: 74.0),
           Text(
             title,
-            style: notoSerifBold.copyWith(
+            style: robotoBold.copyWith(
                 fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
                 color: ColorResources.whiteColor),
           ),

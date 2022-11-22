@@ -196,7 +196,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 'percent'
                                             ? '${_store.discount.discount}% OFF'
                                             : '${PriceConverter.convertPrice(_store.discount.discount)} OFF',
-                                        style: notoSerifMedium.copyWith(
+                                        style: robotoMedium.copyWith(
                                             fontSize: Dimensions.fontSizeLarge,
                                             color: Theme.of(context).cardColor),
                                       ),
@@ -206,7 +206,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                             ? '${'enjoy'.tr} ${_store.discount.discount}% ${'off_on_all_categories'.tr}'
                                             : '${'enjoy'.tr} ${PriceConverter.convertPrice(_store.discount.discount)}'
                                                 ' ${'off_on_all_categories'.tr}',
-                                        style: notoSerifMedium.copyWith(
+                                        style: robotoMedium.copyWith(
                                             fontSize: Dimensions.fontSizeSmall,
                                             color: Theme.of(context).cardColor),
                                       ),
@@ -221,7 +221,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       _store.discount.minPurchase != 0
                                           ? Text(
                                               '[ ${'minimum_purchase'.tr}: ${PriceConverter.convertPrice(_store.discount.minPurchase)} ]',
-                                              style: notoSerifRegular.copyWith(
+                                              style: robotoRegular.copyWith(
                                                   fontSize: Dimensions
                                                       .fontSizeExtraSmall,
                                                   color: Theme.of(context)
@@ -231,7 +231,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       _store.discount.maxDiscount != 0
                                           ? Text(
                                               '[ ${'maximum_discount'.tr}: ${PriceConverter.convertPrice(_store.discount.maxDiscount)} ]',
-                                              style: notoSerifRegular.copyWith(
+                                              style: robotoRegular.copyWith(
                                                   fontSize: Dimensions
                                                       .fontSizeExtraSmall,
                                                   color: Theme.of(context)
@@ -241,7 +241,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       Text(
                                         '[ ${'daily_time'.tr}: ${DateConverter.convertTimeToTime(_store.discount.startTime)} '
                                         '- ${DateConverter.convertTimeToTime(_store.discount.endTime)} ]',
-                                        style: notoSerifRegular.copyWith(
+                                        style: robotoRegular.copyWith(
                                             fontSize:
                                                 Dimensions.fontSizeExtraSmall,
                                             color: Theme.of(context).cardColor),
@@ -333,12 +333,12 @@ class _StoreScreenState extends State<StoreScreen> {
                                               style: index ==
                                                       storeController
                                                           .categoryIndex
-                                                  ? notoSerifMedium.copyWith(
+                                                  ? robotoMedium.copyWith(
                                                       fontSize: Dimensions
                                                           .fontSizeSmall,
                                                       color: Theme.of(context)
                                                           .primaryColor)
-                                                  : notoSerifRegular.copyWith(
+                                                  : robotoRegular.copyWith(
                                                       fontSize: Dimensions
                                                           .fontSizeSmall,
                                                       color: Theme.of(context)

@@ -66,7 +66,7 @@ class CategoryView1 extends StatelessWidget {
                                   child: Text(
                                     categoryController.categoryList[index].name, maxLines: 1, overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
-                                    style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
+                                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white),
                                   ),
                                 )),
                               ]),

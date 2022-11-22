@@ -9,14 +9,14 @@ class Referral {
 
   Referral({@required this.referralUser, this.moneyGetNow = 0});
 
-  Referral.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
+  Referral.fromJson(Map<String, dynamic> json,
       SnapshotOptions options) {
-    final json = snapshot.data();
-    this.referralUser = json['referral_user'];
-    this.moneyGetNow = json['money_get_now'];
+    // final json = snapshot.data();
+    this.referralUser = json['referralUser'];
+    this.moneyGetNow = json['moneyGetNow'];
   }
 
   Map<String, dynamic> toJson() {
-    return {'referral_user': referralUser, 'money_get_now': moneyGetNow};
+    return {'referralUser': referralUser, 'moneyGetNow': moneyGetNow};
   }
 }

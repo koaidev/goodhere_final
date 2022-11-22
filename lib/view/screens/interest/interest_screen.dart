@@ -40,10 +40,10 @@ class _InterestScreenState extends State<InterestScreen> {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                Text('choose_your_interests'.tr, style: notoSerifMedium.copyWith(fontSize: 22)),
+                Text('choose_your_interests'.tr, style: robotoMedium.copyWith(fontSize: 22)),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-                Text('get_personalized_recommendations'.tr, style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor)),
+                Text('get_personalized_recommendations'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                 Expanded(
@@ -78,7 +78,7 @@ class _InterestScreenState extends State<InterestScreen> {
                             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                             Flexible(child: Text(
                               categoryController.categoryList[index].name,
-                              style: notoSerifMedium.copyWith(
+                              style: robotoMedium.copyWith(
                                 fontSize: Dimensions.fontSizeSmall,
                                 color: categoryController.interestSelectedList[index] ? Theme.of(context).cardColor
                                     : Theme.of(context).textTheme.bodyText1.color,

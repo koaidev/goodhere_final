@@ -37,7 +37,7 @@ class CustomButton extends StatelessWidget {
             padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             child: Icon(icon, color: transparent ? Theme.of(context).primaryColor : Theme.of(context).cardColor),
           ) : SizedBox(),
-          Text(buttonText ??'', textAlign: TextAlign.center, style: notoSerifBold.copyWith(
+          Text(buttonText ??'', textAlign: TextAlign.center, style: robotoBold.copyWith(
             color: transparent ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
             fontSize: fontSize != null ? fontSize : Dimensions.fontSizeLarge,
           )),

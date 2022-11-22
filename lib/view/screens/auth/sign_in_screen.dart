@@ -24,8 +24,6 @@ import 'package:sixam_mart/view/base/web_menu_bar.dart';
 import 'package:sixam_mart/view/screens/auth/widget/condition_check_box.dart';
 import 'package:sixam_mart/view/screens/auth/widget/guest_button.dart';
 
-import '../../../data/api/zopay_api.dart';
-
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
 
@@ -54,15 +52,8 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    checkUser();
-    _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
-  }
 
-  Future<void> checkUser() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      final walletUser = await ApiZopay().getUserWallet().get();
-      Get.lazyPut(() => walletUser.data());
-    }
+    _phoneController.text = Get.find<AuthController>().getUserNumber() ?? '';
   }
 
   @override
@@ -164,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                       Text('sign_in'.tr.toUpperCase(),
-                          style: notoSerifBlack.copyWith(fontSize: 30)),
+                          style: robotoBlack.copyWith(fontSize: 30)),
                       SizedBox(height: 50),
 
                       Container(
@@ -253,8 +244,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                 widgetBuilder: (_, CurrentRemainingTime time) {
                                   if (time == null) {
                                     return TextButton(
-                                      onPressed: () {
-                                        _login(authController, "+84", true);
+                                      onPressed: () => {
+                                        !isLoading
+                                            ? _login(
+                                                authController, "+84", true)
+                                            : null
                                       },
                                       child: Text(
                                           'Bạn chưa nhận được mã OTP? Gửi lại'),

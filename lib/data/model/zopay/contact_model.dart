@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ContactModel {
   ContactModel({
     this.phoneNumber,
@@ -9,15 +11,18 @@ class ContactModel {
   String name;
   String avatarImage;
 
-  factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
-        phoneNumber: json["phoneNumber"],
-        name: json["name"],
-        avatarImage: json["avatarImage"] ?? null,
-      );
+  ContactModel.fromJson(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) {
+    final json = snapshot.data();
+    this.phoneNumber = json["phone_number"];
+    this.name = json["name"];
+    this.avatarImage = json["avatar_image"] ?? null;
+  }
 
   Map<String, dynamic> toJson() => {
-        "phoneNumber": phoneNumber,
+        "phone_number": phoneNumber,
         "name": name,
-        "avatarImage": avatarImage,
+        "avatar_image": avatarImage,
       };
 }

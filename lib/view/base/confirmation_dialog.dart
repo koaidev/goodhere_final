@@ -36,13 +36,13 @@ class ConfirmationDialog extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
               child: Text(
                 title, textAlign: TextAlign.center,
-                style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.red),
+                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.red),
               ),
             ) : SizedBox(),
 
             Padding(
               padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
-              child: Text(description, style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge), textAlign: TextAlign.center),
+              child: Text(description, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge), textAlign: TextAlign.center),
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
@@ -56,7 +56,7 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                   child: Text(
                     isLogOut ? 'yes'.tr : 'no'.tr, textAlign: TextAlign.center,
-                    style: notoSerifBold.copyWith(color: Theme.of(context).textTheme.bodyText1.color),
+                    style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyText1.color),
                   ),
                 )),
                 SizedBox(width: Dimensions.PADDING_SIZE_LARGE),

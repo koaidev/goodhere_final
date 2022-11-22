@@ -109,7 +109,7 @@ class OrderView extends StatelessWidget {
                                     borderRadius: BorderRadius.horizontal(right: Radius.circular(Dimensions.RADIUS_SMALL)),
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  child: Text('parcel'.tr, style: notoSerifMedium.copyWith(
+                                  child: Text('parcel'.tr, style: robotoMedium.copyWith(
                                     fontSize: Dimensions.fontSizeExtraSmall, color: Colors.white,
                                   )),
                                 )) : SizedBox(),
@@ -121,15 +121,15 @@ class OrderView extends StatelessWidget {
                                   Row(children: [
                                     Text(
                                       '${_isParcel ? 'delivery_id'.tr : 'order_id'.tr}:',
-                                      style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                                     ),
                                     SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                    Text('#${paginatedOrderModel.orders[index].id}', style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                    Text('#${paginatedOrderModel.orders[index].id}', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
                                   ]),
                                   SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                                   Text(
                                     DateConverter.dateTimeStringToDateTime(paginatedOrderModel.orders[index].createdAt),
-                                    style: notoSerifRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                                   ),
                                 ]),
                               ),
@@ -142,7 +142,7 @@ class OrderView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  child: Text(paginatedOrderModel.orders[index].orderStatus.tr, style: notoSerifMedium.copyWith(
+                                  child: Text(paginatedOrderModel.orders[index].orderStatus.tr, style: robotoMedium.copyWith(
                                     fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor,
                                   )),
                                 ),
@@ -158,14 +158,14 @@ class OrderView extends StatelessWidget {
                                     child: Row(children: [
                                       Image.asset(Images.tracking, height: 15, width: 15, color: Theme.of(context).primaryColor),
                                       SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                      Text(_isParcel ? 'track_delivery'.tr : 'track_order'.tr, style: notoSerifMedium.copyWith(
+                                      Text(_isParcel ? 'track_delivery'.tr : 'track_order'.tr, style: robotoMedium.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor,
                                       )),
                                     ]),
                                   ),
                                 ) : Text(
                                   '${paginatedOrderModel.orders[index].detailsCount} ${paginatedOrderModel.orders[index].detailsCount > 1 ? 'items'.tr : 'item'.tr}',
-                                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
+                                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
                                 ),
                               ]),
 

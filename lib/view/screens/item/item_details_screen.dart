@@ -129,7 +129,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(itemController.item.choiceOptions[index].title, style:notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                        Text(itemController.item.choiceOptions[index].title, style:robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         GridView.builder(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -156,7 +156,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                 ),
                                 child: Text(
                                   itemController.item.choiceOptions[index].options[i].trim(), maxLines: 1, overflow: TextOverflow.ellipsis,
-                                  style:notoSerifRegular.copyWith(
+                                  style:robotoRegular.copyWith(
                                     color: itemController.variationIndex[index] != i ? Colors.black : Colors.white,
                                   ),
                                 ),
@@ -172,7 +172,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
                   // Quantity
                   Row(children: [
-                    Text('quantity'.tr, style:notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                    Text('quantity'.tr, style:robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                     Expanded(child: SizedBox()),
                     Container(
                       decoration: BoxDecoration(color: Theme.of(context).disabledColor, borderRadius: BorderRadius.circular(5)),
@@ -198,7 +198,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           return Text(
                             itemController.cartIndex != -1 ? cartController.cartList[itemController.cartIndex].quantity.toString()
                                 : itemController.quantity.toString(),
-                            style:notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                            style:robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
                           );
                         }),
                         InkWell(
@@ -214,9 +214,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
                   Row(children: [
-                    Text('${'total_amount'.tr}:', style:notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                    Text('${'total_amount'.tr}:', style:robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
                     SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    Text(PriceConverter.convertPrice(_priceWithAddons ?? 0.0), style:notoSerifBold.copyWith(
+                    Text(PriceConverter.convertPrice(_priceWithAddons ?? 0.0), style:robotoBold.copyWith(
                       color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge,
                     )),
                   ]),
@@ -225,9 +225,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   (itemController.item.description != null && itemController.item.description.isNotEmpty) ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('description'.tr, style: notoSerifMedium),
+                      Text('description'.tr, style: robotoMedium),
                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                      Text(itemController.item.description, style: notoSerifRegular),
+                      Text(itemController.item.description, style: robotoRegular),
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                     ],
                   ) : SizedBox(),

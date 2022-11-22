@@ -30,7 +30,7 @@ class CustomStepper extends StatelessWidget {
 
         Text(
           title+'\n', maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
-          style: notoSerifMedium.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall),
+          style: robotoMedium.copyWith(color: _color, fontSize: Dimensions.fontSizeExtraSmall),
         ),
 
       ]),

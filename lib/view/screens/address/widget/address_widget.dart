@@ -41,12 +41,12 @@ class AddressWidget extends StatelessWidget {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
                   address.addressType.tr,
-                  style: notoSerifMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                  style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                 Text(
                   address.address,
-                  style: notoSerifRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                  style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                   maxLines: 1, overflow: TextOverflow.ellipsis,
                 ),
               ]),
