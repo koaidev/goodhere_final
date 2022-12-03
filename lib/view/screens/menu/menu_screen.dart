@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/data/api/zopay_api.dart';
 import 'package:sixam_mart/data/model/response/menu_model.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -29,24 +30,28 @@ class _MenuScreenState extends State<MenuScreen> {
             : 1.2;
     bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
     _menuList = [
-      MenuModel(
-          icon: '', title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
-      MenuModel(
-          icon: Images.location,
-          title: 'my_address'.tr,
-          route: RouteHelper.getAddressRoute()),
+      if (ApiZopay().isLogin())
+        MenuModel(
+            icon: '',
+            title: 'profile'.tr,
+            route: RouteHelper.getProfileRoute()),
+      if (ApiZopay().isLogin())
+        MenuModel(
+            icon: Images.location,
+            title: 'my_address'.tr,
+            route: RouteHelper.getAddressRoute()),
       // MenuModel(
       //     icon: Images.language,
       //     title: 'language'.tr,
       //     route: RouteHelper.getLanguageRoute('menu')),
     ];
-    if (Get.find<SplashController>().configModel.refEarningStatus == 1) {
+    if (ApiZopay().isLogin()) {
       _menuList.add(MenuModel(
           icon: Images.refer_code,
           title: 'refer_and_earn'.tr,
           route: RouteHelper.getReferAndEarnRoute()));
     }
-    if (Get.find<SplashController>().configModel.customerWalletStatus == 1) {
+    if (ApiZopay().isLogin()) {
       _menuList.add(MenuModel(
           icon: Images.zopay_coin,
           title: 'wallet'.tr,

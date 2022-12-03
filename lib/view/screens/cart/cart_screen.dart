@@ -63,7 +63,7 @@ class _CartScreenState extends State<CartScreen> {
                   (_addOnList[index].price *
                       cartModel.addOnIds[index].quantity);
             }
-            _itemPrice = _itemPrice + (cartModel.price * cartModel.quantity);
+            _itemPrice = _itemPrice + (cartModel.discountedPrice??cartModel.price * cartModel.quantity);
           });
           int _subTotal = _itemPrice + _addOns;
 
@@ -107,21 +107,21 @@ class _CartScreenState extends State<CartScreen> {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
-                                        height: Dimensions.PADDING_SIZE_SMALL),
-
-                                    // Total
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('item_price'.tr,
-                                              style: robotoRegular),
-                                          Text(
-                                              PriceConverter.convertPrice(
-                                                  _itemPrice),
-                                              style: robotoRegular),
-                                        ]),
+                                    // SizedBox(
+                                    //     height: Dimensions.PADDING_SIZE_SMALL),
+                                    //
+                                    // // Total
+                                    // Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceBetween,
+                                    //     children: [
+                                    //       Text('item_price'.tr,
+                                    //           style: robotoRegular),
+                                    //       Text(
+                                    //           PriceConverter.convertPrice(
+                                    //               _itemPrice),
+                                    //           style: robotoRegular),
+                                    //     ]),
                                     SizedBox(
                                         height: Get.find<SplashController>()
                                                 .configModel

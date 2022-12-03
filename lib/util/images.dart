@@ -96,9 +96,6 @@ class Images {
   static const String requestMoney_logo = 'assets/image/request_money.png';
   static const String qrCode = 'assets/image/qr_code.png';
   static const String sendMoneyLogo3 = 'assets/image/sendMoney3.png';
-  static const String cashOutLogo3 = 'assets/image/cashout3.png';
-  static const String addMoneyLogo3 = 'assets/image/addmoney3.png';
-  static const String requestMoneyLogo = 'assets/image/req_money.png';
   static const String pinChange_logo = 'assets/image/pinChange.png';
   static const String privacy = 'assets/image/Privacy.png';
   static const String language_logo = 'assets/image/Language.png';
@@ -115,6 +112,8 @@ class Images {
   static const String eye_icon = 'assets/image/eye_icon.gif';
 
   static const String avatar = 'assets/image/avatar.jpg';
+  static const String bank = 'assets/image/bank.png';
+
 
 
 

@@ -4,7 +4,7 @@ import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
   static const String APP_NAME = 'Good Here';
-  static const double APP_VERSION = 1.5;
+  static const double APP_VERSION = 11;
 
   static const String BASE_URL = 'https://goodhere.vn';
   static const String CATEGORY_URI = '/api/v1/categories';

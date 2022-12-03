@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/data/model/zopay/user_info.dart';
 import 'package:sixam_mart/data/model/zopay/user_wallet.dart';
 import 'package:sixam_mart/util/styles.dart';
 
+import '../../../../../../bank/widget/add_bank_bottom_sheet.dart';
 import '../../../../../../data/api/zopay_api.dart';
+import '../../../../../../data/model/zopay/contact_model.dart';
 import '../../../../../../helper/price_converter.dart';
 import '../../../../../../util/color_resources.dart';
 import '../../../../../../util/dimensions.dart';
@@ -15,6 +18,11 @@ import '../../transaction_money/widget/transaction_money_balance_input.dart';
 import 'custom_card.dart';
 
 class FirstCardPortion extends StatefulWidget {
+  final UserInfoZopay userInfoZopay;
+
+  const FirstCardPortion({Key key, @required this.userInfoZopay})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _FirstCardPortionState();
 }
@@ -181,17 +189,33 @@ class _FirstCardPortionState extends State<FirstCardPortion> {
                                       image: Images.cashOut_logo,
                                       text: 'cash_out_'.tr,
                                       // color: ColorResources.getCashOutCardColor(),
-                                      onTap: () => Get.to(() =>
-                                          TransactionMoneyScreen(
-                                              fromEdit: false,
-                                              phoneNumber: FirebaseAuth.instance
-                                                  .currentUser !=
-                                                  null
-                                                  ? FirebaseAuth.instance
-                                                  .currentUser.phoneNumber
-                                                  .replaceAll("+84", "0")
-                                                  : "",
-                                              transactionType: 'cash_out')))),
+                                      onTap: () async {
+                                        final response = await ApiZopay().checkBankAccount();
+                                        if(response){
+                                          Get.to(() => TransactionMoneyBalanceInput(
+                                            transactionType: "cash_out",
+                                            contactModel: ContactModel(
+                                                phoneNumber: FirebaseAuth
+                                                    .instance
+                                                    .currentUser !=
+                                                    null
+                                                    ? FirebaseAuth
+                                                    .instance
+                                                    .currentUser
+                                                    .phoneNumber
+                                                    .replaceAll(
+                                                    "+84", "0")
+                                                    : "",
+                                                name:
+                                                widget.userInfoZopay.name,
+                                                avatarImage: widget
+                                                    .userInfoZopay.image,
+                                                role: widget
+                                                    .userInfoZopay.role), userInfoZopay: widget.userInfoZopay,));
+                                        }else{
+                                          Get.bottomSheet(AddBankBottomSheet(), isScrollControlled: true, backgroundColor: Colors.transparent);
+                                        }
+                                      })),
                               Expanded(
                                 child: CustomCard(
                                     image: Images.request_list_image2,
@@ -199,7 +223,7 @@ class _FirstCardPortionState extends State<FirstCardPortion> {
                                     // color: ColorResources.getReferFriendCardColor(),
                                     onTap: () => Get.to(
                                         TransactionMoneyBalanceInput(
-                                            transactionType: 'add_money'))),
+                                            transactionType: 'add_money', userInfoZopay: widget.userInfoZopay,))),
                               ),
                             ],
                           ),

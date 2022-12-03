@@ -6,7 +6,7 @@ class UserWallet {
   String uid;
   int pointPromotion;
   int pointMain;
-  List<Referral> listReferral;
+  List<Referral> listReferral = [];
   int joinTime = DateTime.now().millisecondsSinceEpoch;
 
   UserWallet(

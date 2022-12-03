@@ -17,7 +17,13 @@ class TransactionHistoryCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _imageLogo = Images.send_money_image;
+    String _imageLogo = transaction.typeTransaction.contains("send_money")
+        ? Images.send_money_image
+        : transaction.typeTransaction.contains("add_money")
+            ? Images.request_list_image2
+            : transaction.typeTransaction.contains("cash_out")
+                ? Images.cashOut_logo
+                : Images.send_money_image;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -40,7 +46,16 @@ class TransactionHistoryCardView extends StatelessWidget {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('send_money'.tr,
+                        Text(
+                            transaction.typeTransaction.contains("add_money")
+                                ? 'add_money'.tr
+                                : transaction.typeTransaction
+                                        .contains("send_money")
+                                    ? 'send_money'.tr
+                                    : transaction.typeTransaction
+                                            .contains("cash_out")
+                                        ? 'cash_out'.tr
+                                        : 'send_money'.tr,
                             style: robotoMedium.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_DEFAULT)),
                         SizedBox(
@@ -61,7 +76,8 @@ class TransactionHistoryCardView extends StatelessWidget {
                         SizedBox(
                             height: Dimensions.PADDING_SIZE_SUPER_EXTRA_SMALL),
 
-                        Text('TrxID: ${transaction!=null?transaction.transactionId:""}',
+                        Text(
+                            'TrxID: ${transaction != null ? transaction.transactionId : ""}',
                             style: robotoRegular.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL))
                         // Text(DateConverter.localDateToIsoStringAMPM(DateTime.parse(transactions.createdAt)),style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: ColorResources.getHintColor()),),
@@ -70,8 +86,7 @@ class TransactionHistoryCardView extends StatelessWidget {
                   Text(PriceConverter.convertPrice(transaction.amount),
                       style: robotoMedium.copyWith(
                           fontSize: Dimensions.FONT_SIZE_DEFAULT,
-                          color:
-                               Colors.green)),
+                          color: Colors.green)),
                 ],
               ),
               SizedBox(height: 5),
@@ -82,8 +97,7 @@ class TransactionHistoryCardView extends StatelessWidget {
             bottom: 3,
             right: 2,
             child: Text(
-              DateConverter.localDateToIsoStringAMPM(
-                  DateTime.now()),
+              DateConverter.localDateToIsoStringAMPM(DateTime.now()),
               style: robotoRegular.copyWith(
                   fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
                   color: ColorResources.getHintColor()),

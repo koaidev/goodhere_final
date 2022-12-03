@@ -50,17 +50,14 @@ dependencies:
   fancy_snackbar:
     git:
       url: https://github.com/MR0100/fancy_snackbar.git
-  firebase_crashlytics: ^3.0.2
-  firebase_core: ^2.1.0
-  firebase_messaging: ^14.0.2
-  firebase_auth: ^4.0.2
+
   connectivity_plus: ^3.0.2
   cupertino_icons: ^1.0.5
   flutter_contacts: ^1.1.5
   azlistview: ^2.0.0
   modal_bottom_sheet: ^2.1.2
   slide_to_confirm: ^1.1.0
-  lottie: ^1.4.2
+  lottie: ^2.0.0
   expandable_bottom_sheet: ^1.1.1+1
   smooth_page_indicator: ^1.0.0+2
   webview_flutter: ^3.0.4
@@ -75,17 +72,23 @@ dependencies:
   currency_text_input_formatter: ^2.1.7
   flutter_custom_tabs: ^1.0.4
   local_auth: ^2.1.2
-  google_mlkit_barcode_scanning: ^0.4.0
-  google_mlkit_face_detection: ^0.4.0
+  google_mlkit_barcode_scanning: ^0.5.0
+  google_mlkit_face_detection: ^0.5.0
   flutter_secure_storage: ^6.0.0
   app_settings: ^4.1.8
   percent_indicator: ^4.2.2
-  cloud_firestore: ^4.0.3
-  firebase_app_check: ^0.1.1+2
+  cloud_firestore: ^4.1.0
+#  firebase_app_check: ^0.1.1+2
   flutter_native_splash: ^2.2.13
   flutter_countdown_timer: ^4.1.0
   qr_flutter: ^4.0.0
   crypto: ^3.0.2
+  firebase_storage: ^11.0.6
+  firebase_crashlytics: ^3.0.2
+  firebase_core: ^2.1.0
+  firebase_messaging: ^14.0.2
+  firebase_auth: ^4.0.2
+#  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:

@@ -46,7 +46,7 @@ class PurposeWidget extends StatelessWidget {
                 children: [
                   PurposeItem(
                       onTap: (){},
-                      image: Images.logo,
+                      image: Images.zopay_coin,
                       title: "test purpose item",
                       color: Colors.amber),
                   Visibility(

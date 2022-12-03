@@ -5,29 +5,28 @@ class TransactionType {
   static const String TYPE_NEED_HANDLE = "need_handle";
   static const String TYPE_PAYMENT = "payment";
   static const String TYPE_TRANSFER = "transfer";
+  static const String TYPE_DISCOUNT = "discount";
 }
 
 class TransactionZopay {
   String transactionId; //datecreate+ random 3 ký tự trong bảng chữ cái
   String uidSender;
   String uidReceiver;
+  String orderId;
   String nameReceiver;
   String phoneReceiver;
   int amount;
   int createdAt;
   int completeAt;
   String status;
-
-  /// need_handle||denied||success||fail
   String message;
   String typeTransaction;
-
-  /// payment||transfer
 
   TransactionZopay(
       {@required this.transactionId,
       @required this.uidSender,
       @required this.uidReceiver,
+      this.orderId,
       @required this.amount,
       @required this.createdAt,
       @required this.phoneReceiver,
@@ -52,6 +51,7 @@ class TransactionZopay {
     this.typeTransaction = json['type_transaction'];
     this.nameReceiver = json['name_receiver'];
     this.phoneReceiver = json['phone_receiver'];
+    this.orderId = json['order_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,7 +66,8 @@ class TransactionZopay {
       'message': message,
       'type_transaction': typeTransaction,
       'name_receiver': nameReceiver,
-      'phone_receiver': phoneReceiver
+      'phone_receiver': phoneReceiver,
+      'order_id': orderId
     };
   }
 }

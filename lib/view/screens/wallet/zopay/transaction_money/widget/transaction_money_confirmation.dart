@@ -14,14 +14,11 @@ import 'package:sixam_mart/view/screens/wallet/zopay/transaction_money/widget/sh
 import '../../../../../../controller/zopay/bootom_slider_controller.dart';
 import '../../../../../../data/api/zopay_api.dart';
 import '../../../../../../data/model/zopay/contact_model.dart';
-import '../../../../../../data/model/zopay/response_zopay.dart';
-import '../../../../../../data/model/zopay/transaction_zopay.dart';
 import '../../../../../../data/model/zopay/user_info.dart';
 import '../../../../../../util/color_resources.dart';
 import '../../../../../../util/dimensions.dart';
 import '../../../../../base/demo_otp_hint.dart';
 import '../../../../../base/zopay/custom_app_bar.dart';
-import '../../../../checkout/checkout_screen.dart';
 import 'bottom_sheet_with_slider.dart';
 import 'for_person_widget.dart';
 
@@ -30,11 +27,16 @@ class TransactionMoneyConfirmation extends StatelessWidget {
   final String transactionType;
   final String purpose;
   final ContactModel contactModel;
+  final int feePercent;
+  final String idReceiver;
 
-  TransactionMoneyConfirmation({@required this.inputBalance,
-    @required this.transactionType,
-    this.purpose,
-    this.contactModel});
+  TransactionMoneyConfirmation(
+      {@required this.inputBalance,
+      @required this.transactionType,
+      this.purpose,
+      this.contactModel,
+      this.feePercent = 0,
+      @required this.idReceiver});
 
   final _pinCodeFieldController = TextEditingController();
 
@@ -45,8 +47,8 @@ class TransactionMoneyConfirmation extends StatelessWidget {
           title: transactionType == 'send_money'
               ? 'send_money'.tr
               : transactionType == 'cash_out'
-              ? 'cash_out'.tr
-              : 'request_money'.tr,
+                  ? 'cash_out'.tr
+                  : 'request_money'.tr,
           onTap: () {
             Get.back();
           },
@@ -56,9 +58,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             final UserInfoZopay userInfoZopay = snapshot.data.data() ??
-                UserInfoZopay(uid: Get
-                    .find<ApiZopay>()
-                    .uid);
+                UserInfoZopay(uid: Get.find<ApiZopay>().uid);
             bool isValidPin = false;
             return SingleChildScrollView(
               child: Column(
@@ -108,7 +108,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                       var bytes = utf8.encode(value);
 
                                       var hmacSha256 =
-                                      Hmac(sha256, key); // HMAC-SHA256
+                                          Hmac(sha256, key); // HMAC-SHA256
                                       var digest = hmacSha256.convert(bytes);
                                       print("Pin: $digest");
                                       print("Pin server: ${userInfoZopay.pin}");
@@ -132,19 +132,19 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                   hintStyle: robotoMedium.copyWith(
                                       color: ColorResources.getGreyBaseGray4()),
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   cursorColor:
-                                  ColorResources.getGreyBaseGray6(),
+                                      ColorResources.getGreyBaseGray6(),
                                   pinTheme: PinTheme.defaults(
                                       shape: PinCodeFieldShape.circle,
                                       activeColor:
-                                      ColorResources.getGreyBaseGray6(),
+                                          ColorResources.getGreyBaseGray6(),
                                       activeFillColor: Colors.red,
                                       selectedColor:
-                                      ColorResources.getGreyBaseGray6(),
+                                          ColorResources.getGreyBaseGray6(),
                                       borderWidth: 0,
                                       inactiveColor:
-                                      ColorResources.getGreyBaseGray6()),
+                                          ColorResources.getGreyBaseGray6()),
                                 ),
                               ),
                             ),
@@ -160,24 +160,21 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                         isDismissible: false,
                                         enableDrag: false,
                                         shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.vertical(
-                                                top: Radius.circular(
-                                                    Dimensions
-                                                        .RADIUS_SIZE_LARGE))),
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(Dimensions
+                                                    .RADIUS_SIZE_LARGE))),
                                         builder: (context) {
                                           return BottomSheetWithSlider(
-                                            amountCharge: 0,
-                                            amount:
-                                            inputBalance.toInt(),
+                                            feePercent: feePercent,
+                                            amount: inputBalance.toInt(),
                                             contactModel: contactModel,
-                                            pinCode: Get
-                                                .find<
-                                                BottomSliderController>()
+                                            pinCode: Get.find<
+                                                    BottomSliderController>()
                                                 .pin,
-                                            transactionType:
-                                            transactionType,
+                                            transactionType: transactionType,
                                             purpose: purpose,
+                                            userInfoZopay: userInfoZopay,
+                                            idReceiver: idReceiver,
                                           );
                                         });
                                   } else {
@@ -191,8 +188,7 @@ class TransactionMoneyConfirmation extends StatelessWidget {
                                     height: Dimensions.RADIUS_SIZE_OVER_LARGE,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
-                                        color: Theme
-                                            .of(context)
+                                        color: Theme.of(context)
                                             .secondaryHeaderColor),
                                     child: Icon(Icons.arrow_forward,
                                         color: ColorResources.blackColor))),
@@ -208,5 +204,4 @@ class TransactionMoneyConfirmation extends StatelessWidget {
           },
         ));
   }
-
 }

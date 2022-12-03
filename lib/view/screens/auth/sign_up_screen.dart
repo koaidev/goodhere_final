@@ -196,6 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     onCompleted: (v) {
                                       print("Completed");
                                     },
+                                    enablePinAutofill: true,
                                     focusNode: otpFocusNode,
                                     onChanged: (value) {
                                       print(value);
@@ -288,7 +289,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 newReferral.toJson())
         .doc(FirebaseAuth.instance.currentUser.uid)
         .get();
-    if (referralExit.data() == null) {
+    if (!referralExit.exists) {
       await ApiZopay().shareMoneyForReferral(referral);
     }
   }
@@ -314,7 +315,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         await PhoneNumberUtil().parse("+84$_referCode");
         _validReferral = true;
-      } catch (e) {}
+      } catch (e) {
+        _validReferral = false;
+      }
     }
 
     if (_firstName.isEmpty) {
@@ -323,8 +326,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       showCustomSnackBar('enter_phone_number'.tr);
     } else if (!_isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
-    } else if (_referCode.isNotEmpty &&
-        !_validReferral &&
+    } else if ((_referCode.isNotEmpty &&
+        !_validReferral) ||
         _referCode == _number) {
       showCustomSnackBar('invalid_refer_code'.tr);
     } else {
@@ -375,20 +378,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     final user = UserInfoZopay(
                         name: _firstName,
-                        phone: value.user.phoneNumber,
+                        phone: value.user.phoneNumber.replaceAll("+84", "0"),
                         pin: digest.toString(),
                         referralCode: _number,
                         uid: value.user.uid,
                         qrCode: '$_number $_firstName');
                     final userIsExits = await ApiZopay().checkUserIsExits();
                     if (!userIsExits) {
-                      _registerZopay(user).then((value2) async {
+                      _registerZopay(user, referCode: _referCode).then((value2) async {
                         if (!value2) {
                           showCustomSnackBar("Lỗi đã xảy ra!", isError: true);
                         } else {
-                          if (_referCode.isNotEmpty && _validReferral) {
-                            await shareMoneyForReferral(_referCode);
-                          }
                           authController
                               .login(value.user.phoneNumber, value.user.uid)
                               .then((value) => {
@@ -402,9 +402,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }
                       });
                     } else {
-                      if (_referCode.isNotEmpty && _validReferral) {
-                        await shareMoneyForReferral(_referCode);
-                      }
                       authController
                           .login(value.user.phoneNumber, value.user.uid)
                           .then((value) => {
@@ -461,23 +458,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       } else {
                         authController.clearUserNumberAndPassword();
                       }
+                      var key = utf8.encode(value.user.uid);
+                      var bytes = utf8.encode("1111");
 
+                      var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256
+                      var digest = hmacSha256.convert(bytes);
                       final user = UserInfoZopay(
                           name: _firstName,
-                          phone: value.user.phoneNumber,
-                          pin: base64.encode(utf8.encode("1111")),
+                          phone: value.user.phoneNumber.replaceAll("+84", "0"),
+                          pin: digest.toString(),
                           referralCode: _number,
                           uid: value.user.uid,
                           qrCode: '$_number $_firstName');
                       final userIsExits = await ApiZopay().checkUserIsExits();
                       if (!userIsExits) {
-                        _registerZopay(user).then((value2) async {
+                        _registerZopay(user, referCode: _referCode).then((value2) async {
                           if (!value2) {
                             showCustomSnackBar("Lỗi đã xảy ra!", isError: true);
                           } else {
-                            if (_referCode.isNotEmpty && _validReferral) {
-                              await shareMoneyForReferral(_referCode);
-                            }
                             authController
                                 .login(value.user.phoneNumber, value.user.uid)
                                 .then((value) => {
@@ -491,10 +489,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         });
                       } else {
-                        if (_referCode.isNotEmpty && _validReferral) {
-                          await shareMoneyForReferral(_referCode);
-                        }
-
                         authController
                             .login(value.user.phoneNumber, value.user.uid)
                             .then((value) => {
@@ -520,12 +514,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  Future<bool> _registerZopay(UserInfoZopay userInfoZopay) async {
+  Future<bool> _registerZopay(UserInfoZopay userInfoZopay, {String referCode}) async {
     await ApiZopay().requestMoneyForFirstTime(NewUser(uid: userInfoZopay.uid));
     await ApiZopay().getPublicUser().set(ContactModel(
-        phoneNumber: userInfoZopay.phone,
+        phoneNumber: userInfoZopay.referralCode,
         name: userInfoZopay.name,
+        role: "user",
         avatarImage: userInfoZopay.image));
+    if (referCode.isNotEmpty) {
+      await shareMoneyForReferral(referCode);
+    }
     return await ApiZopay().register(userInfoZopay);
   }
 }

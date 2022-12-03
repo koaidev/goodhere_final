@@ -331,15 +331,15 @@ class LocationController extends GetxController implements GetxService {
     }
     HomeScreen.loadData(true);
     Get.find<OrderController>().clearPrevData();
-    if(fromSignUp) {
-      Get.offAllNamed(RouteHelper.getInterestRoute());
-    }else {
+    // if(fromSignUp) {
+    //   Get.offAllNamed(RouteHelper.getInterestRoute());
+    // }else {
       if(route != null && canRoute) {
         Get.offAllNamed(route);
       }else {
         Get.offAllNamed(RouteHelper.getInitialRoute());
       }
-    }
+    // }
   }
 
   Future<AddressModel> setLocation(String placeID, String address, GoogleMapController mapController) async {

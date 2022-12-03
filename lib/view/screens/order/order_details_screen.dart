@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:photo_view/photo_view.dart';
 import 'package:sixam_mart/controller/order_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
+import 'package:sixam_mart/data/api/zopay_api.dart';
 import 'package:sixam_mart/data/model/response/order_details_model.dart';
 import 'package:sixam_mart/data/model/response/order_model.dart';
 import 'package:sixam_mart/helper/date_converter.dart';
@@ -442,8 +443,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 )),
                 onPressed: () {
                   Get.dialog(ConfirmationDialog(
-                    icon: Images.warning, description: 'are_you_sure_to_cancel'.tr, onYesPressed: () {
+                    icon: Images.warning, description: 'are_you_sure_to_cancel'.tr, onYesPressed: () async {
                     orderController.cancelOrder(order.id);
+                    await ApiZopay().cancelOrder(order.id.toString());
                   },
                   ));
                 },

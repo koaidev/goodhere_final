@@ -51,19 +51,9 @@ android {
         applicationId "vn.goodhere.user"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 4
-        versionName "v0.0.1"
-//        multiDexEnabled true
-//        ndk { debugSymbolLevel 'SYMBOL_TABLE' }
-//        testInstrumentationRunnerArguments clearPackageData: 'true'
+        versionCode 11
+        versionName "v0.0.2 - Beta"
     }
-
-//    configurations.all {
-//        resolutionStrategy {
-//            exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
-//
-//        }
-//    }
 
     signingConfigs {
         release {
@@ -84,15 +74,6 @@ android {
         }
     }
 
-//    packagingOptions {
-//        exclude 'META-INF/INDEX.LIST'
-//    }
-//    dependenciesInfo {
-//        // Disables dependency metadata when building APKs.
-//        includeInApk = false
-//        // Disables dependency metadata when building Android App Bundles.
-//        includeInBundle = false
-//    }
 }
 
 flutter {
@@ -100,7 +81,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20"
     implementation "com.google.firebase:firebase-messaging:21.0.1"
     implementation 'com.google.mlkit:face-detection:16.1.5'
     implementation 'com.google.firebase:firebase-appcheck:16.1.0'

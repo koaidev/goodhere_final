@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ABank {
   String bankName;
   String noCard;
+  String branch;
   String cardUserName;
   String cartExpDate;
   int cardCode;
@@ -13,6 +14,7 @@ class ABank {
       {@required this.bankName,
       @required this.noCard,
       @required this.cardUserName,
+      @required this.branch,
       this.cartExpDate,
       this.cardCode,
       @required this.uid});
@@ -23,13 +25,13 @@ class ABank {
   ) {
     final data = snapshot.data();
     return ABank(
-      bankName: data['bank_name'],
-      noCard: data['no_card'],
-      cardUserName: data['card_user_name'],
-      cartExpDate: data['cart_exp_date'],
-      cardCode: data['card_code'],
-      uid: data['uid'],
-    );
+        bankName: data['bank_name'],
+        noCard: data['no_card'],
+        cardUserName: data['card_user_name'],
+        cartExpDate: data['cart_exp_date'],
+        cardCode: data['card_code'],
+        uid: data['uid'],
+        branch: data['branch']);
   }
 
   Map<String, dynamic> toFirestore() {

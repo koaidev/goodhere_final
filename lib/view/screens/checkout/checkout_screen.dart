@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_snackbar/fancy_snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -81,6 +82,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   List<CartModel> _cartList;
   bool _isWalletActive;
   String moduleType;
+  bool usePromotion = false;
+  int promotion = 0;
+  String promotionPayId;
+  String mainPayId;
 
   UserWallet userWallet;
 
@@ -120,7 +125,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     print("moduleType: $moduleType");
     if (moduleType == "pharmacy") {
       // Obtain a list of the available cameras on the device.
-
     }
   }
 
@@ -142,332 +146,359 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       endDrawer: MenuDrawer(),
       body: _isLoggedIn
           ? GetBuilder<LocationController>(builder: (locationController) {
-              return GetBuilder<StoreController>(builder: (storeController) {
-                List<DropdownMenuItem<int>> _addressList = [];
-                _addressList.add(DropdownMenuItem<int>(
-                    value: -1,
-                    child: SizedBox(
-                      width: context.width > Dimensions.WEB_MAX_WIDTH
-                          ? Dimensions.WEB_MAX_WIDTH - 50
-                          : context.width - 50,
-                      child: AddressWidget(
-                        address:
-                            Get.find<LocationController>().getUserAddress(),
-                        fromAddress: false,
-                        fromCheckout: true,
-                      ),
-                    )));
-                if (locationController.addressList != null &&
-                    storeController.store != null) {
-                  for (int index = 0;
-                      index < locationController.addressList.length;
-                      index++) {
-                    if (locationController.addressList[index].zoneIds
-                        .contains(storeController.store.zoneId)) {
+              return StreamBuilder<DocumentSnapshot>(
+                  stream: Get.find<ApiZopay>().getUserWallet(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      userWallet = UserWallet(uid: Get.find<ApiZopay>().uid);
+                    }
+                    if (snapshot.hasData) {
+                      userWallet = snapshot.data.data() ??
+                          UserWallet(uid: Get.find<ApiZopay>().uid);
+                    }
+                    return GetBuilder<StoreController>(
+                        builder: (storeController) {
+                      List<DropdownMenuItem<int>> _addressList = [];
                       _addressList.add(DropdownMenuItem<int>(
-                          value: index,
+                          value: -1,
                           child: SizedBox(
                             width: context.width > Dimensions.WEB_MAX_WIDTH
                                 ? Dimensions.WEB_MAX_WIDTH - 50
                                 : context.width - 50,
                             child: AddressWidget(
-                              address: locationController.addressList[index],
+                              address: Get.find<LocationController>()
+                                  .getUserAddress(),
                               fromAddress: false,
                               fromCheckout: true,
                             ),
                           )));
-                    }
-                  }
-                }
-
-                bool _todayClosed = false;
-                bool _tomorrowClosed = false;
-                if (storeController.store != null) {
-                  _todayClosed = storeController.isStoreClosed(
-                      true,
-                      storeController.store.active,
-                      storeController.store.schedules);
-                  _tomorrowClosed = storeController.isStoreClosed(
-                      false,
-                      storeController.store.active,
-                      storeController.store.schedules);
-                  _taxPercent = storeController.store.tax;
-                }
-                return GetBuilder<CouponController>(
-                    builder: (couponController) {
-                  return GetBuilder<OrderController>(
-                      builder: (orderController) {
-                    int _deliveryCharge = -1;
-                    int _charge = -1;
-                    if (storeController.store != null &&
-                        storeController.store.selfDeliverySystem == 1) {
-                      _deliveryCharge = storeController.store.deliveryCharge;
-                      _charge = storeController.store.deliveryCharge;
-                    } else if (storeController.store != null &&
-                        orderController.distance != null &&
-                        orderController.distance != -1) {
-                      _deliveryCharge = (orderController.distance *
-                              Get.find<SplashController>()
-                                  .configModel
-                                  .perKmShippingCharge)
-                          .toInt();
-                      _charge = (orderController.distance *
-                              Get.find<SplashController>()
-                                  .configModel
-                                  .perKmShippingCharge)
-                          .toInt();
-                      if (_deliveryCharge <
-                          Get.find<SplashController>()
-                              .configModel
-                              .minimumShippingCharge) {
-                        _deliveryCharge = Get.find<SplashController>()
-                            .configModel
-                            .minimumShippingCharge
-                            .toInt();
-                        _charge = Get.find<SplashController>()
-                            .configModel
-                            .minimumShippingCharge
-                            .toInt();
+                      if (locationController.addressList != null &&
+                          storeController.store != null) {
+                        for (int index = 0;
+                            index < locationController.addressList.length;
+                            index++) {
+                          if (locationController.addressList[index].zoneIds
+                              .contains(storeController.store.zoneId)) {
+                            _addressList.add(DropdownMenuItem<int>(
+                                value: index,
+                                child: SizedBox(
+                                  width:
+                                      context.width > Dimensions.WEB_MAX_WIDTH
+                                          ? Dimensions.WEB_MAX_WIDTH - 50
+                                          : context.width - 50,
+                                  child: AddressWidget(
+                                    address:
+                                        locationController.addressList[index],
+                                    fromAddress: false,
+                                    fromCheckout: true,
+                                  ),
+                                )));
+                          }
+                        }
                       }
-                    }
 
-                    int _price = 0;
-                    int _discount = 0;
-                    int _couponDiscount = couponController.discount;
-                    int _tax = 0;
-                    int _addOns = 0;
-                    int _subTotal = 0;
-                    int _orderAmount = 0;
-                    if (storeController.store != null) {
-                      _cartList.forEach((cartModel) {
-                        List<AddOns> _addOnList = [];
-                        cartModel.addOnIds.forEach((addOnId) {
-                          for (AddOns addOns in cartModel.item.addOns) {
-                            if (addOns.id == addOnId.id) {
-                              _addOnList.add(addOns);
-                              break;
+                      bool _todayClosed = false;
+                      bool _tomorrowClosed = false;
+                      if (storeController.store != null) {
+                        _todayClosed = storeController.isStoreClosed(
+                            true,
+                            storeController.store.active,
+                            storeController.store.schedules);
+                        _tomorrowClosed = storeController.isStoreClosed(
+                            false,
+                            storeController.store.active,
+                            storeController.store.schedules);
+                        _taxPercent = storeController.store.tax;
+                      }
+                      return GetBuilder<CouponController>(
+                          builder: (couponController) {
+                        return GetBuilder<OrderController>(
+                            builder: (orderController) {
+                          int _deliveryCharge = -1;
+                          int _charge = -1;
+                          if (storeController.store != null &&
+                              storeController.store.selfDeliverySystem == 1) {
+                            _deliveryCharge =
+                                storeController.store.deliveryCharge;
+                            _charge = storeController.store.deliveryCharge;
+                          } else if (storeController.store != null &&
+                              orderController.distance != null &&
+                              orderController.distance != -1) {
+                            _deliveryCharge = (orderController.distance *
+                                    Get.find<SplashController>()
+                                        .configModel
+                                        .perKmShippingCharge)
+                                .toInt();
+                            _charge = (orderController.distance *
+                                    Get.find<SplashController>()
+                                        .configModel
+                                        .perKmShippingCharge)
+                                .toInt();
+                            if (_deliveryCharge <
+                                Get.find<SplashController>()
+                                    .configModel
+                                    .minimumShippingCharge) {
+                              _deliveryCharge = Get.find<SplashController>()
+                                  .configModel
+                                  .minimumShippingCharge
+                                  .toInt();
+                              _charge = Get.find<SplashController>()
+                                  .configModel
+                                  .minimumShippingCharge
+                                  .toInt();
                             }
                           }
-                        });
 
-                        for (int index = 0;
-                            index < _addOnList.length;
-                            index++) {
-                          _addOns = _addOns +
-                              (_addOnList[index].price *
-                                  cartModel.addOnIds[index].quantity);
-                        }
-                        _price =
-                            _price + (cartModel.price * cartModel.quantity);
-                        int _dis = (storeController.store.discount != null &&
-                                DateConverter.isAvailable(
-                                    storeController.store.discount.startTime,
-                                    storeController.store.discount.endTime))
-                            ? storeController.store.discount.discount
-                            : cartModel.item.discount;
-                        String _disType = (storeController.store.discount !=
-                                    null &&
-                                DateConverter.isAvailable(
-                                    storeController.store.discount.startTime,
-                                    storeController.store.discount.endTime))
-                            ? 'percent'
-                            : cartModel.item.discountType;
-                        _discount = _discount +
-                            ((cartModel.price -
-                                    PriceConverter.convertWithDiscount(
-                                        cartModel.price, _dis, _disType)) *
-                                cartModel.quantity);
-                      });
-                      if (storeController.store != null &&
-                          storeController.store.discount != null) {
-                        if (storeController.store.discount.maxDiscount != 0 &&
-                            storeController.store.discount.maxDiscount <
-                                _discount) {
-                          _discount =
-                              storeController.store.discount.maxDiscount;
-                        }
-                        if (storeController.store.discount.minPurchase != 0 &&
-                            storeController.store.discount.minPurchase >
-                                (_price + _addOns)) {
-                          _discount = 0;
-                        }
-                      }
-                      _subTotal = (_price + _addOns);
-                      _orderAmount =
-                          (_price - _discount) + _addOns - _couponDiscount;
+                          int _price = 0;
+                          int _discount = 0;
+                          int _couponDiscount = couponController.discount;
+                          int _tax = 0;
+                          int _addOns = 0;
+                          int _subTotal = 0;
+                          int _orderAmount = 0;
+                          if (storeController.store != null) {
+                            _cartList.forEach((cartModel) {
+                              List<AddOns> _addOnList = [];
+                              cartModel.addOnIds.forEach((addOnId) {
+                                for (AddOns addOns in cartModel.item.addOns) {
+                                  if (addOns.id == addOnId.id) {
+                                    _addOnList.add(addOns);
+                                    break;
+                                  }
+                                }
+                              });
 
-                      if (orderController.orderType == 'take_away' ||
-                          storeController.store.freeDelivery ||
-                          (Get.find<SplashController>()
-                                      .configModel
-                                      .freeDeliveryOver !=
-                                  null &&
-                              _orderAmount >=
-                                  Get.find<SplashController>()
-                                      .configModel
-                                      .freeDeliveryOver) ||
-                          couponController.freeDelivery) {
-                        _deliveryCharge = 0;
-                      }
-                    }
-                    //todo calculator vat tax
-                    // _tax = PriceConverter.calculation(_orderAmount, _taxPercent, 'percent', 1);
-                    int _total = (_subTotal +
-                        _deliveryCharge -
-                        _discount -
-                        _couponDiscount +
-                        _tax +
-                        orderController.tips);
+                              for (int index = 0;
+                                  index < _addOnList.length;
+                                  index++) {
+                                _addOns = _addOns +
+                                    (_addOnList[index].price *
+                                        cartModel.addOnIds[index].quantity);
+                              }
+                              _price = _price +
+                                  (cartModel.price * cartModel.quantity);
+                              int _dis =
+                                  (storeController.store.discount != null &&
+                                          DateConverter.isAvailable(
+                                              storeController
+                                                  .store.discount.startTime,
+                                              storeController
+                                                  .store.discount.endTime))
+                                      ? storeController.store.discount.discount
+                                      : cartModel.item.discount;
+                              String _disType =
+                                  (storeController.store.discount != null &&
+                                          DateConverter.isAvailable(
+                                              storeController
+                                                  .store.discount.startTime,
+                                              storeController
+                                                  .store.discount.endTime))
+                                      ? 'percent'
+                                      : cartModel.item.discountType;
+                              _discount = _discount +
+                                  ((cartModel.price -
+                                          PriceConverter.convertWithDiscount(
+                                              cartModel.price,
+                                              _dis,
+                                              _disType)) *
+                                      cartModel.quantity);
+                            });
+                            if (storeController.store != null &&
+                                storeController.store.discount != null) {
+                              if (storeController.store.discount.maxDiscount !=
+                                      0 &&
+                                  storeController.store.discount.maxDiscount <
+                                      _discount) {
+                                _discount =
+                                    storeController.store.discount.maxDiscount;
+                              }
+                              if (storeController.store.discount.minPurchase !=
+                                      0 &&
+                                  storeController.store.discount.minPurchase >
+                                      (_price + _addOns)) {
+                                _discount = 0;
+                              }
+                            }
+                            _subTotal = (_price + _addOns);
+                            _orderAmount = (_price - _discount) +
+                                _addOns -
+                                _couponDiscount;
 
-                    return (orderController.distance != null &&
-                            locationController.addressList != null)
-                        ? StreamBuilder<DocumentSnapshot>( stream: Get.find<ApiZopay>().getUserWallet(),
-                        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-                          if(snapshot.hasError){
-                            userWallet = UserWallet(uid: Get.find<ApiZopay>().uid);
+                            if (orderController.orderType == 'take_away' ||
+                                storeController.store.freeDelivery ||
+                                (Get.find<SplashController>()
+                                            .configModel
+                                            .freeDeliveryOver !=
+                                        null &&
+                                    _orderAmount >=
+                                        Get.find<SplashController>()
+                                            .configModel
+                                            .freeDeliveryOver) ||
+                                couponController.freeDelivery) {
+                              _deliveryCharge = 0;
+                            }
                           }
-                          if(snapshot.hasData){
-                            userWallet = snapshot.data.data() ?? UserWallet(uid: Get.find<ApiZopay>().uid);
+                          int _total = (_subTotal +
+                              _deliveryCharge -
+                              _discount -
+                              _couponDiscount +
+                              _tax +
+                              orderController.tips);
+                          promotion = _total >= userWallet.pointPromotion
+                              ? userWallet.pointPromotion
+                              : _total;
+                          if (usePromotion) {
+                            _total =
+                                _total >= promotion ? (_total - promotion) : 0;
                           }
-                          return Column(
-                            children: [
-                              Expanded(
-                                  child: Scrollbar(
-                                      child: SingleChildScrollView(
-                                        physics: BouncingScrollPhysics(),
-                                        padding: EdgeInsets.all(
-                                            Dimensions.PADDING_SIZE_SMALL),
-                                        child: FooterView(
-                                            child: SizedBox(
-                                              width: Dimensions.WEB_MAX_WIDTH,
-                                              child: Column(
+
+                          return (orderController.distance != null &&
+                                  locationController.addressList != null)
+                              ? Column(
+                                  children: [
+                                    Expanded(
+                                        child: Scrollbar(
+                                            child: SingleChildScrollView(
+                                      physics: BouncingScrollPhysics(),
+                                      padding: EdgeInsets.all(
+                                          Dimensions.PADDING_SIZE_SMALL),
+                                      child: FooterView(
+                                          child: SizedBox(
+                                        width: Dimensions.WEB_MAX_WIDTH,
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // Order type
+                                              if (moduleType == "pharmacy")
+                                                Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    // Order type
-                                                    if (moduleType == "pharmacy")
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text('note_option'.tr,
-                                                              style: robotoMedium),
-                                                          Text('goodhere_option'.tr,
-                                                              style: robotoMedium),
-                                                        ],
-                                                      ),
-                                                    if (moduleType != "pharmacy")
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text('delivery_option'.tr,
-                                                              style: robotoMedium),
-                                                          if (moduleType == "ecommerce")
-                                                            storeController.store.delivery
-                                                                ? DeliveryOptionButton(
+                                                    Text('note_option'.tr,
+                                                        style: robotoMedium),
+                                                    Text('goodhere_option'.tr,
+                                                        style: robotoMedium),
+                                                  ],
+                                                ),
+                                              if (moduleType != "pharmacy")
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('delivery_option'.tr,
+                                                        style: robotoMedium),
+                                                    if (moduleType ==
+                                                        "ecommerce")
+                                                      storeController
+                                                              .store.delivery
+                                                          ? DeliveryOptionButton(
                                                               value: 'delivery',
                                                               title:
-                                                              'ecommerce_delivery'
-                                                                  .tr,
+                                                                  'ecommerce_delivery'
+                                                                      .tr,
                                                               charge: _charge,
                                                               isFree: true,
-                                                              typeModule: moduleType,
+                                                              typeModule:
+                                                                  moduleType,
                                                             )
-                                                                : SizedBox(),
-                                                          if (moduleType == "food" ||
-                                                              moduleType == "parcel")
-                                                            storeController.store.delivery
-                                                                ? DeliveryOptionButton(
+                                                          : SizedBox(),
+                                                    if (moduleType == "food" ||
+                                                        moduleType == "parcel")
+                                                      storeController
+                                                              .store.delivery
+                                                          ? DeliveryOptionButton(
                                                               value: 'delivery',
                                                               title:
-                                                              'home_delivery'.tr,
+                                                                  'home_delivery'
+                                                                      .tr,
                                                               charge: _charge,
                                                               isFree: storeController
-                                                                  .store.freeDelivery,
-                                                              typeModule: moduleType,
+                                                                  .store
+                                                                  .freeDelivery,
+                                                              typeModule:
+                                                                  moduleType,
                                                             )
-                                                                : SizedBox(),
-                                                          storeController.store.takeAway
-                                                              ? DeliveryOptionButton(
+                                                          : SizedBox(),
+                                                    storeController
+                                                            .store.takeAway
+                                                        ? DeliveryOptionButton(
                                                             value: 'take_away',
                                                             title: (moduleType !=
-                                                                "grocery")
+                                                                    "grocery")
                                                                 ? 'take_away'.tr
                                                                 : "grocery_delivery"
-                                                                .tr,
-                                                            charge: _deliveryCharge,
+                                                                    .tr,
+                                                            charge:
+                                                                _deliveryCharge,
                                                             isFree: true,
-                                                            typeModule: moduleType,
+                                                            typeModule:
+                                                                moduleType,
                                                           )
-                                                              : SizedBox(),
-                                                        ],
-                                                      ),
+                                                        : SizedBox(),
+                                                  ],
+                                                ),
 
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_LARGE),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_LARGE),
 
-                                                    orderController.orderType != 'take_away'
-                                                        ? Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
+                                              orderController.orderType !=
+                                                      'take_away'
+                                                  ? Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
                                                           Row(
                                                               mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
                                                               children: [
                                                                 Text(
                                                                     moduleType !=
-                                                                        "pharmacy"
+                                                                            "pharmacy"
                                                                         ? 'deliver_to'
-                                                                        .tr
+                                                                            .tr
                                                                         : "address_setup"
-                                                                        .tr,
+                                                                            .tr,
                                                                     style:
-                                                                    robotoMedium),
+                                                                        robotoMedium),
                                                                 TextButton.icon(
                                                                   onPressed:
                                                                       () async {
-                                                                    var _address = await Get.toNamed(
-                                                                        RouteHelper.getAddAddressRoute(
-                                                                            true,
-                                                                            storeController
-                                                                                .store
-                                                                                .zoneId));
+                                                                    var _address = await Get.toNamed(RouteHelper.getAddAddressRoute(
+                                                                        true,
+                                                                        storeController
+                                                                            .store
+                                                                            .zoneId));
                                                                     if (_address !=
                                                                         null) {
                                                                       if (storeController
-                                                                          .store
-                                                                          .selfDeliverySystem ==
+                                                                              .store
+                                                                              .selfDeliverySystem ==
                                                                           0) {
                                                                         orderController
                                                                             .getDistanceInKM(
                                                                           LatLng(
-                                                                              double.parse(_address
-                                                                                  .latitude),
-                                                                              double.parse(
-                                                                                  _address.longitude)),
+                                                                              double.parse(_address.latitude),
+                                                                              double.parse(_address.longitude)),
                                                                           LatLng(
-                                                                              double.parse(storeController
-                                                                                  .store
-                                                                                  .latitude),
-                                                                              double.parse(storeController
-                                                                                  .store
-                                                                                  .longitude)),
+                                                                              double.parse(storeController.store.latitude),
+                                                                              double.parse(storeController.store.longitude)),
                                                                         );
                                                                       }
                                                                       _streetNumberController
-                                                                          .text =
+                                                                              .text =
                                                                           _address.streetNumber ??
                                                                               '';
                                                                       _houseController
-                                                                          .text =
+                                                                              .text =
                                                                           _address.house ??
                                                                               '';
                                                                       _floorController
-                                                                          .text =
+                                                                              .text =
                                                                           _address.floor ??
                                                                               '';
                                                                     }
@@ -477,10 +508,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                       size: 20),
                                                                   label: Text(
                                                                       'add'.tr,
-                                                                      style: robotoMedium
-                                                                          .copyWith(
+                                                                      style: robotoMedium.copyWith(
                                                                           fontSize:
-                                                                          Dimensions.fontSizeSmall)),
+                                                                              Dimensions.fontSizeSmall)),
                                                                 ),
                                                               ]),
                                                           DropdownButton(
@@ -488,91 +518,85 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 .addressIndex,
                                                             items: _addressList,
                                                             itemHeight:
-                                                            ResponsiveHelper
-                                                                .isMobile(
-                                                                context)
-                                                                ? 70
-                                                                : 85,
+                                                                ResponsiveHelper
+                                                                        .isMobile(
+                                                                            context)
+                                                                    ? 70
+                                                                    : 85,
                                                             elevation: 0,
                                                             iconSize: 30,
-                                                            underline: SizedBox(),
-                                                            onChanged: (int index) {
+                                                            underline:
+                                                                SizedBox(),
+                                                            onChanged:
+                                                                (int index) {
                                                               if (storeController
-                                                                  .store
-                                                                  .selfDeliverySystem ==
+                                                                      .store
+                                                                      .selfDeliverySystem ==
                                                                   0) {
                                                                 orderController
                                                                     .getDistanceInKM(
                                                                   LatLng(
                                                                     double.parse(index ==
-                                                                        -1
+                                                                            -1
                                                                         ? locationController
-                                                                        .getUserAddress()
-                                                                        .latitude
+                                                                            .getUserAddress()
+                                                                            .latitude
                                                                         : locationController
-                                                                        .addressList[
-                                                                    index]
-                                                                        .latitude),
+                                                                            .addressList[index]
+                                                                            .latitude),
                                                                     double.parse(index ==
-                                                                        -1
+                                                                            -1
                                                                         ? locationController
-                                                                        .getUserAddress()
-                                                                        .longitude
+                                                                            .getUserAddress()
+                                                                            .longitude
                                                                         : locationController
-                                                                        .addressList[
-                                                                    index]
-                                                                        .longitude),
+                                                                            .addressList[index]
+                                                                            .longitude),
                                                                   ),
                                                                   LatLng(
-                                                                      double.parse(
-                                                                          storeController
-                                                                              .store
-                                                                              .latitude),
-                                                                      double.parse(
-                                                                          storeController
-                                                                              .store
-                                                                              .longitude)),
+                                                                      double.parse(storeController
+                                                                          .store
+                                                                          .latitude),
+                                                                      double.parse(storeController
+                                                                          .store
+                                                                          .longitude)),
                                                                 );
                                                               }
                                                               orderController
                                                                   .setAddressIndex(
-                                                                  index);
+                                                                      index);
                                                               _streetNumberController
                                                                   .text = index ==
-                                                                  -1
+                                                                      -1
                                                                   ? locationController
-                                                                  .getUserAddress()
-                                                                  .streetNumber ??
-                                                                  ''
+                                                                          .getUserAddress()
+                                                                          .streetNumber ??
+                                                                      ''
                                                                   : locationController
-                                                                  .addressList[
-                                                              index]
-                                                                  .streetNumber ??
-                                                                  '';
-                                                              _houseController
-                                                                  .text = index ==
-                                                                  -1
+                                                                          .addressList[
+                                                                              index]
+                                                                          .streetNumber ??
+                                                                      '';
+                                                              _houseController.text = index == -1
                                                                   ? locationController
-                                                                  .getUserAddress()
-                                                                  .house ??
-                                                                  ''
+                                                                          .getUserAddress()
+                                                                          .house ??
+                                                                      ''
                                                                   : locationController
-                                                                  .addressList[
-                                                              index]
-                                                                  .house ??
-                                                                  '';
-                                                              _floorController
-                                                                  .text = index ==
-                                                                  -1
+                                                                          .addressList[
+                                                                              index]
+                                                                          .house ??
+                                                                      '';
+                                                              _floorController.text = index == -1
                                                                   ? locationController
-                                                                  .getUserAddress()
-                                                                  .floor ??
-                                                                  ''
+                                                                          .getUserAddress()
+                                                                          .floor ??
+                                                                      ''
                                                                   : locationController
-                                                                  .addressList[
-                                                              index]
-                                                                  .floor ??
-                                                                  '';
+                                                                          .addressList[
+                                                                              index]
+                                                                          .floor ??
+                                                                      '';
                                                             },
                                                           ),
                                                           SizedBox(
@@ -580,12 +604,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   .PADDING_SIZE_LARGE),
                                                           Text(
                                                             'street_number'.tr,
-                                                            style: robotoRegular
-                                                                .copyWith(
+                                                            style: robotoRegular.copyWith(
                                                                 fontSize: Dimensions
                                                                     .fontSizeSmall,
                                                                 color: Theme.of(
-                                                                    context)
+                                                                        context)
                                                                     .disabledColor),
                                                           ),
                                                           SizedBox(
@@ -593,13 +616,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   .PADDING_SIZE_SMALL),
                                                           MyTextField(
                                                             hintText:
-                                                            'street_number'.tr,
-                                                            inputType: TextInputType
-                                                                .streetAddress,
-                                                            focusNode: _streetNode,
-                                                            nextFocus: _houseNode,
+                                                                'street_number'
+                                                                    .tr,
+                                                            inputType:
+                                                                TextInputType
+                                                                    .streetAddress,
+                                                            focusNode:
+                                                                _streetNode,
+                                                            nextFocus:
+                                                                _houseNode,
                                                             controller:
-                                                            _streetNumberController,
+                                                                _streetNumberController,
                                                           ),
                                                           SizedBox(
                                                               height: Dimensions
@@ -610,12 +637,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 'floor'.tr +
                                                                 ' ' +
                                                                 'number'.tr,
-                                                            style: robotoRegular
-                                                                .copyWith(
+                                                            style: robotoRegular.copyWith(
                                                                 fontSize: Dimensions
                                                                     .fontSizeSmall,
                                                                 color: Theme.of(
-                                                                    context)
+                                                                        context)
                                                                     .disabledColor),
                                                           ),
                                                           SizedBox(
@@ -624,37 +650,41 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           Row(
                                                             children: [
                                                               Expanded(
-                                                                child: MyTextField(
+                                                                child:
+                                                                    MyTextField(
                                                                   hintText:
-                                                                  'house'.tr,
+                                                                      'house'
+                                                                          .tr,
                                                                   inputType:
-                                                                  TextInputType
-                                                                      .text,
+                                                                      TextInputType
+                                                                          .text,
                                                                   focusNode:
-                                                                  _houseNode,
+                                                                      _houseNode,
                                                                   nextFocus:
-                                                                  _floorNode,
+                                                                      _floorNode,
                                                                   controller:
-                                                                  _houseController,
+                                                                      _houseController,
                                                                 ),
                                                               ),
                                                               SizedBox(
                                                                   width: Dimensions
                                                                       .PADDING_SIZE_SMALL),
                                                               Expanded(
-                                                                child: MyTextField(
+                                                                child:
+                                                                    MyTextField(
                                                                   hintText:
-                                                                  'floor'.tr,
+                                                                      'floor'
+                                                                          .tr,
                                                                   inputType:
-                                                                  TextInputType
-                                                                      .text,
+                                                                      TextInputType
+                                                                          .text,
                                                                   focusNode:
-                                                                  _floorNode,
+                                                                      _floorNode,
                                                                   inputAction:
-                                                                  TextInputAction
-                                                                      .done,
+                                                                      TextInputAction
+                                                                          .done,
                                                                   controller:
-                                                                  _floorController,
+                                                                      _floorController,
                                                                 ),
                                                               ),
                                                             ],
@@ -663,40 +693,48 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                               height: Dimensions
                                                                   .PADDING_SIZE_LARGE),
                                                         ])
-                                                        : SizedBox(),
+                                                  : SizedBox(),
 
-                                                    // Time Slot
-                                                    storeController.store.scheduleOrder
-                                                        ? Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text('preference_time'.tr,
-                                                              style: robotoMedium),
+                                              // Time Slot
+                                              storeController
+                                                      .store.scheduleOrder
+                                                  ? Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                          Text(
+                                                              'preference_time'
+                                                                  .tr,
+                                                              style:
+                                                                  robotoMedium),
                                                           SizedBox(
                                                               height: Dimensions
                                                                   .PADDING_SIZE_SMALL),
                                                           SizedBox(
                                                             height: 50,
-                                                            child: ListView.builder(
+                                                            child: ListView
+                                                                .builder(
                                                               scrollDirection:
-                                                              Axis.horizontal,
+                                                                  Axis.horizontal,
                                                               shrinkWrap: true,
                                                               physics:
-                                                              BouncingScrollPhysics(),
+                                                                  BouncingScrollPhysics(),
                                                               itemCount: 2,
                                                               itemBuilder:
-                                                                  (context, index) {
+                                                                  (context,
+                                                                      index) {
                                                                 return SlotWidget(
                                                                   title: index == 0
-                                                                      ? 'today'.tr
-                                                                      : 'tomorrow'.tr,
+                                                                      ? 'today'
+                                                                          .tr
+                                                                      : 'tomorrow'
+                                                                          .tr,
                                                                   isSelected:
-                                                                  orderController
-                                                                      .selectedDateSlot ==
-                                                                      index,
-                                                                  onTap: () => orderController
-                                                                      .updateDateSlot(
+                                                                      orderController
+                                                                              .selectedDateSlot ==
+                                                                          index,
+                                                                  onTap: () => orderController.updateDateSlot(
                                                                       index,
                                                                       storeController
                                                                           .store
@@ -710,233 +748,240 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   .PADDING_SIZE_SMALL),
                                                           SizedBox(
                                                             height: 50,
-                                                            child: ((orderController
-                                                                .selectedDateSlot ==
-                                                                0 &&
-                                                                _todayClosed) ||
-                                                                (orderController
-                                                                    .selectedDateSlot ==
-                                                                    1 &&
-                                                                    _tomorrowClosed))
+                                                            child: ((orderController.selectedDateSlot ==
+                                                                            0 &&
+                                                                        _todayClosed) ||
+                                                                    (orderController.selectedDateSlot ==
+                                                                            1 &&
+                                                                        _tomorrowClosed))
                                                                 ? Center(
-                                                                child: Text(_module
-                                                                    .showRestaurantText
-                                                                    ? 'restaurant_is_closed'
-                                                                    .tr
-                                                                    : 'store_is_closed'
-                                                                    .tr))
+                                                                    child: Text(_module
+                                                                            .showRestaurantText
+                                                                        ? 'restaurant_is_closed'
+                                                                            .tr
+                                                                        : 'store_is_closed'
+                                                                            .tr))
                                                                 : orderController
-                                                                .timeSlots !=
-                                                                null
-                                                                ? orderController
-                                                                .timeSlots
-                                                                .length >
-                                                                0
-                                                                ? ListView
-                                                                .builder(
-                                                              scrollDirection:
-                                                              Axis.horizontal,
-                                                              shrinkWrap:
-                                                              true,
-                                                              physics:
-                                                              BouncingScrollPhysics(),
-                                                              itemCount: orderController
-                                                                  .timeSlots
-                                                                  .length,
-                                                              itemBuilder:
-                                                                  (context,
-                                                                  index) {
-                                                                return SlotWidget(
-                                                                  title: (index == 0 && orderController.selectedDateSlot == 0 && storeController.isStoreOpenNow(storeController.store.active, storeController.store.schedules) && (_module.orderPlaceToScheduleInterval ? storeController.store.orderPlaceToScheduleInterval == 0 : true))
-                                                                      ? 'now'.tr
-                                                                      : '${DateConverter.dateToTimeOnly(orderController.timeSlots[index].startTime)} '
-                                                                      '- ${DateConverter.dateToTimeOnly(orderController.timeSlots[index].endTime)}',
-                                                                  isSelected:
-                                                                  orderController.selectedTimeSlot == index,
-                                                                  onTap: () =>
-                                                                      orderController.updateTimeSlot(index),
-                                                                );
-                                                              },
-                                                            )
-                                                                : Center(
-                                                                child:
-                                                                Text('no_slot_available'.tr))
-                                                                : Center(child: CircularProgressIndicator()),
+                                                                            .timeSlots !=
+                                                                        null
+                                                                    ? orderController.timeSlots.length >
+                                                                            0
+                                                                        ? ListView
+                                                                            .builder(
+                                                                            scrollDirection:
+                                                                                Axis.horizontal,
+                                                                            shrinkWrap:
+                                                                                true,
+                                                                            physics:
+                                                                                BouncingScrollPhysics(),
+                                                                            itemCount:
+                                                                                orderController.timeSlots.length,
+                                                                            itemBuilder:
+                                                                                (context, index) {
+                                                                              return SlotWidget(
+                                                                                title: (index == 0 && orderController.selectedDateSlot == 0 && storeController.isStoreOpenNow(storeController.store.active, storeController.store.schedules) && (_module.orderPlaceToScheduleInterval ? storeController.store.orderPlaceToScheduleInterval == 0 : true))
+                                                                                    ? 'now'.tr
+                                                                                    : '${DateConverter.dateToTimeOnly(orderController.timeSlots[index].startTime)} '
+                                                                                        '- ${DateConverter.dateToTimeOnly(orderController.timeSlots[index].endTime)}',
+                                                                                isSelected: orderController.selectedTimeSlot == index,
+                                                                                onTap: () => orderController.updateTimeSlot(index),
+                                                                              );
+                                                                            },
+                                                                          )
+                                                                        : Center(
+                                                                            child: Text('no_slot_available'
+                                                                                .tr))
+                                                                    : Center(
+                                                                        child:
+                                                                            CircularProgressIndicator()),
                                                           ),
                                                           SizedBox(
                                                               height: Dimensions
                                                                   .PADDING_SIZE_LARGE),
                                                         ])
-                                                        : SizedBox(),
+                                                  : SizedBox(),
 
-                                                    // Coupon
-                                                    GetBuilder<CouponController>(
-                                                      builder: (couponController) {
-                                                        return Row(children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              height: 50,
-                                                              child: TextField(
-                                                                controller:
-                                                                _couponController,
-                                                                style: robotoRegular
-                                                                    .copyWith(
-                                                                    height: ResponsiveHelper
-                                                                        .isMobile(
-                                                                        context)
-                                                                        ? null
-                                                                        : 2),
-                                                                decoration: InputDecoration(
-                                                                  hintText:
-                                                                  'enter_promo_code'.tr,
-                                                                  hintStyle: robotoRegular
-                                                                      .copyWith(
-                                                                      color: Theme.of(
+                                              // Coupon
+                                              GetBuilder<CouponController>(
+                                                builder: (couponController) {
+                                                  return Row(children: [
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        height: 50,
+                                                        child: TextField(
+                                                          controller:
+                                                              _couponController,
+                                                          style: robotoRegular.copyWith(
+                                                              height: ResponsiveHelper
+                                                                      .isMobile(
                                                                           context)
-                                                                          .hintColor),
-                                                                  isDense: true,
-                                                                  filled: true,
-                                                                  enabled: couponController
-                                                                      .discount ==
-                                                                      0,
-                                                                  fillColor:
-                                                                  Theme.of(context)
-                                                                      .cardColor,
-                                                                  border:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .horizontal(
-                                                                      left: Radius.circular(
-                                                                          Get.find<LocalizationController>()
-                                                                              .isLtr
-                                                                              ? 10
-                                                                              : 0),
-                                                                      right: Radius.circular(
-                                                                          Get.find<LocalizationController>()
-                                                                              .isLtr
-                                                                              ? 0
-                                                                              : 10),
-                                                                    ),
-                                                                    borderSide:
-                                                                    BorderSide.none,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              String _couponCode =
-                                                              _couponController.text
-                                                                  .trim();
-                                                              if (couponController
-                                                                  .discount <
-                                                                  1 &&
-                                                                  !couponController
-                                                                      .freeDelivery) {
-                                                                if (_couponCode
-                                                                    .isNotEmpty &&
-                                                                    !couponController
-                                                                        .isLoading) {
-                                                                  couponController
-                                                                      .applyCoupon(
-                                                                      _couponCode,
-                                                                      ((_price -
-                                                                          _discount) +
-                                                                          _addOns),
-                                                                      _deliveryCharge,
-                                                                      storeController
-                                                                          .store.id)
-                                                                      .then((discount) {
-                                                                    if (discount > 0) {
-                                                                      showCustomSnackBar(
-                                                                        '${'you_got_discount_of'.tr} ${PriceConverter.convertPrice(discount)}',
-                                                                        isError: false,
-                                                                      );
-                                                                    }
-                                                                  });
-                                                                } else if (_couponCode
-                                                                    .isEmpty) {
-                                                                  showCustomSnackBar(
-                                                                      'enter_a_coupon_code'
-                                                                          .tr);
-                                                                }
-                                                              } else {
-                                                                couponController
-                                                                    .removeCouponData(true);
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              height: 50,
-                                                              width: 100,
-                                                              alignment: Alignment.center,
-                                                              decoration: BoxDecoration(
-                                                                color: Theme.of(context)
-                                                                    .primaryColor,
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                      color: Colors.grey[
-                                                                      Get.isDarkMode
-                                                                          ? 800
-                                                                          : 200],
-                                                                      spreadRadius: 1,
-                                                                      blurRadius: 5)
-                                                                ],
-                                                                borderRadius:
-                                                                BorderRadius.horizontal(
-                                                                  left: Radius.circular(
-                                                                      Get.find<LocalizationController>()
-                                                                          .isLtr
-                                                                          ? 0
-                                                                          : 10),
-                                                                  right: Radius.circular(
-                                                                      Get.find<LocalizationController>()
-                                                                          .isLtr
-                                                                          ? 10
-                                                                          : 0),
-                                                                ),
-                                                              ),
-                                                              child: (couponController
-                                                                  .discount <=
-                                                                  0 &&
-                                                                  !couponController
-                                                                      .freeDelivery)
-                                                                  ? !couponController
-                                                                  .isLoading
-                                                                  ? Text(
-                                                                'apply'.tr,
-                                                                style: robotoMedium.copyWith(
-                                                                    color: Theme.of(
+                                                                  ? null
+                                                                  : 2),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText:
+                                                                'enter_promo_code'
+                                                                    .tr,
+                                                            hintStyle: robotoRegular.copyWith(
+                                                                color: Theme.of(
                                                                         context)
-                                                                        .cardColor),
-                                                              )
-                                                                  : CircularProgressIndicator(
-                                                                  valueColor:
-                                                                  AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                      Colors
-                                                                          .white))
-                                                                  : Icon(Icons.clear,
-                                                                  color: Colors.white),
+                                                                    .hintColor),
+                                                            isDense: true,
+                                                            filled: true,
+                                                            enabled:
+                                                                couponController
+                                                                        .discount ==
+                                                                    0,
+                                                            fillColor: Theme.of(
+                                                                    context)
+                                                                .cardColor,
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .horizontal(
+                                                                left: Radius.circular(
+                                                                    Get.find<LocalizationController>()
+                                                                            .isLtr
+                                                                        ? 10
+                                                                        : 0),
+                                                                right: Radius.circular(
+                                                                    Get.find<LocalizationController>()
+                                                                            .isLtr
+                                                                        ? 0
+                                                                        : 10),
+                                                              ),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none,
                                                             ),
                                                           ),
-                                                        ]);
-                                                      },
+                                                        ),
+                                                      ),
                                                     ),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_LARGE),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        String _couponCode =
+                                                            _couponController
+                                                                .text
+                                                                .trim();
+                                                        if (couponController
+                                                                    .discount <
+                                                                1 &&
+                                                            !couponController
+                                                                .freeDelivery) {
+                                                          if (_couponCode
+                                                                  .isNotEmpty &&
+                                                              !couponController
+                                                                  .isLoading) {
+                                                            couponController
+                                                                .applyCoupon(
+                                                                    _couponCode,
+                                                                    ((_price -
+                                                                            _discount) +
+                                                                        _addOns),
+                                                                    _deliveryCharge,
+                                                                    storeController
+                                                                        .store
+                                                                        .id)
+                                                                .then(
+                                                                    (discount) {
+                                                              if (discount >
+                                                                  0) {
+                                                                showCustomSnackBar(
+                                                                  '${'you_got_discount_of'.tr} ${PriceConverter.convertPrice(discount)}',
+                                                                  isError:
+                                                                      false,
+                                                                );
+                                                              }
+                                                            });
+                                                          } else if (_couponCode
+                                                              .isEmpty) {
+                                                            showCustomSnackBar(
+                                                                'enter_a_coupon_code'
+                                                                    .tr);
+                                                          }
+                                                        } else {
+                                                          couponController
+                                                              .removeCouponData(
+                                                                  true);
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        height: 50,
+                                                        width: 100,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                color: Colors
+                                                                        .grey[
+                                                                    Get.isDarkMode
+                                                                        ? 800
+                                                                        : 200],
+                                                                spreadRadius: 1,
+                                                                blurRadius: 5)
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .horizontal(
+                                                            left: Radius.circular(
+                                                                Get.find<LocalizationController>()
+                                                                        .isLtr
+                                                                    ? 0
+                                                                    : 10),
+                                                            right: Radius.circular(
+                                                                Get.find<LocalizationController>()
+                                                                        .isLtr
+                                                                    ? 10
+                                                                    : 0),
+                                                          ),
+                                                        ),
+                                                        child: (couponController
+                                                                        .discount <=
+                                                                    0 &&
+                                                                !couponController
+                                                                    .freeDelivery)
+                                                            ? !couponController
+                                                                    .isLoading
+                                                                ? Text(
+                                                                    'apply'.tr,
+                                                                    style: robotoMedium
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Theme.of(context).cardColor),
+                                                                  )
+                                                                : CircularProgressIndicator(
+                                                                    valueColor: AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                        Colors
+                                                                            .white))
+                                                            : Icon(Icons.clear,
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  ]);
+                                                },
+                                              ),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_LARGE),
 
-                                                    (orderController.orderType !=
-                                                        'take_away' &&
-                                                        Get.find<SplashController>()
-                                                            .configModel
-                                                            .dmTipsStatus ==
-                                                            1)
-                                                        ? Container(
-                                                      color:
-                                                      Theme.of(context).cardColor,
+                                              (orderController.orderType !=
+                                                          'take_away' &&
+                                                      Get.find<SplashController>()
+                                                              .configModel
+                                                              .dmTipsStatus ==
+                                                          1)
+                                                  ? Container(
+                                                      color: Theme.of(context)
+                                                          .cardColor,
                                                       padding: EdgeInsets.symmetric(
                                                           vertical: Dimensions
                                                               .PADDING_SIZE_LARGE,
@@ -944,72 +989,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                               .PADDING_SIZE_SMALL),
                                                       child: Column(
                                                           crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             Text(
                                                                 'delivery_man_tips'
                                                                     .tr,
                                                                 style:
-                                                                robotoMedium),
+                                                                    robotoMedium),
                                                             SizedBox(
                                                                 height: Dimensions
                                                                     .PADDING_SIZE_SMALL),
                                                             Container(
                                                               height: 50,
                                                               decoration:
-                                                              BoxDecoration(
-                                                                color:
-                                                                Theme.of(context)
+                                                                  BoxDecoration(
+                                                                color: Theme.of(
+                                                                        context)
                                                                     .cardColor,
-                                                                borderRadius: BorderRadius
-                                                                    .circular(Dimensions
-                                                                    .RADIUS_SMALL),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                        Dimensions
+                                                                            .RADIUS_SMALL),
                                                                 border: Border.all(
                                                                     color: Theme.of(
-                                                                        context)
+                                                                            context)
                                                                         .primaryColor),
                                                               ),
                                                               child: TextField(
                                                                 controller:
-                                                                _tipController,
+                                                                    _tipController,
                                                                 onChanged:
-                                                                    (String value) {
+                                                                    (String
+                                                                        value) {
                                                                   if (value
                                                                       .isNotEmpty) {
                                                                     orderController
                                                                         .addTips(
-                                                                        int.parse(
-                                                                            value));
+                                                                            int.parse(value));
                                                                   } else {
                                                                     orderController
-                                                                        .addTips(0);
+                                                                        .addTips(
+                                                                            0);
                                                                   }
                                                                 },
                                                                 maxLength: 10,
                                                                 keyboardType:
-                                                                TextInputType
-                                                                    .number,
+                                                                    TextInputType
+                                                                        .number,
                                                                 inputFormatters: [
                                                                   FilteringTextInputFormatter
                                                                       .allow(RegExp(
-                                                                      r'[0-9]'))
+                                                                          r'[0-9]'))
                                                                 ],
                                                                 decoration:
-                                                                InputDecoration(
+                                                                    InputDecoration(
                                                                   hintText:
-                                                                  'enter_amount'
-                                                                      .tr,
-                                                                  counterText: '',
+                                                                      'enter_amount'
+                                                                          .tr,
+                                                                  counterText:
+                                                                      '',
                                                                   border:
-                                                                  OutlineInputBorder(
+                                                                      OutlineInputBorder(
                                                                     borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        Dimensions
-                                                                            .RADIUS_SMALL),
+                                                                        BorderRadius.circular(
+                                                                            Dimensions.RADIUS_SMALL),
                                                                     borderSide:
-                                                                    BorderSide
-                                                                        .none,
+                                                                        BorderSide
+                                                                            .none,
                                                                   ),
                                                                 ),
                                                               ),
@@ -1019,37 +1066,39 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                     .PADDING_SIZE_DEFAULT),
                                                             SizedBox(
                                                               height: 55,
-                                                              child: ListView.builder(
+                                                              child: ListView
+                                                                  .builder(
                                                                 scrollDirection:
-                                                                Axis.horizontal,
-                                                                shrinkWrap: true,
+                                                                    Axis.horizontal,
+                                                                shrinkWrap:
+                                                                    true,
                                                                 physics:
-                                                                BouncingScrollPhysics(),
+                                                                    BouncingScrollPhysics(),
                                                                 itemCount:
-                                                                AppConstants
-                                                                    .tips.length,
+                                                                    AppConstants
+                                                                        .tips
+                                                                        .length,
                                                                 itemBuilder:
-                                                                    (context, index) {
+                                                                    (context,
+                                                                        index) {
                                                                   return TipsWidget(
                                                                     title: AppConstants
                                                                         .tipsTitle[
-                                                                    index]
+                                                                            index]
                                                                         .toString(),
                                                                     isSelected:
-                                                                    orderController
-                                                                        .selectedTips ==
-                                                                        index,
+                                                                        orderController.selectedTips ==
+                                                                            index,
                                                                     onTap: () {
                                                                       orderController
                                                                           .updateTips(
-                                                                          index);
-                                                                      orderController.addTips(
-                                                                          AppConstants
-                                                                              .tips[
-                                                                          index]
-                                                                              .toInt());
+                                                                              index);
+                                                                      orderController.addTips(AppConstants
+                                                                          .tips[
+                                                                              index]
+                                                                          .toInt());
                                                                       _tipController
-                                                                          .text =
+                                                                              .text =
                                                                           orderController
                                                                               .tips
                                                                               .toString();
@@ -1060,95 +1109,137 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                             ),
                                                           ]),
                                                     )
-                                                        : SizedBox.shrink(),
-                                                    SizedBox(
-                                                        height: (orderController
-                                                            .orderType !=
-                                                            'take_away' &&
-                                                            Get.find<SplashController>()
-                                                                .configModel
-                                                                .dmTipsStatus ==
-                                                                1)
-                                                            ? Dimensions
-                                                            .PADDING_SIZE_EXTRA_SMALL
-                                                            : 0),
+                                                  : SizedBox.shrink(),
+                                              SizedBox(
+                                                  height: (orderController
+                                                                  .orderType !=
+                                                              'take_away' &&
+                                                          Get.find<SplashController>()
+                                                                  .configModel
+                                                                  .dmTipsStatus ==
+                                                              1)
+                                                      ? Dimensions
+                                                          .PADDING_SIZE_EXTRA_SMALL
+                                                      : 0),
 
-                                                    Text('choose_payment_method'.tr,
-                                                        style: robotoMedium),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_SMALL),
-                                                    _isCashOnDeliveryActive
-                                                        ? PaymentButton(
-                                                      icon: Images.cash_on_delivery,
-                                                      title: 'cash_on_delivery'.tr,
-                                                      subtitle:
-                                                      'pay_your_payment_after_getting_item'
-                                                          .tr,
+                                              Text('choose_payment_method'.tr,
+                                                  style: robotoMedium),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_SMALL),
+                                              _isCashOnDeliveryActive
+                                                  ? PaymentButton(
+                                                      icon: Images
+                                                          .cash_on_delivery,
+                                                      title:
+                                                          'cash_on_delivery'.tr,
                                                       isSelected: orderController
-                                                          .paymentMethodIndex ==
+                                                              .paymentMethodIndex ==
                                                           0,
-                                                      onTap: () => orderController
-                                                          .setPaymentMethod(0),
+                                                      onTap: () {
+                                                        orderController
+                                                            .setPaymentMethod(
+                                                                0);
+                                                        setState(() {});
+                                                      },
                                                     )
-                                                        : SizedBox(),
-                                                    // _isDigitalPaymentActive
-                                                    //     ? PaymentButton(
-                                                    //         icon: Images.digital_payment,
-                                                    //         title: 'digital_payment'.tr,
-                                                    //         subtitle:
-                                                    //             'faster_and_safe_way'.tr,
-                                                    //         isSelected: orderController
-                                                    //                 .paymentMethodIndex ==
-                                                    //             1,
-                                                    //         onTap: () => orderController
-                                                    //             .setPaymentMethod(1),
-                                                    //       )
-                                                    //     : SizedBox(),
-                                                    _isWalletActive
-                                                        ? PaymentButton(
-                                                      icon: Images.wallet,
-                                                      title: 'wallet_payment'.tr,
-                                                      subtitle:
-                                                      'pay_from_your_existing_balance'
-                                                          .tr,
+                                                  : SizedBox(),
+                                              // _isDigitalPaymentActive
+                                              //     ? PaymentButton(
+                                              //         icon: Images.digital_payment,
+                                              //         title: 'digital_payment'.tr,
+                                              //         subtitle:
+                                              //             'faster_and_safe_way'.tr,
+                                              //         isSelected: orderController
+                                              //                 .paymentMethodIndex ==
+                                              //             1,
+                                              //         onTap: () => orderController
+                                              //             .setPaymentMethod(1),
+                                              //       )
+                                              //     : SizedBox(),
+                                              _isWalletActive
+                                                  ? PaymentButton(
+                                                      icon: Images.zopay_coin,
+                                                      title:
+                                                          'wallet_payment'.tr,
                                                       isSelected: orderController
-                                                          .paymentMethodIndex ==
+                                                              .paymentMethodIndex ==
                                                           2,
-                                                      onTap: () => orderController
-                                                          .setPaymentMethod(2),
+                                                      onTap: () {
+                                                        orderController
+                                                            .setPaymentMethod(
+                                                                2);
+                                                        setState(() {});
+                                                      },
                                                     )
-                                                        : SizedBox(),
+                                                  : SizedBox(),
 
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_LARGE),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_LARGE),
 
-                                                    CustomTextField(
-                                                      controller: _noteController,
-                                                      hintText: 'additional_note'.tr,
-                                                      maxLines: 3,
-                                                      inputType: TextInputType.multiline,
-                                                      inputAction: TextInputAction.newline,
-                                                      capitalization:
-                                                      TextCapitalization.sentences,
+                                              Visibility(
+                                                child: Row(
+                                                  children: [
+                                                    Text("Dùng TKKM Zopay"),
+                                                    Spacer(
+                                                      flex: 1,
                                                     ),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_LARGE),
+                                                    Text(usePromotion
+                                                        ? "- ${PriceConverter.convertPrice(promotion)}"
+                                                        : PriceConverter
+                                                            .convertPrice(
+                                                                promotion)),
+                                                    Switch(
+                                                      value: usePromotion,
+                                                      onChanged: (bool value) {
+                                                        setState(() {
+                                                          usePromotion = value;
+                                                        });
+                                                      },
+                                                      activeColor: Colors.green,
+                                                    )
+                                                  ],
+                                                ),
+                                                visible:
+                                                    userWallet.pointPromotion >
+                                                        0,
+                                              ),
+                                              if (orderController
+                                                      .paymentMethodIndex ==
+                                                  0)
+                                                SizedBox(),
+                                              CustomTextField(
+                                                controller: _noteController,
+                                                hintText: 'additional_note'.tr,
+                                                maxLines: 3,
+                                                inputType:
+                                                    TextInputType.multiline,
+                                                inputAction:
+                                                    TextInputAction.newline,
+                                                capitalization:
+                                                    TextCapitalization
+                                                        .sentences,
+                                              ),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_LARGE),
 
-                                                    Get.find<SplashController>()
-                                                        .configModel
-                                                        .moduleConfig
-                                                        .module
-                                                        .orderAttachment
-                                                        ? Column(
+                                              Get.find<SplashController>()
+                                                      .configModel
+                                                      .moduleConfig
+                                                      .module
+                                                      .orderAttachment
+                                                  ? Column(
                                                       crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Row(children: [
-                                                          Text('prescription'.tr,
-                                                              style: robotoMedium),
+                                                          Text(
+                                                              'prescription'.tr,
+                                                              style:
+                                                                  robotoMedium),
                                                           SizedBox(
                                                               width: Dimensions
                                                                   .PADDING_SIZE_EXTRA_SMALL),
@@ -1158,7 +1249,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 .copyWith(
                                                               fontSize: Dimensions
                                                                   .fontSizeExtraSmall,
-                                                              color: Theme.of(context)
+                                                              color: Theme.of(
+                                                                      context)
                                                                   .errorColor,
                                                             ),
                                                           ),
@@ -1168,62 +1260,62 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 .PADDING_SIZE_SMALL),
                                                         ImagePickerWidget(
                                                           image: '',
-                                                          rawFile: orderController
-                                                              .rawAttachment,
+                                                          rawFile:
+                                                              orderController
+                                                                  .rawAttachment,
                                                           onTap: () {
                                                             showModalBottomSheet<
                                                                 void>(
                                                               context: context,
-                                                              builder: (BuildContext
-                                                              context) {
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
                                                                 return Container(
                                                                   height: 200,
-                                                                  color: Colors.green,
+                                                                  color: Colors
+                                                                      .green,
                                                                   child: Center(
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
+                                                                          MainAxisAlignment
+                                                                              .center,
                                                                       mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
+                                                                          MainAxisSize
+                                                                              .min,
                                                                       children: <
                                                                           Widget>[
                                                                         const Text(
                                                                             'Cung cấp ảnh mặt bằng cần setup'),
                                                                         SizedBox(
-                                                                          height: 30,
+                                                                          height:
+                                                                              30,
                                                                         ),
                                                                         ElevatedButton(
-                                                                          child: const Text(
-                                                                              'Chụp ảnh từ Camera'),
+                                                                          child:
+                                                                              const Text('Chụp ảnh từ Camera'),
                                                                           onPressed: () =>
-                                                                              Navigator.of(context)
-                                                                                  .push(
-                                                                                MaterialPageRoute(
-                                                                                  builder:
-                                                                                      (context) =>
-                                                                                      TakePictureScreen(
-                                                                                        // Pass the automatically generated path to
-                                                                                        // the DisplayPictureScreen widget.
-                                                                                        camera:
-                                                                                        Get.find<CameraDescription>(),
-                                                                                        orderController:
-                                                                                        orderController,
-                                                                                      ),
-                                                                                ),
+                                                                              Navigator.of(context).push(
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => TakePictureScreen(
+                                                                                // Pass the automatically generated path to
+                                                                                // the DisplayPictureScreen widget.
+                                                                                camera: Get.find<CameraDescription>(),
+                                                                                orderController: orderController,
                                                                               ),
+                                                                            ),
+                                                                          ),
                                                                         ),
                                                                         SizedBox(
-                                                                          height: 15,
+                                                                          height:
+                                                                              15,
                                                                         ),
                                                                         ElevatedButton(
-                                                                          child: const Text(
-                                                                              'Chọn ảnh từ thư viện'),
-                                                                          onPressed: () =>
-                                                                              orderController.pickImage(
-                                                                                  true,
-                                                                                  null),
+                                                                          child:
+                                                                              const Text('Chọn ảnh từ thư viện'),
+                                                                          onPressed: () => orderController.pickImage(
+                                                                              true,
+                                                                              null),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -1235,180 +1327,198 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                         ),
                                                       ],
                                                     )
-                                                        : SizedBox(),
+                                                  : SizedBox(),
 
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                              _module.addOn
-                                                                  ? 'subtotal'.tr
-                                                                  : 'item_price'.tr,
-                                                              style: robotoMedium),
-                                                          Text(
-                                                              PriceConverter.convertPrice(
-                                                                  _subTotal),
-                                                              style: robotoMedium),
-                                                        ]),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_SMALL),
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Text('discount'.tr,
-                                                              style: robotoRegular),
-                                                          Text(
-                                                              '(-) ${PriceConverter.convertPrice(_discount)}',
-                                                              style: robotoRegular),
-                                                        ]),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_SMALL),
-                                                    (couponController.discount > 0 ||
-                                                        couponController.freeDelivery)
-                                                        ? Column(children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                        _module.addOn
+                                                            ? 'subtotal'.tr
+                                                            : 'item_price'.tr,
+                                                        style: robotoMedium),
+                                                    Text(
+                                                        PriceConverter
+                                                            .convertPrice(
+                                                                _subTotal),
+                                                        style: robotoMedium),
+                                                  ]),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_SMALL),
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text('discount'.tr,
+                                                        style: robotoRegular),
+                                                    Text(
+                                                        '- ${PriceConverter.convertPrice(_discount)}',
+                                                        style: robotoRegular),
+                                                  ]),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_SMALL),
+                                              (couponController.discount > 0 ||
+                                                      couponController
+                                                          .freeDelivery)
+                                                  ? Column(children: [
                                                       Row(
                                                           mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Text('coupon_discount'.tr,
+                                                            Text(
+                                                                'coupon_discount'
+                                                                    .tr,
                                                                 style:
-                                                                robotoRegular),
+                                                                    robotoRegular),
                                                             (couponController
-                                                                .coupon !=
-                                                                null &&
-                                                                couponController
-                                                                    .coupon
-                                                                    .couponType ==
-                                                                    'free_delivery')
+                                                                            .coupon !=
+                                                                        null &&
+                                                                    couponController
+                                                                            .coupon
+                                                                            .couponType ==
+                                                                        'free_delivery')
                                                                 ? Text(
-                                                              'free_delivery'
-                                                                  .tr,
-                                                              style: robotoRegular.copyWith(
-                                                                  color: Theme.of(
-                                                                      context)
-                                                                      .primaryColor),
-                                                            )
+                                                                    'free_delivery'
+                                                                        .tr,
+                                                                    style: robotoRegular
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Theme.of(context).primaryColor),
+                                                                  )
                                                                 : Text(
-                                                              '(-) ${PriceConverter.convertPrice(couponController.discount)}',
-                                                              style:
-                                                              robotoRegular,
-                                                            ),
+                                                                    '- ${PriceConverter.convertPrice(couponController.discount)}',
+                                                                    style:
+                                                                        robotoRegular,
+                                                                  ),
                                                           ]),
                                                       SizedBox(
                                                           height: Dimensions
                                                               .PADDING_SIZE_SMALL),
                                                     ])
-                                                        : SizedBox(),
-                                                    // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                    //   Text('vat_tax'.tr, style: robotoRegular),
-                                                    //   Text('(+) ${PriceConverter.convertPrice(_tax)}', style: robotoRegular),
-                                                    // ]),
-                                                    SizedBox(
-                                                        height:
-                                                        Dimensions.PADDING_SIZE_SMALL),
+                                                  : SizedBox(),
+                                              // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                              //   Text('vat_tax'.tr, style: robotoRegular),
+                                              //   Text('(+) ${PriceConverter.convertPrice(_tax)}', style: robotoRegular),
+                                              // ]),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_SMALL),
 
-                                                    (Get.find<SplashController>()
-                                                        .configModel
-                                                        .dmTipsStatus ==
-                                                        1)
-                                                        ? Row(
+                                              (Get.find<SplashController>()
+                                                          .configModel
+                                                          .dmTipsStatus ==
+                                                      1)
+                                                  ? Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
-                                                        Text('delivery_man_tips'.tr,
-                                                            style: robotoRegular),
                                                         Text(
-                                                            '(+) ${PriceConverter.convertPrice(orderController.tips)}',
-                                                            style: robotoRegular),
+                                                            'delivery_man_tips'
+                                                                .tr,
+                                                            style:
+                                                                robotoRegular),
+                                                        Text(
+                                                            '+ ${PriceConverter.convertPrice(orderController.tips)}',
+                                                            style:
+                                                                robotoRegular),
                                                       ],
                                                     )
-                                                        : SizedBox.shrink(),
-                                                    SizedBox(
-                                                        height: Get.find<SplashController>()
-                                                            .configModel
-                                                            .dmTipsStatus ==
-                                                            1
-                                                            ? Dimensions.PADDING_SIZE_SMALL
-                                                            : 0.0),
+                                                  : SizedBox.shrink(),
+                                              SizedBox(
+                                                  height:
+                                                      Get.find<SplashController>()
+                                                                  .configModel
+                                                                  .dmTipsStatus ==
+                                                              1
+                                                          ? Dimensions
+                                                              .PADDING_SIZE_SMALL
+                                                          : 0.0),
 
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Text('delivery_fee'.tr,
-                                                              style: robotoRegular),
-                                                          _deliveryCharge == -1
-                                                              ? Text(
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text('delivery_fee'.tr,
+                                                        style: robotoRegular),
+                                                    _deliveryCharge == -1
+                                                        ? Text(
                                                             'calculating'.tr,
                                                             style: robotoRegular
                                                                 .copyWith(
-                                                                color:
-                                                                Colors.red),
+                                                                    color: Colors
+                                                                        .red),
                                                           )
-                                                              : (_deliveryCharge == 0 ||
-                                                              (couponController
-                                                                  .coupon !=
-                                                                  null &&
-                                                                  couponController
-                                                                      .coupon
-                                                                      .couponType ==
-                                                                      'free_delivery'))
-                                                              ? Text(
-                                                            'free'.tr,
-                                                            style: robotoRegular
-                                                                .copyWith(
-                                                                color: Theme.of(
-                                                                    context)
-                                                                    .primaryColor),
-                                                          )
-                                                              : Text(
-                                                            '(+) ${PriceConverter.convertPrice(_deliveryCharge)}',
-                                                            style:
-                                                            robotoRegular,
-                                                          ),
-                                                        ]),
-                                                    Padding(
-                                                      padding: EdgeInsets.symmetric(
-                                                          vertical: Dimensions
-                                                              .PADDING_SIZE_SMALL),
-                                                      child: Divider(
-                                                          thickness: 1,
-                                                          color: Theme.of(context)
-                                                              .hintColor
-                                                              .withOpacity(0.5)),
+                                                        : (_deliveryCharge ==
+                                                                    0 ||
+                                                                (couponController
+                                                                            .coupon !=
+                                                                        null &&
+                                                                    couponController
+                                                                            .coupon
+                                                                            .couponType ==
+                                                                        'free_delivery'))
+                                                            ? Text(
+                                                                'free'.tr,
+                                                                style: robotoRegular.copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                              )
+                                                            : Text(
+                                                                '+ ${PriceConverter.convertPrice(_deliveryCharge)}',
+                                                                style:
+                                                                    robotoRegular,
+                                                              ),
+                                                  ]),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: Dimensions
+                                                        .PADDING_SIZE_SMALL),
+                                                child: Divider(
+                                                    thickness: 1,
+                                                    color: Theme.of(context)
+                                                        .hintColor
+                                                        .withOpacity(0.5)),
+                                              ),
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'total_amount'.tr,
+                                                      style: robotoMedium.copyWith(
+                                                          fontSize: Dimensions
+                                                              .fontSizeLarge,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColor),
                                                     ),
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            'total_amount'.tr,
-                                                            style: robotoMedium.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                color: Theme.of(context)
-                                                                    .primaryColor),
-                                                          ),
-                                                          Text(
-                                                            PriceConverter.convertPrice(
-                                                                _total),
-                                                            style: robotoMedium.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                color: Theme.of(context)
-                                                                    .primaryColor),
-                                                          ),
-                                                        ]),
+                                                    Text(
+                                                      PriceConverter
+                                                          .convertPrice(_total),
+                                                      style: robotoMedium.copyWith(
+                                                          fontSize: Dimensions
+                                                              .fontSizeLarge,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColor),
+                                                    ),
+                                                  ]),
 
-                                                    ResponsiveHelper.isDesktop(context)
-                                                        ? Padding(
-                                                      padding: const EdgeInsets.only(
+                                              ResponsiveHelper.isDesktop(
+                                                      context)
+                                                  ? Padding(
+                                                      padding: const EdgeInsets
+                                                              .only(
                                                           top: Dimensions
                                                               .PADDING_SIZE_LARGE),
                                                       child: _orderPlaceButton(
@@ -1424,34 +1534,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                         _total,
                                                       ),
                                                     )
-                                                        : SizedBox(),
-                                                  ]),
-                                            )),
-                                      ))),
-                              ResponsiveHelper.isDesktop(context)
-                                  ? SizedBox()
-                                  : _orderPlaceButton(
-                                orderController,
-                                storeController,
-                                locationController,
-                                _todayClosed,
-                                _tomorrowClosed,
-                                _orderAmount,
-                                _deliveryCharge,
-                                _tax,
-                                _discount,
-                                _total,
-                              ),
-                              SizedBox(
-                                height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                              )
-                            ],
-                          );
-                        })
-                        : Center(child: CircularProgressIndicator());
+                                                  : SizedBox(),
+                                            ]),
+                                      )),
+                                    ))),
+                                    ResponsiveHelper.isDesktop(context)
+                                        ? SizedBox()
+                                        : _orderPlaceButton(
+                                            orderController,
+                                            storeController,
+                                            locationController,
+                                            _todayClosed,
+                                            _tomorrowClosed,
+                                            _orderAmount,
+                                            _deliveryCharge,
+                                            _tax,
+                                            _discount,
+                                            _total,
+                                          ),
+                                    SizedBox(
+                                      height:
+                                          Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                                    )
+                                  ],
+                                )
+                              : Center(child: CircularProgressIndicator());
+                        });
+                      });
+                    });
                   });
-                });
-              });
             })
           : NotLoggedInScreen(),
     );
@@ -1459,6 +1570,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _callback(bool isSuccess, String message, String orderID) async {
     if (isSuccess) {
+      if (promotionPayId != null) {
+        ApiZopay().updateOrderId(promotionPayId, orderID);
+      }
+      if (mainPayId != null) {
+        ApiZopay().updateOrderId(mainPayId, orderID);
+      }
       if (widget.fromCart) {
         Get.find<CartController>().clearCartList();
       }
@@ -1486,6 +1603,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Get.find<UserController>().userInfoModel.id,
                 Get.find<OrderController>().orderType,
               ));
+              // Get.toNamed(RouteHelper.getPopularItemRoute(true));
+
+              // Get.offNamed(RouteHelper.getInitialRoute(
+              // ));
             },
           );
         }
@@ -1632,13 +1753,134 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ? Get.find<LocationController>().getUserAddress()
                       : locationController
                           .addressList[orderController.addressIndex];
-                  if (orderController.paymentMethodIndex == 2) {
+                  if(orderController.paymentMethodIndex == 2){
                     final amountZopay = await checkAmountZopay();
-                    if (amountZopay >= total) {
-                      final response =
-                          await payViaZopayWallet(total, storeController);
-                      if (response.status == ApiZopay.STATUS_SUCCESS) {
-
+                    if(amountZopay<total){
+                      FancySnackbar.showSnackbar(
+                        context,
+                        snackBarType: FancySnackBarType.waiting,
+                        title: "Lỗi Thanh Toán",
+                        message: "Số dư không đủ.",
+                        duration: 2,
+                        onCloseEvent: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                      return;
+                    }
+                  }
+                  if (usePromotion) {
+                    final responsePromotion = await discountPromotionZopay(
+                        promotion, storeController);
+                    if (responsePromotion.status == ApiZopay.STATUS_SUCCESS) {
+                      setState(() {
+                        promotionPayId = responsePromotion.message;
+                      });
+                      if (orderController.paymentMethodIndex == 2) {
+                        if (storeController.store.phone
+                                .replaceAll("+84", "0") ==
+                            (FirebaseAuth.instance.currentUser != null
+                                ? FirebaseAuth.instance.currentUser.phoneNumber
+                                    .replaceAll("+84", "0")
+                                : "")) {
+                          showCustomSnackBar(
+                              "Bạn không thể đặt hàng chính mình",
+                              isError: true);
+                        } else {
+                          final amountZopay = await checkAmountZopay();
+                          if (amountZopay >= total) {
+                            final response =
+                                await payViaZopayWallet(total, storeController);
+                            if (response.status == ApiZopay.STATUS_SUCCESS) {
+                              setState(() {
+                                mainPayId = response.message;
+                              });
+                              orderController.placeOrder(
+                                  PlaceOrderBody(
+                                    cart: carts,
+                                    couponDiscountAmount:
+                                        Get.find<CouponController>().discount,
+                                    distance: orderController.distance,
+                                    scheduleAt: !storeController
+                                            .store.scheduleOrder
+                                        ? null
+                                        : (orderController.selectedDateSlot ==
+                                                    0 &&
+                                                orderController
+                                                        .selectedTimeSlot ==
+                                                    0)
+                                            ? null
+                                            : DateConverter.dateToDateAndTime(
+                                                _scheduleEndDate),
+                                    orderAmount: total,
+                                    orderNote: _noteController.text,
+                                    orderType: orderController.orderType,
+                                    paymentMethod: 'wallet',
+                                    couponCode:
+                                        (Get.find<CouponController>().discount >
+                                                    0 ||
+                                                (Get.find<CouponController>()
+                                                            .coupon !=
+                                                        null &&
+                                                    Get.find<CouponController>()
+                                                        .freeDelivery))
+                                            ? Get.find<CouponController>()
+                                                .coupon
+                                                .code
+                                            : null,
+                                    storeId: _cartList[0].item.storeId,
+                                    address: _address.address,
+                                    latitude: _address.latitude,
+                                    longitude: _address.longitude,
+                                    addressType: _address.addressType,
+                                    contactPersonName: _address
+                                            .contactPersonName ??
+                                        '${Get.find<UserController>().userInfoModel.fName} '
+                                            '${Get.find<UserController>().userInfoModel.lName}',
+                                    contactPersonNumber:
+                                        _address.contactPersonNumber ??
+                                            Get.find<UserController>()
+                                                .userInfoModel
+                                                .phone,
+                                    streetNumber:
+                                        _streetNumberController.text.trim() ??
+                                            '',
+                                    house: _houseController.text.trim(),
+                                    floor: _floorController.text.trim(),
+                                    discountAmount: discount,
+                                    taxAmount: tax,
+                                    receiverDetails: null,
+                                    parcelCategoryId: null,
+                                    chargePayer: null,
+                                    dmTips: _tipController.text.trim(),
+                                  ),
+                                  _callback);
+                            } else {
+                              FancySnackbar.showSnackbar(
+                                context,
+                                snackBarType: FancySnackBarType.waiting,
+                                title: "Lỗi Thanh Toán",
+                                message: "Vui lòng thử lại sau.",
+                                duration: 2,
+                                onCloseEvent: () {
+                                  Navigator.pop(context);
+                                },
+                              );
+                            }
+                          } else {
+                            FancySnackbar.showSnackbar(
+                              context,
+                              snackBarType: FancySnackBarType.waiting,
+                              title: "Lỗi Thanh Toán",
+                              message: "Số dư không đủ.",
+                              duration: 2,
+                              onCloseEvent: () {
+                                Navigator.pop(context);
+                              },
+                            );
+                          }
+                        }
+                      } else {
                         orderController.placeOrder(
                             PlaceOrderBody(
                               cart: carts,
@@ -1695,24 +1937,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               dmTips: _tipController.text.trim(),
                             ),
                             _callback);
-                      } else {
                         FancySnackbar.showSnackbar(
                           context,
                           snackBarType: FancySnackBarType.waiting,
-                          title: "Lỗi Thanh Toán",
-                          message: "Vui lòng thử lại sau.",
+                          title: "order_waiting".tr,
+                          message: "order_waiting_message".tr,
                           duration: 2,
                           onCloseEvent: () {
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
                           },
                         );
+                        Get.offNamed(
+                            RouteHelper.getInitialRoute());
                       }
                     } else {
                       FancySnackbar.showSnackbar(
                         context,
                         snackBarType: FancySnackBarType.waiting,
-                        title: "Lỗi Thanh Toán",
-                        message: "Số dư không đủ.",
+                        title: "Lỗi đã xảy ra.",
+                        message: "Vui lòng thử lại sau.",
                         duration: 2,
                         onCloseEvent: () {
                           Navigator.pop(context);
@@ -1720,67 +1963,171 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       );
                     }
                   } else {
-                    orderController.placeOrder(
-                        PlaceOrderBody(
-                          cart: carts,
-                          couponDiscountAmount:
-                              Get.find<CouponController>().discount,
-                          distance: orderController.distance,
-                          scheduleAt: !storeController.store.scheduleOrder
-                              ? null
-                              : (orderController.selectedDateSlot == 0 &&
-                                      orderController.selectedTimeSlot == 0)
-                                  ? null
-                                  : DateConverter.dateToDateAndTime(
-                                      _scheduleEndDate),
-                          orderAmount: total,
-                          orderNote: _noteController.text,
-                          orderType: orderController.orderType,
-                          paymentMethod: orderController.paymentMethodIndex == 0
-                              ? 'cash_on_delivery'
-                              : orderController.paymentMethodIndex == 1
-                                  ? 'digital_payment'
-                                  : 'wallet',
-                          couponCode:
-                              (Get.find<CouponController>().discount > 0 ||
-                                      (Get.find<CouponController>().coupon !=
-                                              null &&
-                                          Get.find<CouponController>()
-                                              .freeDelivery))
-                                  ? Get.find<CouponController>().coupon.code
-                                  : null,
-                          storeId: _cartList[0].item.storeId,
-                          address: _address.address,
-                          latitude: _address.latitude,
-                          longitude: _address.longitude,
-                          addressType: _address.addressType,
-                          contactPersonName: _address.contactPersonName ??
-                              '${Get.find<UserController>().userInfoModel.fName} '
-                                  '${Get.find<UserController>().userInfoModel.lName}',
-                          contactPersonNumber: _address.contactPersonNumber ??
-                              Get.find<UserController>().userInfoModel.phone,
-                          streetNumber:
-                              _streetNumberController.text.trim() ?? '',
-                          house: _houseController.text.trim(),
-                          floor: _floorController.text.trim(),
-                          discountAmount: discount,
-                          taxAmount: tax,
-                          receiverDetails: null,
-                          parcelCategoryId: null,
-                          chargePayer: null,
-                          dmTips: _tipController.text.trim(),
-                        ),
-                        _callback);
-                    FancySnackbar.showSnackbar(
-                      context,
-                      snackBarType: FancySnackBarType.waiting,
-                      title: "order_waiting".tr,
-                      message: "order_waiting_message".tr,
-                      duration: 2,
-                      onCloseEvent: () {
-                        Navigator.pop(context);
-                      },
-                    );
+                    if (orderController.paymentMethodIndex == 2) {
+                      if (storeController.store.phone.replaceAll("+84", "0") ==
+                          (FirebaseAuth.instance.currentUser != null
+                              ? FirebaseAuth.instance.currentUser.phoneNumber
+                                  .replaceAll("+84", "0")
+                              : "")) {
+                        showCustomSnackBar("Bạn không thể đặt hàng chính mình",
+                            isError: true);
+                      } else {
+                        final amountZopay = await checkAmountZopay();
+                        if (amountZopay >= total) {
+                          final response =
+                              await payViaZopayWallet(total, storeController);
+                          if (response.status == ApiZopay.STATUS_SUCCESS) {
+                            setState(() {
+                              mainPayId = response.message;
+                            });
+                            orderController.placeOrder(
+                                PlaceOrderBody(
+                                  cart: carts,
+                                  couponDiscountAmount:
+                                      Get.find<CouponController>().discount,
+                                  distance: orderController.distance,
+                                  scheduleAt:
+                                      !storeController.store.scheduleOrder
+                                          ? null
+                                          : (orderController.selectedDateSlot ==
+                                                      0 &&
+                                                  orderController
+                                                          .selectedTimeSlot ==
+                                                      0)
+                                              ? null
+                                              : DateConverter.dateToDateAndTime(
+                                                  _scheduleEndDate),
+                                  orderAmount: total,
+                                  orderNote: _noteController.text,
+                                  orderType: orderController.orderType,
+                                  paymentMethod: 'wallet',
+                                  couponCode: (Get.find<CouponController>()
+                                                  .discount >
+                                              0 ||
+                                          (Get.find<CouponController>()
+                                                      .coupon !=
+                                                  null &&
+                                              Get.find<CouponController>()
+                                                  .freeDelivery))
+                                      ? Get.find<CouponController>().coupon.code
+                                      : null,
+                                  storeId: _cartList[0].item.storeId,
+                                  address: _address.address,
+                                  latitude: _address.latitude,
+                                  longitude: _address.longitude,
+                                  addressType: _address.addressType,
+                                  contactPersonName: _address
+                                          .contactPersonName ??
+                                      '${Get.find<UserController>().userInfoModel.fName} '
+                                          '${Get.find<UserController>().userInfoModel.lName}',
+                                  contactPersonNumber:
+                                      _address.contactPersonNumber ??
+                                          Get.find<UserController>()
+                                              .userInfoModel
+                                              .phone,
+                                  streetNumber:
+                                      _streetNumberController.text.trim() ?? '',
+                                  house: _houseController.text.trim(),
+                                  floor: _floorController.text.trim(),
+                                  discountAmount: discount,
+                                  taxAmount: tax,
+                                  receiverDetails: null,
+                                  parcelCategoryId: null,
+                                  chargePayer: null,
+                                  dmTips: _tipController.text.trim(),
+                                ),
+                                _callback);
+                          } else {
+                            FancySnackbar.showSnackbar(
+                              context,
+                              snackBarType: FancySnackBarType.waiting,
+                              title: "Lỗi Thanh Toán",
+                              message: "Vui lòng thử lại sau.",
+                              duration: 2,
+                              onCloseEvent: () {
+                                Navigator.pop(context);
+                              },
+                            );
+                          }
+                        } else {
+                          FancySnackbar.showSnackbar(
+                            context,
+                            snackBarType: FancySnackBarType.waiting,
+                            title: "Lỗi Thanh Toán",
+                            message: "Số dư không đủ.",
+                            duration: 2,
+                            onCloseEvent: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        }
+                      }
+                    } else {
+                      orderController.placeOrder(
+                          PlaceOrderBody(
+                            cart: carts,
+                            couponDiscountAmount:
+                                Get.find<CouponController>().discount,
+                            distance: orderController.distance,
+                            scheduleAt: !storeController.store.scheduleOrder
+                                ? null
+                                : (orderController.selectedDateSlot == 0 &&
+                                        orderController.selectedTimeSlot == 0)
+                                    ? null
+                                    : DateConverter.dateToDateAndTime(
+                                        _scheduleEndDate),
+                            orderAmount: total,
+                            orderNote: _noteController.text,
+                            orderType: orderController.orderType,
+                            paymentMethod:
+                                orderController.paymentMethodIndex == 0
+                                    ? 'cash_on_delivery'
+                                    : orderController.paymentMethodIndex == 1
+                                        ? 'digital_payment'
+                                        : 'wallet',
+                            couponCode:
+                                (Get.find<CouponController>().discount > 0 ||
+                                        (Get.find<CouponController>().coupon !=
+                                                null &&
+                                            Get.find<CouponController>()
+                                                .freeDelivery))
+                                    ? Get.find<CouponController>().coupon.code
+                                    : null,
+                            storeId: _cartList[0].item.storeId,
+                            address: _address.address,
+                            latitude: _address.latitude,
+                            longitude: _address.longitude,
+                            addressType: _address.addressType,
+                            contactPersonName: _address.contactPersonName ??
+                                '${Get.find<UserController>().userInfoModel.fName} '
+                                    '${Get.find<UserController>().userInfoModel.lName}',
+                            contactPersonNumber: _address.contactPersonNumber ??
+                                Get.find<UserController>().userInfoModel.phone,
+                            streetNumber:
+                                _streetNumberController.text.trim() ?? '',
+                            house: _houseController.text.trim(),
+                            floor: _floorController.text.trim(),
+                            discountAmount: discount,
+                            taxAmount: tax,
+                            receiverDetails: null,
+                            parcelCategoryId: null,
+                            chargePayer: null,
+                            dmTips: _tipController.text.trim(),
+                          ),
+                          _callback);
+                      FancySnackbar.showSnackbar(
+                        context,
+                        snackBarType: FancySnackBarType.waiting,
+                        title: "order_waiting".tr,
+                        message: "order_waiting_message".tr,
+                        duration: 2,
+                        onCloseEvent: () {
+                          // Navigator.pop(context);
+                        },
+                      );
+                      Get.offNamed(
+                          RouteHelper.getInitialRoute());
+                    }
                   }
                 }
               })
@@ -1789,15 +2136,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<int> checkAmountZopay() async {
-    return userWallet.pointPromotion + userWallet.pointMain;
+    return userWallet.pointMain;
   }
 
-  Future<ResponseZopay> payViaZopayWallet(
+  Future<ResponseZopay> discountPromotionZopay(
     int amount,
     StoreController storeController,
   ) async {
     final transactionId =
-        getRandomString(5) + DateTime.now().microsecondsSinceEpoch.toString();
+        getRandomString(5) + DateTime.now().millisecondsSinceEpoch.toString();
     final uidReceiver = storeController.store.email;
 
     final transaction = TransactionZopay(
@@ -1807,9 +2154,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         nameReceiver: storeController.store.name,
         uidReceiver: uidReceiver,
         amount: amount,
-        createdAt: DateTime.now().microsecondsSinceEpoch,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        typeTransaction: TransactionType.TYPE_DISCOUNT);
+    final response =
+        await Get.find<ApiZopay>().createNewTransaction(transaction);
+    return response;
+  }
+
+  Future<ResponseZopay> payViaZopayWallet(
+    int amount,
+    StoreController storeController,
+  ) async {
+    final transactionId =
+        getRandomString(5) + DateTime.now().millisecondsSinceEpoch.toString();
+    final uidReceiver = storeController.store.email;
+
+    final transaction = TransactionZopay(
+        transactionId: transactionId,
+        uidSender: Get.find<ApiZopay>().uid,
+        phoneReceiver: storeController.store.phone,
+        nameReceiver: storeController.store.name,
+        uidReceiver: uidReceiver,
+        amount: amount,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
         typeTransaction: TransactionType.TYPE_PAYMENT);
-    final response = await Get.find<ApiZopay>().createNewTransaction(transaction);
+    final response =
+        await Get.find<ApiZopay>().createNewTransaction(transaction);
     return response;
   }
 }

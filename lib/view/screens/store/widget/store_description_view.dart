@@ -17,12 +17,22 @@ import 'package:sixam_mart/view/base/custom_image.dart';
 import 'package:sixam_mart/view/base/custom_snackbar.dart';
 
 import '../../../../util/app_constants.dart';
-
-class StoreDescriptionView extends StatelessWidget {
+class StoreDescriptionView extends StatefulWidget{
   final Store store;
-  final Position newLocalData = Get.find();
-
   StoreDescriptionView({@required this.store});
+  @override
+  State<StatefulWidget> createState() => _StoreDescriptionViewState();
+
+}
+class _StoreDescriptionViewState extends State<StoreDescriptionView> {
+  Store store;
+  Position newLocalData = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    store = widget.store;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               body: SafeArea(
                   child: Column(
                 children: [
-                  FirstCardPortion(),
+                  FirstCardPortion(userInfoZopay: user,),
                   SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -73,10 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           final List<TransactionZopay> listTransactions = [];
-                          snapshot.data.docs.forEach((element) {
-                            final transaction = element.data();
-                            listTransactions.add(transaction);
-                          });
+
+                          if(snapshot.hasData && snapshot.data.docs!=null){
+                            snapshot.data.docs.forEach((element) {
+                              final transaction = element.data();
+                              listTransactions.add(transaction);
+                            });
+                          }
                           return ListView.builder(
                               padding: EdgeInsets.only(left: 15, right: 15),
                               shrinkWrap: true,

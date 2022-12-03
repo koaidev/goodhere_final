@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:sixam_mart/data/model/response/address_model.dart';
 import 'package:sixam_mart/data/model/response/item_model.dart';
-import 'package:flutter/material.dart';
 
 class PlaceOrderBody {
   List<Cart> _cart;
@@ -31,33 +31,33 @@ class PlaceOrderBody {
   String _floor;
   String _dmTips;
 
-  PlaceOrderBody(
-      {@required List<Cart> cart,
-        @required int couponDiscountAmount,
-        @required String couponCode,
-        @required int orderAmount,
-        @required String orderType,
-        @required String paymentMethod,
-        @required int storeId,
-        @required double distance,
-        @required String scheduleAt,
-        @required int discountAmount,
-        @required int taxAmount,
-        @required String orderNote,
-        @required String address,
-        @required AddressModel receiverDetails,
-        @required String latitude,
-        @required String longitude,
-        @required String contactPersonName,
-        @required String contactPersonNumber,
-        @required String addressType,
-        @required String parcelCategoryId,
-        @required String chargePayer,
-        @required String streetNumber,
-        @required String house,
-        @required String floor,
-        @required String dmTips,
-      }) {
+  PlaceOrderBody({
+    @required List<Cart> cart,
+    @required int couponDiscountAmount,
+    @required String couponCode,
+    @required int orderAmount,
+    @required String orderType,
+    @required String paymentMethod,
+    @required int storeId,
+    @required double distance,
+    @required String scheduleAt,
+    @required int discountAmount,
+    @required int taxAmount,
+    @required String orderNote,
+    @required String address,
+    @required AddressModel receiverDetails,
+    @required String latitude,
+    @required String longitude,
+    @required String contactPersonName,
+    @required String contactPersonNumber,
+    @required String addressType,
+    @required String parcelCategoryId,
+    @required String chargePayer,
+    @required String streetNumber,
+    @required String house,
+    @required String floor,
+    @required String dmTips,
+  }) {
     this._cart = cart;
     this._couponDiscountAmount = couponDiscountAmount;
     this._orderAmount = orderAmount;
@@ -86,28 +86,51 @@ class PlaceOrderBody {
   }
 
   List<Cart> get cart => _cart;
+
   int get couponDiscountAmount => _couponDiscountAmount;
+
   int get orderAmount => _orderAmount;
+
   String get orderType => _orderType;
+
   String get paymentMethod => _paymentMethod;
+
   String get orderNote => _orderNote;
+
   String get couponCode => _couponCode;
+
   int get storeId => _storeId;
+
   double get distance => _distance;
+
   String get scheduleAt => _scheduleAt;
+
   int get discountAmount => _discountAmount;
+
   int get taxAmount => _taxAmount;
+
   String get address => _address;
+
   AddressModel get receiverDetails => _receiverDetails;
+
   String get latitude => _latitude;
+
   String get longitude => _longitude;
+
   String get contactPersonName => _contactPersonName;
+
   String get contactPersonNumber => _contactPersonNumber;
+
   String get parcelCategoryId => _parcelCategoryId;
+
   String get chargePayer => _chargePayer;
+
   String get streetNumber => _streetNumber;
+
   String get house => _house;
+
   String get floor => _floor;
+
   String get dmTips => _dmTips;
 
   PlaceOrderBody.fromJson(Map<String, dynamic> json) {
@@ -129,7 +152,9 @@ class PlaceOrderBody {
     _discountAmount = json['discount_amount'].toDouble();
     _taxAmount = json['tax_amount'].toDouble();
     _address = json['address'];
-    _receiverDetails = json['receiver_details'] != null ? new AddressModel.fromJson(json['receiver_details']) : null;
+    _receiverDetails = json['receiver_details'] != null
+        ? new AddressModel.fromJson(json['receiver_details'])
+        : null;
     _latitude = json['latitude'];
     _longitude = json['longitude'];
     _contactPersonName = json['contact_person_name'];
@@ -148,23 +173,23 @@ class PlaceOrderBody {
     if (this._cart != null) {
       data['cart'] = jsonEncode(this._cart.map((v) => v.toJson()).toList());
     }
-    if(this._couponDiscountAmount != null) {
+    if (this._couponDiscountAmount != null) {
       data['coupon_discount_amount'] = this._couponDiscountAmount.toString();
     }
     data['order_amount'] = this._orderAmount.toString();
     data['order_type'] = this._orderType;
     data['payment_method'] = this._paymentMethod;
-    if(this._orderNote != null && this._orderNote.isNotEmpty) {
+    if (this._orderNote != null && this._orderNote.isNotEmpty) {
       data['order_note'] = this._orderNote;
     }
-    if(this._couponCode != null) {
+    if (this._couponCode != null) {
       data['coupon_code'] = this._couponCode;
     }
-    if(this._storeId != null) {
+    if (this._storeId != null) {
       data['store_id'] = this._storeId.toString();
     }
     data['distance'] = this._distance.toString();
-    if(this._scheduleAt != null) {
+    if (this._scheduleAt != null) {
       data['schedule_at'] = this._scheduleAt;
     }
     data['discount_amount'] = this._discountAmount.toString();
@@ -206,13 +231,13 @@ class Cart {
   Cart(
       int itemId,
       int itemCampaignId,
-        String price,
-        String variant,
-        List<Variation> variation,
-        int quantity,
-        List<int> addOnIds,
-        List<AddOns> addOns,
-        List<int> addOnQtys) {
+      String price,
+      String variant,
+      List<Variation> variation,
+      int quantity,
+      List<int> addOnIds,
+      List<AddOns> addOns,
+      List<int> addOnQtys) {
     this._itemId = itemId;
     this._itemCampaignId = itemCampaignId;
     this._price = price;
@@ -225,13 +250,21 @@ class Cart {
   }
 
   int get itemId => _itemId;
+
   int get itemCampaignId => _itemCampaignId;
+
   String get price => _price;
+
   String get variant => _variant;
+
   List<Variation> get variation => _variation;
+
   int get quantity => _quantity;
+
   List<int> get addOnIds => _addOnIds;
+
   List<AddOns> get addOns => _addOns;
+
   List<int> get addOnQtys => _addOnQtys;
 
   Cart.fromJson(Map<String, dynamic> json) {

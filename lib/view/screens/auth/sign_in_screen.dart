@@ -221,6 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 onCompleted: (v) {
                                   print("Completed");
                                 },
+                                enablePinAutofill: true,
                                 focusNode: otpFocusNode,
                                 onChanged: (value) {
                                   print(value);

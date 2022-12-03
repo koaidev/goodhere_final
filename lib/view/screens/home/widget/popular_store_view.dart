@@ -21,7 +21,7 @@ import 'package:sixam_mart/view/base/rating_bar.dart';
 import 'package:sixam_mart/view/base/title_widget.dart';
 import 'package:sixam_mart/view/screens/store/store_screen.dart';
 
-class PopularStoreView extends StatelessWidget {
+class PopularStoreView extends StatefulWidget {
   final bool isPopular;
   final bool isFeatured;
 
@@ -31,16 +31,21 @@ class PopularStoreView extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => _PopularStoreViewState();
+}
+
+class _PopularStoreViewState extends State<PopularStoreView> {
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<StoreController>(builder: (storeController) {
-      List<Store> _storeList = isFeatured
+      List<Store> _storeList = widget.isFeatured
           ? storeController.featuredStoreList
-          : isPopular
+          : widget.isPopular
               ? storeController.popularStoreList
               : storeController.latestStoreList;
       final Position newLocalData = Get.find();
 
-      if(_storeList!=null){
+      if (_storeList != null) {
         _storeList.sort((a, b) => calculateDistance(newLocalData, a)
             .compareTo(calculateDistance(newLocalData, b)));
       }
@@ -49,11 +54,12 @@ class PopularStoreView extends StatelessWidget {
           : Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, isPopular ? 2 : 15, 10, 10),
+                  padding: EdgeInsets.fromLTRB(
+                      10, widget.isPopular ? 2 : 15, 10, 10),
                   child: TitleWidget(
-                    title: isFeatured
+                    title: widget.isFeatured
                         ? 'featured_stores'.tr
-                        : isPopular
+                        : widget.isPopular
                             ? Get.find<SplashController>()
                                     .configModel
                                     .moduleConfig
@@ -62,10 +68,10 @@ class PopularStoreView extends StatelessWidget {
                                 ? 'popular_restaurants'.tr
                                 : 'popular_stores'.tr
                             : '${'new_on'.tr} ${AppConstants.APP_NAME}',
-                    onTap: () =>
-                        Get.toNamed(RouteHelper.getAllStoreRoute(isFeatured
+                    onTap: () => Get.toNamed(
+                        RouteHelper.getAllStoreRoute(widget.isFeatured
                             ? 'featured'
-                            : isPopular
+                            : widget.isPopular
                                 ? 'popular'
                                 : 'latest')),
                   ),
@@ -93,7 +99,7 @@ class PopularStoreView extends StatelessWidget {
                                   bottom: 5),
                               child: InkWell(
                                 onTap: () {
-                                  if (isFeatured &&
+                                  if (widget.isFeatured &&
                                       Get.find<SplashController>().moduleList !=
                                           null) {
                                     for (ModuleModel module
@@ -110,10 +116,10 @@ class PopularStoreView extends StatelessWidget {
                                   Get.toNamed(
                                     RouteHelper.getStoreRoute(
                                         _storeList[index].id,
-                                        isFeatured ? 'module' : 'store'),
+                                        widget.isFeatured ? 'module' : 'store'),
                                     arguments: StoreScreen(
                                         store: _storeList[index],
-                                        fromModule: isFeatured),
+                                        fromModule: widget.isFeatured),
                                   );
                                 },
                                 child: Container(
@@ -245,8 +251,8 @@ class PopularStoreView extends StatelessWidget {
                                                   Text(
                                                     _storeList[index].name ??
                                                         '',
-                                                    style: robotoMedium
-                                                        .copyWith(
+                                                    style:
+                                                        robotoMedium.copyWith(
                                                             fontSize: Dimensions
                                                                 .fontSizeSmall),
                                                     maxLines: 1,
