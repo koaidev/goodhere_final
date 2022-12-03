@@ -122,6 +122,7 @@ class ApiZopay extends GetxController implements GetxService {
           toFirestore: (UserInfoZopay user, options) => user.toJson())
       .doc(uid);
 
+
   Stream<DocumentSnapshot> getUserStream() => getUserCollection()
       .withConverter(
           fromFirestore: (snapshot, options) =>

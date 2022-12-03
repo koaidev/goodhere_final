@@ -6,13 +6,13 @@ import 'package:sixam_mart/data/model/zopay/user_info.dart';
 import 'package:sixam_mart/data/model/zopay/user_wallet.dart';
 import 'package:sixam_mart/util/styles.dart';
 
-import '../../../../../../bank/widget/add_bank_bottom_sheet.dart';
 import '../../../../../../data/api/zopay_api.dart';
 import '../../../../../../data/model/zopay/contact_model.dart';
 import '../../../../../../helper/price_converter.dart';
 import '../../../../../../util/color_resources.dart';
 import '../../../../../../util/dimensions.dart';
 import '../../../../../../util/images.dart';
+import '../../../../bank/widget/add_bank_bottom_sheet.dart';
 import '../../transaction_money/transaction_money_screen.dart';
 import '../../transaction_money/widget/transaction_money_balance_input.dart';
 import 'custom_card.dart';

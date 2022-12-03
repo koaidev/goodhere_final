@@ -50,48 +50,55 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               body: SafeArea(
                   child: Column(
-                children: [
-                  FirstCardPortion(userInfoZopay: user,),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.PADDING_SIZE_LARGE * 2),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Lịch Sử Giao Dịch",
-                        style: robotoBold,
+                    children: [
+                      FirstCardPortion(userInfoZopay: user,),
+                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.PADDING_SIZE_LARGE * 2),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Lịch Sử Giao Dịch",
+                            style: robotoBold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  // SingleChildScrollView(child: ,),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                  Expanded(
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: Get.find<ApiZopay>()
-                            .getSendMoneyTransactionHistory(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          final List<TransactionZopay> listTransactions = [];
+                      // SingleChildScrollView(child: ,),
+                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                      Expanded(
+                        child: StreamBuilder<QuerySnapshot>(
+                            stream: Get.find<ApiZopay>()
+                                .getSendMoneyTransactionHistory(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              final List<TransactionZopay> listTransactions = [
+                              ];
 
-                          if(snapshot.hasData && snapshot.data.docs!=null){
-                            snapshot.data.docs.forEach((element) {
-                              final transaction = element.data();
-                              listTransactions.add(transaction);
-                            });
-                          }
-                          return ListView.builder(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              shrinkWrap: true,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemCount: listTransactions.length,
-                              itemBuilder: (context, index) =>
-                                  TransactionHistoryCardView(transaction: listTransactions[index],));
-                        }),
-                  )
-                ],
-              )),
+                              if (snapshot.hasData &&
+                                  snapshot.data.docs != null) {
+                                snapshot.data.docs.forEach((element) {
+                                  final transaction = element.data();
+                                  listTransactions.add(transaction);
+                                });
+                                listTransactions.sort((transaction,
+                                    transaction2) =>
+                                    transaction2.completeAt.compareTo(
+                                        transaction.completeAt));
+                              }
+                              return ListView.builder(
+                                  padding: EdgeInsets.only(left: 15, right: 15),
+                                  shrinkWrap: true,
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: listTransactions.length,
+                                  itemBuilder: (context, index) =>
+                                      TransactionHistoryCardView(
+                                        transaction: listTransactions[index],));
+                            }),
+                      )
+                    ],
+                  )),
             );
           });
     });
@@ -104,8 +111,8 @@ class SliverDelegate extends SliverPersistentHeaderDelegate {
   SliverDelegate({@required this.child});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset,
+      bool overlapsContent) {
     return child;
   }
 
