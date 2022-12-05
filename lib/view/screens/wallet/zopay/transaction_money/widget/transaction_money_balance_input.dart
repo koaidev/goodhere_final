@@ -57,16 +57,8 @@ class _TransactionMoneyBalanceInputState
   double amount = 0.0;
   bool currentTaskStatus = false;
   int feePercent = 0;
-  String _retrieveDataError;
-  List<XFile> _imageFileList;
-  dynamic _pickImageError;
-  final ImagePicker _picker = ImagePicker();
   Uint8List _rawAttachment;
   XFile _orderAttachment;
-
-  void _setImageFileListFromFile(XFile value) {
-    _imageFileList = value == null ? null : <XFile>[value];
-  }
 
   @override
   void initState() {
