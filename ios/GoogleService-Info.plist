@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1000163153346-hp7bhaospkotp5url7sh5pdsk3en85vi.apps.googleusercontent.com</string>
+	<string>977332047026-sqj6hs6sn1mmqoass6nop1v1cdfothi7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1000163153346-hp7bhaospkotp5url7sh5pdsk3en85vi</string>
+	<string>com.googleusercontent.apps.977332047026-sqj6hs6sn1mmqoass6nop1v1cdfothi7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>977332047026-2g5561rd4k6ibunmid8tgsa27f6krrac.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDjxRDIuTc6ErANoftU-FtgLBSUxMlLCeA</string>
+	<string>AIzaSyByyP1j7JoXUs1wE92n8Dh1fD9WzdxvwnI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1000163153346</string>
+	<string>977332047026</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sixamtech.sixamMart</string>
+	<string>vn.goodhere.user</string>
 	<key>PROJECT_ID</key>
-	<string>ammart-8885e</string>
+	<string>zopay-e17da</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ammart-8885e.appspot.com</string>
+	<string>zopay-e17da.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1000163153346:ios:8eebf38b169b588f06b25b</string>
+	<string>1:977332047026:ios:3857c307e266272e2f4dab</string>
 </dict>
 </plist>

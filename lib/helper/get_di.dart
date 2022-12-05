@@ -122,8 +122,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => WalletController(walletRepo: Get.find()));
   Get.lazyPut(() => MenuController());
   Get.lazyPut(() => HomeController());
-  Get.lazyPut(() => CameraScreenController());
-  Get.lazyPut(() => QrCodeScannerController());
+  // Get.lazyPut(() => CameraScreenController());
+  // Get.lazyPut(() => QrCodeScannerController());
   Get.lazyPut(() => ScreenShootWidgetController());
   // Get.lazyPut(() => BottomSliderController());
 

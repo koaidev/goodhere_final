@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/view/base/custom_app_bar.dart';
+import 'package:sixam_mart/view/base/custom_snackbar.dart';
 import 'package:sixam_mart/view/screens/wallet/zopay/deshboard/widget/unicorn_outline_button.dart';
 
 import '../../../../../controller/zopay/menu_controller.dart';
@@ -78,10 +79,9 @@ class _NavBarScreenState extends State<NavBarScreen> {
                   child: FloatingActionButton(
                       backgroundColor: Color(0xFF039D55),
                       elevation: 1,
-                      onPressed: () => Get.to(() => CameraScreen(
-                          fromEditProfile: false,
-                          isBarCodeScan: true,
-                          isHome: true)),
+                      onPressed: (){
+                        showCustomSnackBar("Tính năng đang được phát triển.");
+                      },
                       child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Image.asset(Images.scanner_icon)))),

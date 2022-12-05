@@ -95,102 +95,6 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:977332047026:android:b6c661cb6008e5a72f4dab",
-        "android_client_info": {
-          "package_name": "com.goodhere.user"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "977332047026-ulqbd5bb3ld85lvfvec8bmslc0csfdir.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.goodhere.user",
-            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
-          }
-        },
-        {
-          "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC1sswvFkexF72r2-UWCwPM1vPmW_QHo84"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.goodhere.user"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:977332047026:android:cb1247806e1bac862f4dab",
-        "android_client_info": {
-          "package_name": "com.goodhere.vendor"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "977332047026-esa4oitmeotcg5sosmapno8lperpthor.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.goodhere.vendor",
-            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
-          }
-        },
-        {
-          "client_id": "977332047026-pmfb6h7b7it3qvkeur0ktse5et8qocgi.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.goodhere.vendor",
-            "certificate_hash": "1dd247aefa522a0e8ab66a764707894a8c51787f"
-          }
-        },
-        {
-          "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC1sswvFkexF72r2-UWCwPM1vPmW_QHo84"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.goodhere.user"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:977332047026:android:b4fe9a11e4df9ceb2f4dab",
         "android_client_info": {
           "package_name": "com.zopay"
@@ -269,6 +173,90 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "977332047026-8d6ki2urfc23j8i4753j6qv3vott5uk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.user",
+            "certificate_hash": "8408393a6da56b5227f39e979161de988eeb789d"
+          }
+        },
+        {
+          "client_id": "977332047026-ij3cjojimf4mh6kpg37f7n8e3sok0cnp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.user",
+            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
+          }
+        },
+        {
+          "client_id": "977332047026-vmqog4iv4vr0p80dvm85qm8e6tsijp70.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.user",
+            "certificate_hash": "84c7d807c015eddba896e2bf8e5f610e60354925"
+          }
+        },
+        {
+          "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1sswvFkexF72r2-UWCwPM1vPmW_QHo84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "977332047026-1vl17ddojupj9qvkvk0d5d652175jdh1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.goodhere.user"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977332047026:android:311d2d21f66598d22f4dab",
+        "android_client_info": {
+          "package_name": "vn.goodhere.vendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977332047026-2g5561rd4k6ibunmid8tgsa27f6krrac.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.vendor",
+            "certificate_hash": "d61e2f83dbae5d934cbec441e7bc18efdfbacc69"
+          }
+        },
+        {
+          "client_id": "977332047026-4lk51902bnsm1d5njjhfg4abrm51j80q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.vendor",
+            "certificate_hash": "e51a465ecbd71b10a25fd0d52b469c9a3b3f0e8b"
+          }
+        },
+        {
+          "client_id": "977332047026-v4r82kldlt0rsdqnfmvspbhcnmvhqnr5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.goodhere.vendor",
+            "certificate_hash": "c2a82fbac5692239b3c484f49828b4d11f9304f8"
+          }
+        },
         {
           "client_id": "977332047026-qcf1ikvu2tch9mod9h5sok3895fp93ka.apps.googleusercontent.com",
           "client_type": 3

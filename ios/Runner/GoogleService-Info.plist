@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>977332047026-rvfl60ak6ouhrb3rirm5koond7ts20vv.apps.googleusercontent.com</string>
+	<string>977332047026-sqj6hs6sn1mmqoass6nop1v1cdfothi7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.977332047026-rvfl60ak6ouhrb3rirm5koond7ts20vv</string>
+	<string>com.googleusercontent.apps.977332047026-sqj6hs6sn1mmqoass6nop1v1cdfothi7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>977332047026-2g5561rd4k6ibunmid8tgsa27f6krrac.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyByyP1j7JoXUs1wE92n8Dh1fD9WzdxvwnI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sixamtech.sixamMart</string>
+	<string>vn.goodhere.user</string>
 	<key>PROJECT_ID</key>
 	<string>zopay-e17da</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:977332047026:ios:6d079ce7fc7efbd82f4dab</string>
+	<string>1:977332047026:ios:3857c307e266272e2f4dab</string>
 </dict>
 </plist>

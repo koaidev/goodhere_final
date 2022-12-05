@@ -10,6 +10,7 @@ dependency_overrides:
   camera_avfoundation: ^0.9.8+6
   scrollable_positioned_list: ^0.3.5
 
+
 dependencies:
   flutter:
     sdk: flutter
@@ -72,23 +73,29 @@ dependencies:
   currency_text_input_formatter: ^2.1.7
   flutter_custom_tabs: ^1.0.4
   local_auth: ^2.1.2
-  google_mlkit_barcode_scanning: ^0.5.0
-  google_mlkit_face_detection: ^0.5.0
+#  google_mlkit_barcode_scanning: ^0.5.0
+#  google_mlkit_face_detection: ^0.5.0
   flutter_secure_storage: ^6.0.0
   app_settings: ^4.1.8
   percent_indicator: ^4.2.2
-  cloud_firestore: ^4.1.0
 #  firebase_app_check: ^0.1.1+2
   flutter_native_splash: ^2.2.13
   flutter_countdown_timer: ^4.1.0
   qr_flutter: ^4.0.0
   crypto: ^3.0.2
   firebase_storage: ^11.0.6
+  cloud_firestore: ^4.1.0
   firebase_crashlytics: ^3.0.2
   firebase_core: ^2.1.0
   firebase_messaging: ^14.0.2
   firebase_auth: ^4.0.2
-#  firebase_core_platform_interface: 4.5.1
+#  firebase_storage: ^10.2.0
+#  firebase_core: ^1.10.0
+#  cloud_firestore: ^3.1.9
+#  firebase_crashlytics: ^2.9.0
+#  firebase_auth: ^3.11.2
+#  firebase_messaging: ^13.1.0
+
 
 dev_dependencies:
   flutter_test:

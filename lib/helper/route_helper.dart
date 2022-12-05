@@ -348,7 +348,7 @@ class RouteHelper {
     GetPage(name: referAndEarn, page: () => getRoute(ReferAndEarnScreen())),
     // GetPage(name: qr_code_download_or_share, page: () => QrCodeDownloadOrShareScreen(qrCode:  utf8.decode(base64Url.decode(Get.parameters['qr-code'].replaceAll(' ', '+'))),
     //   phoneNumber: utf8.decode(base64Url.decode(Get.parameters['phone-number'].replaceAll(' ', '+'))),)),
-    GetPage(name: selfie_screen, page: () => CameraScreen(fromEditProfile: Get.parameters['page'] == 'edit-profile')),
+    // GetPage(name: selfie_screen, page: () => CameraScreen(fromEditProfile: Get.parameters['page'] == 'edit-profile')),
   ];
 
   static getRoute(Widget navigateTo) {
