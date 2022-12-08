@@ -51,8 +51,8 @@ android {
         applicationId "vn.goodhere.user"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 11
-        versionName "v0.0.2 - Beta"
+        versionCode 12
+        versionName "v0.0.3 - Beta"
     }
 
     signingConfigs {
