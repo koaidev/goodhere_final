@@ -83,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                                 listTransactions.sort((transaction,
                                     transaction2) =>
-                                    transaction2.completeAt.compareTo(
-                                        transaction.completeAt));
+                                    transaction2.createdAt.compareTo(
+                                        transaction.createdAt));
                               }
                               return ListView.builder(
                                   padding: EdgeInsets.only(left: 15, right: 15),
