@@ -11,6 +11,7 @@ import 'package:sixam_mart/data/model/zopay/user_info.dart';
 
 import '../model/zopay/add_money.dart';
 import '../model/zopay/cash_out_money.dart';
+import '../model/zopay/first_buy.dart';
 import '../model/zopay/user_wallet.dart';
 
 class ApiZopay extends GetxController implements GetxService {
@@ -29,6 +30,8 @@ class ApiZopay extends GetxController implements GetxService {
   static const String ADD_MONEY = "add_money";
   static const String CASH_OUT = "cash_out";
   static const String STATUS_NEED_CANCEL = "need_cancel";
+  static const String STATUS_NEED_HANDLE = "need_handle";
+  static const String FIRST_BUY = "first_buy";
 
   static const String STATUS_SUCCESS = "status_success";
   static const String STATUS_FAIL = "status_fail";
@@ -121,7 +124,6 @@ class ApiZopay extends GetxController implements GetxService {
               UserInfoZopay.fromJson(snapshot, options),
           toFirestore: (UserInfoZopay user, options) => user.toJson())
       .doc(uid);
-
 
   Stream<DocumentSnapshot> getUserStream() => getUserCollection()
       .withConverter(
@@ -269,5 +271,32 @@ class ApiZopay extends GetxController implements GetxService {
         .onError((error, stackTrace) =>
             ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return response;
+  }
+
+  Future<ResponseZopay> firstBuyProduct(FirstBuy firstBuy) async {
+    bool isFirst = await FirebaseFirestore.instance
+        .collection(FIRST_BUY)
+        .withConverter(
+            fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
+            toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
+        .doc(uid)
+        .get()
+        .then((value) => !value.exists)
+        .catchError((onError) => false);
+    if (isFirst) {
+      ResponseZopay responseZopay = await FirebaseFirestore.instance
+          .collection(FIRST_BUY)
+          .withConverter(
+              fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
+              toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
+          .doc(uid)
+          .set(firstBuy)
+          .then((value) => ResponseZopay(status: STATUS_SUCCESS))
+          .catchError((onError) =>
+              ResponseZopay(status: STATUS_FAIL, message: onError));
+      return responseZopay;
+    } else {
+      return ResponseZopay(status: STATUS_FAIL);
+    }
   }
 }

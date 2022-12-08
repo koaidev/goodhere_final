@@ -51,6 +51,7 @@ import 'package:sixam_mart/view/screens/checkout/widget/tips_widget.dart';
 import 'package:sixam_mart/view/screens/home/home_screen.dart';
 import 'package:universal_html/html.dart' as html;
 
+import '../../../data/model/zopay/first_buy.dart';
 import '../../../data/model/zopay/response_zopay.dart';
 import '../camera/take_photo.dart';
 
@@ -217,12 +218,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             builder: (orderController) {
                           int _deliveryCharge = -1;
                           int _charge = -1;
+                          // if (storeController.store != null &&
+                          //     storeController.store.selfDeliverySystem == 1) {
+                          //   _deliveryCharge =
+                          //       storeController.store.deliveryCharge;
+                          //   _charge = storeController.store.deliveryCharge;
+                          // } else
                           if (storeController.store != null &&
-                              storeController.store.selfDeliverySystem == 1) {
-                            _deliveryCharge =
-                                storeController.store.deliveryCharge;
-                            _charge = storeController.store.deliveryCharge;
-                          } else if (storeController.store != null &&
                               orderController.distance != null &&
                               orderController.distance != -1) {
                             _deliveryCharge = (orderController.distance *
@@ -404,23 +406,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                   moduleType,
                                                             )
                                                           : SizedBox(),
-                                                    if (moduleType == "food" ||
-                                                        moduleType == "parcel")
-                                                      storeController
-                                                              .store.delivery
-                                                          ? DeliveryOptionButton(
-                                                              value: 'delivery',
-                                                              title:
-                                                                  'home_delivery'
-                                                                      .tr,
-                                                              charge: _charge,
-                                                              isFree: storeController
-                                                                  .store
-                                                                  .freeDelivery,
-                                                              typeModule:
-                                                                  moduleType,
-                                                            )
-                                                          : SizedBox(),
+                                                    // if (moduleType == "food" ||
+                                                    //     moduleType == "parcel")
+
                                                     storeController
                                                             .store.takeAway
                                                         ? DeliveryOptionButton(
@@ -433,6 +421,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                             charge:
                                                                 _deliveryCharge,
                                                             isFree: true,
+                                                            typeModule:
+                                                                moduleType,
+                                                          )
+                                                        : SizedBox(),
+                                                    storeController
+                                                            .store.delivery
+                                                        ? DeliveryOptionButton(
+                                                            value: 'delivery',
+                                                            title: (moduleType ==
+                                                                        "food" ||
+                                                                    moduleType ==
+                                                                        "parcel")
+                                                                ? 'home_delivery'
+                                                                    .tr
+                                                                : "Đại lý giao hàng",
+                                                            charge: _charge,
+                                                            isFree:
+                                                                storeController
+                                                                    .store
+                                                                    .freeDelivery,
                                                             typeModule:
                                                                 moduleType,
                                                           )
@@ -475,20 +483,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                             .zoneId));
                                                                     if (_address !=
                                                                         null) {
-                                                                      if (storeController
-                                                                              .store
-                                                                              .selfDeliverySystem ==
-                                                                          0) {
-                                                                        orderController
-                                                                            .getDistanceInKM(
-                                                                          LatLng(
-                                                                              double.parse(_address.latitude),
-                                                                              double.parse(_address.longitude)),
-                                                                          LatLng(
-                                                                              double.parse(storeController.store.latitude),
-                                                                              double.parse(storeController.store.longitude)),
-                                                                        );
-                                                                      }
+                                                                      // if (storeController
+                                                                      //         .store
+                                                                      //         .selfDeliverySystem ==
+                                                                      //     0) {
+                                                                      orderController
+                                                                          .getDistanceInKM(
+                                                                        LatLng(
+                                                                            double.parse(_address.latitude),
+                                                                            double.parse(_address.longitude)),
+                                                                        LatLng(
+                                                                            double.parse(storeController.store.latitude),
+                                                                            double.parse(storeController.store.longitude)),
+                                                                      );
+                                                                      // }
                                                                       _streetNumberController
                                                                               .text =
                                                                           _address.streetNumber ??
@@ -529,39 +537,43 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 SizedBox(),
                                                             onChanged:
                                                                 (int index) {
-                                                              if (storeController
-                                                                      .store
-                                                                      .selfDeliverySystem ==
-                                                                  0) {
-                                                                orderController
-                                                                    .getDistanceInKM(
-                                                                  LatLng(
-                                                                    double.parse(index ==
-                                                                            -1
-                                                                        ? locationController
-                                                                            .getUserAddress()
-                                                                            .latitude
-                                                                        : locationController
-                                                                            .addressList[index]
-                                                                            .latitude),
-                                                                    double.parse(index ==
-                                                                            -1
-                                                                        ? locationController
-                                                                            .getUserAddress()
-                                                                            .longitude
-                                                                        : locationController
-                                                                            .addressList[index]
-                                                                            .longitude),
-                                                                  ),
-                                                                  LatLng(
-                                                                      double.parse(storeController
-                                                                          .store
+                                                              // if (storeController
+                                                              //         .store
+                                                              //         .selfDeliverySystem ==
+                                                              //     0) {
+                                                              orderController
+                                                                  .getDistanceInKM(
+                                                                LatLng(
+                                                                  double.parse(index ==
+                                                                          -1
+                                                                      ? locationController
+                                                                          .getUserAddress()
+                                                                          .latitude
+                                                                      : locationController
+                                                                          .addressList[
+                                                                              index]
                                                                           .latitude),
-                                                                      double.parse(storeController
-                                                                          .store
-                                                                          .longitude)),
-                                                                );
-                                                              }
+                                                                  double.parse(index ==
+                                                                          -1
+                                                                      ? locationController
+                                                                          .getUserAddress()
+                                                                          .longitude
+                                                                      : locationController
+                                                                          .addressList[
+                                                                              index]
+                                                                          .longitude),
+                                                                ),
+                                                                LatLng(
+                                                                    double.parse(
+                                                                        storeController
+                                                                            .store
+                                                                            .latitude),
+                                                                    double.parse(
+                                                                        storeController
+                                                                            .store
+                                                                            .longitude)),
+                                                              );
+                                                              // }
                                                               orderController
                                                                   .setAddressIndex(
                                                                       index);
@@ -1753,9 +1765,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ? Get.find<LocationController>().getUserAddress()
                       : locationController
                           .addressList[orderController.addressIndex];
-                  if(orderController.paymentMethodIndex == 2){
+                  if (orderController.paymentMethodIndex == 2) {
                     final amountZopay = await checkAmountZopay();
-                    if(amountZopay<total){
+                    if (amountZopay < total) {
                       FancySnackbar.showSnackbar(
                         context,
                         snackBarType: FancySnackBarType.waiting,
@@ -1947,8 +1959,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             // Navigator.pop(context);
                           },
                         );
-                        Get.offNamed(
-                            RouteHelper.getInitialRoute());
+                        Get.offNamed(RouteHelper.getInitialRoute());
                       }
                     } else {
                       FancySnackbar.showSnackbar(
@@ -2125,8 +2136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           // Navigator.pop(context);
                         },
                       );
-                      Get.offNamed(
-                          RouteHelper.getInitialRoute());
+                      Get.offNamed(RouteHelper.getInitialRoute());
                     }
                   }
                 }
@@ -2158,6 +2168,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         typeTransaction: TransactionType.TYPE_DISCOUNT);
     final response =
         await Get.find<ApiZopay>().createNewTransaction(transaction);
+    if (response.status == ApiZopay.STATUS_SUCCESS) {
+      await ApiZopay().firstBuyProduct(FirstBuy(
+        uid: ApiZopay().isLogin() ? ApiZopay().uid : "",
+        status: ApiZopay.STATUS_NEED_HANDLE,
+        phone: FirebaseAuth.instance.currentUser.phoneNumber.replaceAll("+84", "0")
+      ));
+    }
     return response;
   }
 
@@ -2180,6 +2197,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         typeTransaction: TransactionType.TYPE_PAYMENT);
     final response =
         await Get.find<ApiZopay>().createNewTransaction(transaction);
+    if (response.status == ApiZopay.STATUS_SUCCESS) {
+      await ApiZopay().firstBuyProduct(FirstBuy(
+          uid: ApiZopay().isLogin() ? ApiZopay().uid : "",
+          status: ApiZopay.STATUS_NEED_HANDLE,
+          phone: FirebaseAuth.instance.currentUser.phoneNumber.replaceAll("+84", "0")
+      ));
+    }
     return response;
   }
 }
