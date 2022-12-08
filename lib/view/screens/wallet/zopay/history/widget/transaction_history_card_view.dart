@@ -97,7 +97,7 @@ class TransactionHistoryCardView extends StatelessWidget {
             bottom: 3,
             right: 2,
             child: Text(
-              DateConverter.localDateToIsoStringAMPM(DateTime.now()),
+              DateConverter.localDateToIsoStringAMPM(DateTime.fromMillisecondsSinceEpoch(transaction.createdAt)),
               style: robotoRegular.copyWith(
                   fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
                   color: ColorResources.getHintColor()),

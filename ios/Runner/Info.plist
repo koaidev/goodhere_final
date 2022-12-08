@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Explanation on why the camera access is needed.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location to manage coverage of restaurant and when add a new address.</string>
+	<string>This app needs access to location to manage coverage of agents and when add a new address.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires access to the camera to upload customer profile picture and voice.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -71,5 +71,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires access to the contacts to user can send point zopay to others in contact.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to location to manage coverage of agents and when add a new address.</string>
 </dict>
 </plist>

@@ -41,7 +41,7 @@ Future<void> main() async {
 
   setPathUrlStrategy();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    // options: DefaultFirebaseOptions.currentPlatform,
   );
 
 
