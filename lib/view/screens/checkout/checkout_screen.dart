@@ -87,6 +87,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   int promotion = 0;
   String promotionPayId;
   String mainPayId;
+  int _total;
 
   UserWallet userWallet;
 
@@ -341,7 +342,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               _deliveryCharge = 0;
                             }
                           }
-                          int _total = (_subTotal +
+                          _total = (_subTotal +
                               _deliveryCharge -
                               _discount -
                               _couponDiscount +
@@ -353,6 +354,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           if (usePromotion) {
                             _total =
                                 _total >= promotion ? (_total - promotion) : 0;
+                          } else {
+                            _total = _total;
                           }
 
                           return (orderController.distance != null &&
@@ -2170,10 +2173,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         await Get.find<ApiZopay>().createNewTransaction(transaction);
     if (response.status == ApiZopay.STATUS_SUCCESS) {
       await ApiZopay().firstBuyProduct(FirstBuy(
-        uid: ApiZopay().isLogin() ? ApiZopay().uid : "",
-        status: ApiZopay.STATUS_NEED_HANDLE,
-        phone: FirebaseAuth.instance.currentUser.phoneNumber.replaceAll("+84", "0")
-      ));
+          uid: ApiZopay().isLogin() ? ApiZopay().uid : "",
+          status: ApiZopay.STATUS_NEED_HANDLE,
+          phone: FirebaseAuth.instance.currentUser.phoneNumber
+              .replaceAll("+84", "0")));
     }
     return response;
   }
@@ -2201,8 +2204,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       await ApiZopay().firstBuyProduct(FirstBuy(
           uid: ApiZopay().isLogin() ? ApiZopay().uid : "",
           status: ApiZopay.STATUS_NEED_HANDLE,
-          phone: FirebaseAuth.instance.currentUser.phoneNumber.replaceAll("+84", "0")
-      ));
+          phone: FirebaseAuth.instance.currentUser.phoneNumber
+              .replaceAll("+84", "0")));
     }
     return response;
   }
