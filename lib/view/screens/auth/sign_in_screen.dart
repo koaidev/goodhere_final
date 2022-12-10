@@ -426,9 +426,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 }
               });
             }
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {},
-          autoRetrievedSmsCodeForTesting: "123456");
+          }, codeAutoRetrievalTimeout: (String verificationId) {  },);
+          // codeAutoRetrievalTimeout: (String verificationId) {},
+          // autoRetrievedSmsCodeForTesting: "123456");
     }
   }
 }
