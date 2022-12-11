@@ -89,7 +89,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String mainPayId;
   int _total;
 
-  UserWallet userWallet;
+  UserWallet userWallet = UserWallet(uid: null);
 
   @override
   void initState() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/item_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -31,7 +32,6 @@ class ItemWidget extends StatelessWidget {
   final bool inStore;
   final bool isCampaign;
   final bool isFeatured;
-  final Position newLocalData = Get.find();
 
   ItemWidget({
     @required this.item,
@@ -68,12 +68,20 @@ class ItemWidget extends StatelessWidget {
       _isAvailable = DateConverter.isAvailable(
           item.availableTimeStarts, item.availableTimeEnds);
     }
+    Position newLocalData;
+    Permission.location.isGranted.then((value) {
+      if (value) {
+        newLocalData = Get.find();
+      }
+    });
     final distance = isStore
-        ? Geolocator.distanceBetween(
-            newLocalData.latitude,
-            newLocalData.longitude,
-            double.parse(store.latitude),
-            double.parse(store.longitude))
+        ? newLocalData != null
+            ? Geolocator.distanceBetween(
+                newLocalData.latitude,
+                newLocalData.longitude,
+                double.parse(store.latitude),
+                double.parse(store.longitude))
+            : null
         : 0;
 
     return InkWell(
@@ -170,7 +178,7 @@ class ItemWidget extends StatelessWidget {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                if(isStore)
+                                if (isStore && distance!=null)
                                   Text(
                                     "${(distance / 1000).toStringAsFixed(1)} Km - ",
                                     style: robotoMedium.copyWith(
@@ -179,16 +187,16 @@ class ItemWidget extends StatelessWidget {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                if(isStore)
+                                if (isStore)
                                   Expanded(
                                       child: Text(
-                                        store.address ?? "",
-                                        style: robotoMedium.copyWith(
-                                            fontSize: Dimensions.fontSizeExtraSmall,
-                                            color: Theme.of(context).disabledColor),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ))
+                                    store.address ?? "",
+                                    style: robotoMedium.copyWith(
+                                        fontSize: Dimensions.fontSizeExtraSmall,
+                                        color: Theme.of(context).disabledColor),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ))
                               ],
                             )
                           : SizedBox(),

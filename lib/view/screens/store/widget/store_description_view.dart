@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -17,16 +18,19 @@ import 'package:sixam_mart/view/base/custom_image.dart';
 import 'package:sixam_mart/view/base/custom_snackbar.dart';
 
 import '../../../../util/app_constants.dart';
-class StoreDescriptionView extends StatefulWidget{
+
+class StoreDescriptionView extends StatefulWidget {
   final Store store;
+
   StoreDescriptionView({@required this.store});
+
   @override
   State<StatefulWidget> createState() => _StoreDescriptionViewState();
-
 }
+
 class _StoreDescriptionViewState extends State<StoreDescriptionView> {
   Store store;
-  Position newLocalData = Get.find();
+  Position newLocalData;
 
   @override
   void initState() {
@@ -54,11 +58,18 @@ class _StoreDescriptionViewState extends State<StoreDescriptionView> {
     } else if (store.deliveryTime.toString().contains("day")) {
       timeVN = store.deliveryTime.toString().replaceAll("day", "ngày");
     }
-    final distance = Geolocator.distanceBetween(
-        newLocalData.latitude,
-        newLocalData.longitude,
-        double.parse(store.latitude),
-        double.parse(store.longitude));
+    Permission.location.isGranted.then((value) {
+      if (value) {
+        newLocalData = Get.find();
+      }
+    });
+    final distance = newLocalData != null
+        ? Geolocator.distanceBetween(
+            newLocalData.latitude,
+            newLocalData.longitude,
+            double.parse(store.latitude),
+            double.parse(store.longitude))
+        : null;
 
     return Column(children: [
       Row(children: [
@@ -167,14 +178,15 @@ class _StoreDescriptionViewState extends State<StoreDescriptionView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall,
-                    color: Theme.of(context).primaryColor),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              if (distance != null)
+                Text(
+                  "${(distance / 1000).toStringAsFixed(1)} Km - ",
+                  style: robotoMedium.copyWith(
+                      fontSize: Dimensions.fontSizeExtraSmall,
+                      color: Theme.of(context).primaryColor),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               Expanded(
                   child: Text(
                 store.address ?? "",

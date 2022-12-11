@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -35,6 +36,17 @@ class PopularStoreView extends StatefulWidget {
 }
 
 class _PopularStoreViewState extends State<PopularStoreView> {
+  Position newLocalData;
+
+  Future<List<Store>> sortList(List<Store> list) async {
+    if (await Permission.location.isGranted) {
+      newLocalData = Get.find() ?? null;
+      list.sort((a, b) => calculateDistance(newLocalData, a)
+          .compareTo(calculateDistance(newLocalData, b)));
+    }
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StoreController>(builder: (storeController) {
@@ -43,12 +55,7 @@ class _PopularStoreViewState extends State<PopularStoreView> {
           : widget.isPopular
               ? storeController.popularStoreList
               : storeController.latestStoreList;
-      final Position newLocalData = Get.find();
-
-      if (_storeList != null) {
-        _storeList.sort((a, b) => calculateDistance(newLocalData, a)
-            .compareTo(calculateDistance(newLocalData, b)));
-      }
+      sortList(_storeList).then((value) => _storeList);
       return (_storeList != null && _storeList.length == 0)
           ? SizedBox()
           : Column(
@@ -88,11 +95,13 @@ class _PopularStoreViewState extends State<PopularStoreView> {
                           itemCount:
                               _storeList.length > 10 ? 10 : _storeList.length,
                           itemBuilder: (context, index) {
-                            final distance = Geolocator.distanceBetween(
-                                newLocalData.latitude,
-                                newLocalData.longitude,
-                                double.parse(_storeList[index].latitude),
-                                double.parse(_storeList[index].longitude));
+                            final distance = newLocalData != null
+                                ? Geolocator.distanceBetween(
+                                    newLocalData.latitude,
+                                    newLocalData.longitude,
+                                    double.parse(_storeList[index].latitude),
+                                    double.parse(_storeList[index].longitude))
+                                : null;
                             return Padding(
                               padding: EdgeInsets.only(
                                   right: Dimensions.PADDING_SIZE_SMALL,
@@ -263,18 +272,19 @@ class _PopularStoreViewState extends State<PopularStoreView> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
-                                                      Text(
-                                                        "${(distance / 1000).toStringAsFixed(1)} Km - ",
-                                                        style: robotoMedium.copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeExtraSmall,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
+                                                      if (distance != null)
+                                                        Text(
+                                                          "${(distance / 1000).toStringAsFixed(1)} Km - ",
+                                                          style: robotoMedium.copyWith(
+                                                              fontSize: Dimensions
+                                                                  .fontSizeExtraSmall,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
                                                       Expanded(
                                                           child: Text(
                                                         _storeList[index]

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/model/response/item_model.dart';
 import 'package:sixam_mart/data/model/response/store_model.dart';
@@ -52,7 +53,26 @@ class ItemsView extends StatelessWidget {
     return distanceInMeters;
   }
 
-  @override
+  Future<void> sortList() async {
+    if (await Permission.location.isGranted) {
+      try {
+        final Position newLocalData = Get.find()??null;
+       if(newLocalData!=null){
+         stores.sort((a, b) => calculateDistance(newLocalData, a)
+             .compareTo(calculateDistance(newLocalData, b)));
+       }
+      } on Exception catch (_) {
+        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low)
+            .then((newLocalData) => {
+          stores.sort((a, b) => calculateDistance(newLocalData, a)
+              .compareTo(calculateDistance(newLocalData, b)))
+        });
+      }
+    }
+
+  }
+
+    @override
   Widget build(BuildContext context) {
     bool _isNull = true;
     int _length = 0;
@@ -69,17 +89,7 @@ class ItemsView extends StatelessWidget {
     }
 
     if (stores != null) {
-      try {
-        final Position newLocalData = Get.find();
-        stores.sort((a, b) => calculateDistance(newLocalData, a)
-            .compareTo(calculateDistance(newLocalData, b)));
-      } on Exception catch (_) {
-        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low)
-            .then((newLocalData) => {
-                  stores.sort((a, b) => calculateDistance(newLocalData, a)
-                      .compareTo(calculateDistance(newLocalData, b)))
-                });
-      }
+      sortList();
     }
     return Column(children: [
       type != null

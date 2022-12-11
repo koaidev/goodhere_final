@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stream: Get.find<ApiZopay>().getUserStream(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            final user = snapshot.data.data() ?? UserInfoZopay(name: "No Name");
+            final user = snapshot.data!=null?snapshot.data.data() : UserInfoZopay(name: "No Name");
             return Scaffold(
               //backgroundColor: Theme.of(context).canvasColor,
               backgroundColor: ColorResources.getBackgroundColor(),

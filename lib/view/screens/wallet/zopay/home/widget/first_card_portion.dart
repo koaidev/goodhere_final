@@ -28,7 +28,7 @@ class FirstCardPortion extends StatefulWidget {
 }
 
 class _FirstCardPortionState extends State<FirstCardPortion> {
-  UserWallet userWallet;
+  UserWallet userWallet = UserWallet(uid: null);
 
   @override
   void initState() {
