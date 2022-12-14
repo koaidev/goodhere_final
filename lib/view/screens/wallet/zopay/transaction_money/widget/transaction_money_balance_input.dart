@@ -331,7 +331,7 @@ class _TransactionMoneyBalanceInputState
                                               Align(
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                    '719121314\nCONG TY TNHH GOOD HERE\nNgân hàng MB Bank',
+                                                    '1900 9999 07\nCONG TY TNHH GOOD HERE\nNgân hàng MB Bank',
                                                     style: robotoBold.copyWith(
                                                         fontSize: Dimensions
                                                             .FONT_SIZE_LARGE,

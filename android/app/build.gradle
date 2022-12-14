@@ -51,8 +51,8 @@ android {
         applicationId "vn.goodhere.user"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 13
-        versionName "v0.0.13 - Beta"
+        versionCode 15
+        versionName "v0.0.15"
     }
 
     signingConfigs {
@@ -97,4 +97,5 @@ dependencies {
     // For loading and tinting drawables on older versions of the platform
     implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:2.1.0"
+//    implementation 'com.mapbox.maps:android:10.10.0'
 }
