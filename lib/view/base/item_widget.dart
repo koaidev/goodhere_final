@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/item_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -32,6 +31,7 @@ class ItemWidget extends StatelessWidget {
   final bool inStore;
   final bool isCampaign;
   final bool isFeatured;
+  final Position newLocalData;
 
   ItemWidget({
     @required this.item,
@@ -39,6 +39,7 @@ class ItemWidget extends StatelessWidget {
     @required this.store,
     @required this.index,
     @required this.length,
+    @required this.newLocalData,
     this.inStore = false,
     this.isCampaign = false,
     this.isFeatured = false,
@@ -68,12 +69,6 @@ class ItemWidget extends StatelessWidget {
       _isAvailable = DateConverter.isAvailable(
           item.availableTimeStarts, item.availableTimeEnds);
     }
-    Position newLocalData;
-    Permission.location.isGranted.then((value) {
-      if (value) {
-        newLocalData = Get.find();
-      }
-    });
     final distance = isStore
         ? newLocalData != null
             ? Geolocator.distanceBetween(
@@ -178,7 +173,7 @@ class ItemWidget extends StatelessWidget {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                if (isStore && distance!=null)
+                                if (isStore && distance != null)
                                   Text(
                                     "${(distance / 1000).toStringAsFixed(1)} Km - ",
                                     style: robotoMedium.copyWith(

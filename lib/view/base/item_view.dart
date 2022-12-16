@@ -27,11 +27,13 @@ class ItemsView extends StatelessWidget {
   final bool isFeatured;
   final bool showTheme1Store;
   final Function(String type) onVegFilterTap;
+  final Position newLocalData;
 
   ItemsView({
     @required this.stores,
     @required this.items,
     @required this.isStore,
+    @required this.newLocalData,
     this.isScrollable = false,
     this.shimmerLength = 20,
     this.padding = const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
@@ -56,23 +58,21 @@ class ItemsView extends StatelessWidget {
   Future<void> sortList() async {
     if (await Permission.location.isGranted) {
       try {
-        final Position newLocalData = Get.find()??null;
-       if(newLocalData!=null){
-         stores.sort((a, b) => calculateDistance(newLocalData, a)
-             .compareTo(calculateDistance(newLocalData, b)));
-       }
+        if (newLocalData != null) {
+          stores.sort((a, b) => calculateDistance(newLocalData, a)
+              .compareTo(calculateDistance(newLocalData, b)));
+        }
       } on Exception catch (_) {
         Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low)
             .then((newLocalData) => {
-          stores.sort((a, b) => calculateDistance(newLocalData, a)
-              .compareTo(calculateDistance(newLocalData, b)))
-        });
+                  stores.sort((a, b) => calculateDistance(newLocalData, a)
+                      .compareTo(calculateDistance(newLocalData, b)))
+                });
       }
     }
-
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     bool _isNull = true;
     int _length = 0;
@@ -123,6 +123,7 @@ class ItemsView extends StatelessWidget {
                             store: stores[index],
                             index: index,
                             inStore: inStorePage,
+                            newLocalData: newLocalData,
                           )
                         : ItemWidget(
                             isStore: isStore,
@@ -132,6 +133,7 @@ class ItemsView extends StatelessWidget {
                             length: _length,
                             isCampaign: isCampaign,
                             inStore: inStorePage,
+                            newLocalData: newLocalData,
                           );
                   },
                 )

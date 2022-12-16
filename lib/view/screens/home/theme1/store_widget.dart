@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
@@ -24,32 +23,27 @@ class StoreWidget extends StatefulWidget {
   final Store store;
   final int index;
   final bool inStore;
+  final Position newLocalData;
 
   StoreWidget(
-      {@required this.store, @required this.index, this.inStore = false});
+      {@required this.store,
+      @required this.index,
+      @required this.newLocalData,
+      this.inStore = false});
 
   @override
   State<StatefulWidget> createState() => _StoreWidgetState();
 }
 
 class _StoreWidgetState extends State<StoreWidget> {
-  Position newLocalData;
-
-  Future<void> checkPermission() async {
-    if (await Permission.location.isGranted) {
-      newLocalData = Get.find();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     BaseUrls _baseUrls = Get.find<SplashController>().configModel.baseUrls;
     bool _desktop = ResponsiveHelper.isDesktop(context);
-    checkPermission();
-    final distance = newLocalData != null
+    final distance = widget.newLocalData != null
         ? Geolocator.distanceBetween(
-            newLocalData.latitude,
-            newLocalData.longitude,
+            widget.newLocalData.latitude,
+            widget.newLocalData.longitude,
             double.parse(widget.store.latitude),
             double.parse(widget.store.longitude))
         : null;

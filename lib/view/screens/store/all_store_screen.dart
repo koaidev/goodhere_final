@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sixam_mart/controller/store_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -19,11 +21,20 @@ class AllStoreScreen extends StatefulWidget {
 }
 
 class _AllStoreScreenState extends State<AllStoreScreen> {
-
+  Position newLocalData;
+  getLocate() async {
+    if(await Permission.location.isGranted){
+      final data = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+      setState(() {
+        newLocalData = data;
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
-
+    getLocate();
     if(widget.isFeatured) {
       Get.find<StoreController>().getFeaturedStoreList();
     }else if(widget.isPopular) {
@@ -69,7 +80,7 @@ class _AllStoreScreenState extends State<AllStoreScreen> {
                 }else {
                   Get.find<StoreController>().getLatestStoreList(true, type, true);
                 }
-              },
+              }, newLocalData: newLocalData,
             );
           }),
         )))),

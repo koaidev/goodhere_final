@@ -22,25 +22,19 @@ import 'package:sixam_mart/view/base/rating_bar.dart';
 import 'package:sixam_mart/view/base/title_widget.dart';
 import 'package:sixam_mart/view/screens/store/store_screen.dart';
 
-class PopularStoreView extends StatefulWidget {
+
+class PopularStoreView extends StatelessWidget {
+  final Position newLocalData;
   final bool isPopular;
   final bool isFeatured;
 
   PopularStoreView({
     @required this.isPopular,
     @required this.isFeatured,
+    @required this.newLocalData
   });
-
-  @override
-  State<StatefulWidget> createState() => _PopularStoreViewState();
-}
-
-class _PopularStoreViewState extends State<PopularStoreView> {
-  Position newLocalData;
-
   Future<List<Store>> sortList(List<Store> list) async {
-    if (await Permission.location.isGranted) {
-      newLocalData = Get.find() ?? null;
+    if (newLocalData!=null) {
       list.sort((a, b) => calculateDistance(newLocalData, a)
           .compareTo(calculateDistance(newLocalData, b)));
     }
@@ -50,23 +44,23 @@ class _PopularStoreViewState extends State<PopularStoreView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StoreController>(builder: (storeController) {
-      List<Store> _storeList = widget.isFeatured
+      List<Store> _storeList = isFeatured
           ? storeController.featuredStoreList
-          : widget.isPopular
+          : isPopular
               ? storeController.popularStoreList
               : storeController.latestStoreList;
-      sortList(_storeList).then((value) => _storeList);
+      sortList(_storeList).then((value) => _storeList= value);
       return (_storeList != null && _storeList.length == 0)
           ? SizedBox()
           : Column(
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      10, widget.isPopular ? 2 : 15, 10, 10),
+                      10, isPopular ? 2 : 15, 10, 10),
                   child: TitleWidget(
-                    title: widget.isFeatured
+                    title: isFeatured
                         ? 'featured_stores'.tr
-                        : widget.isPopular
+                        : isPopular
                             ? Get.find<SplashController>()
                                     .configModel
                                     .moduleConfig
@@ -76,9 +70,9 @@ class _PopularStoreViewState extends State<PopularStoreView> {
                                 : 'popular_stores'.tr
                             : '${'new_on'.tr} ${AppConstants.APP_NAME}',
                     onTap: () => Get.toNamed(
-                        RouteHelper.getAllStoreRoute(widget.isFeatured
+                        RouteHelper.getAllStoreRoute(isFeatured
                             ? 'featured'
-                            : widget.isPopular
+                            : isPopular
                                 ? 'popular'
                                 : 'latest')),
                   ),
@@ -108,7 +102,7 @@ class _PopularStoreViewState extends State<PopularStoreView> {
                                   bottom: 5),
                               child: InkWell(
                                 onTap: () {
-                                  if (widget.isFeatured &&
+                                  if (isFeatured &&
                                       Get.find<SplashController>().moduleList !=
                                           null) {
                                     for (ModuleModel module
@@ -125,10 +119,10 @@ class _PopularStoreViewState extends State<PopularStoreView> {
                                   Get.toNamed(
                                     RouteHelper.getStoreRoute(
                                         _storeList[index].id,
-                                        widget.isFeatured ? 'module' : 'store'),
+                                        isFeatured ? 'module' : 'store'),
                                     arguments: StoreScreen(
                                         store: _storeList[index],
-                                        fromModule: widget.isFeatured),
+                                        fromModule: isFeatured),
                                   );
                                 },
                                 child: Container(

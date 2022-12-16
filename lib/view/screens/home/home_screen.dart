@@ -68,11 +68,6 @@ class HomeScreen extends StatefulWidget {
         Get.find<SplashController>().configModel.moduleConfig.module.isParcel) {
       Get.find<ParcelController>().getParcelCategoryList();
     }
-    if(await Permission.location.isGranted){
-      final newLocalData = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.low);
-      Get.lazyPut(() => newLocalData);
-    }
   }
 
   @override
@@ -83,14 +78,24 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   int moduleType;
   String textSearch;
+  Position newLocalData;
 
   @override
   void initState() {
     super.initState();
-
+    getLocate();
     HomeScreen.loadData(false);
   }
 
+  getLocate() async {
+    if(await Permission.location.isGranted){
+      final data = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+      setState(() {
+        newLocalData = data;
+      });
+    }
+  }
   void getTypeModule() async {
     final prefs = Get.find<SharedPreferences>();
 
@@ -430,6 +435,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   PopularStoreView(
                                                     isPopular: true,
                                                     isFeatured: false,
+                                                    newLocalData: newLocalData,
                                                   ),
                                                   ItemCampaignView(),
                                                   PopularItemView(
@@ -437,6 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   PopularStoreView(
                                                     isPopular: false,
                                                     isFeatured: false,
+                                                    newLocalData: newLocalData,
                                                   ),
                                                   PopularItemView(
                                                       isPopular: false),
@@ -513,6 +520,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .PADDING_SIZE_EXTRA_SMALL
                                                               : 0,
                                                         ),
+                                                        newLocalData: newLocalData,
                                                       ),
                                                     );
                                                   }),
