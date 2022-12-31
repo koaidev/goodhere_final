@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/api/api_client.dart';
+import 'package:sixam_mart/data/api/zopay_api.dart';
 import 'package:sixam_mart/data/model/body/signup_body.dart';
 import 'package:sixam_mart/data/model/body/social_log_in_body.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -49,6 +50,7 @@ class AuthRepo {
     if(!GetPlatform.isWeb) {
       FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
     }
+    await ApiZopay().updateToken(_deviceToken);
     return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": _deviceToken});
   }
 

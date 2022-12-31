@@ -60,10 +60,10 @@ class ApiZopay extends GetxController implements GetxService {
   Future<bool> createNewCashOutMoneyRequest(CashOutMoney cashOutMoney) async =>
       await getCashOutCollection()
           .withConverter(
-              fromFirestore: (snapshot, options) =>
-                  CashOutMoney.fromFirestore(snapshot),
-              toFirestore: (CashOutMoney cashOutMoney, options) =>
-                  cashOutMoney.toFirestore())
+          fromFirestore: (snapshot, options) =>
+              CashOutMoney.fromFirestore(snapshot),
+          toFirestore: (CashOutMoney cashOutMoney, options) =>
+              cashOutMoney.toFirestore())
           .doc()
           .set(cashOutMoney)
           .then((value) => true)
@@ -72,73 +72,79 @@ class ApiZopay extends GetxController implements GetxService {
   Future<bool> createNewAddMoneyRequest(AddMoney addMoney) async =>
       await getAddMoneyCollection()
           .withConverter(
-              fromFirestore: (snapshot, options) => AddMoney.fromJson(snapshot),
-              toFirestore: (AddMoney addMoney, options) =>
-                  addMoney.toFirestore())
+          fromFirestore: (snapshot, options) => AddMoney.fromJson(snapshot),
+          toFirestore: (AddMoney addMoney, options) =>
+              addMoney.toFirestore())
           .doc()
           .set(addMoney)
           .then((value) => true)
           .catchError((onError) => false);
 
-  Stream<DocumentSnapshot> getBankStream() => getBankCollection()
-      .withConverter(
+  Stream<DocumentSnapshot> getBankStream() =>
+      getBankCollection()
+          .withConverter(
         fromFirestore: (snapshot, options) =>
             ABank.fromFirestore(snapshot, options),
         toFirestore: (ABank value, options) => value.toFirestore(),
       )
-      .doc(uid)
-      .snapshots(includeMetadataChanges: true);
+          .doc(uid)
+          .snapshots(includeMetadataChanges: true);
 
   Future<bool> checkBankAccount() async {
     final response = await getBankCollection()
         .withConverter(
-          fromFirestore: (snapshot, options) =>
-              ABank.fromFirestore(snapshot, options),
-          toFirestore: (ABank value, options) => value.toFirestore(),
-        )
+      fromFirestore: (snapshot, options) =>
+          ABank.fromFirestore(snapshot, options),
+      toFirestore: (ABank value, options) => value.toFirestore(),
+    )
         .doc(uid)
         .get();
     return response.exists;
   }
 
-  Future<bool> addBankAccount(ABank aBank) async => await getBankCollection()
-      .withConverter(
+  Future<bool> addBankAccount(ABank aBank) async =>
+      await getBankCollection()
+          .withConverter(
         fromFirestore: (snapshot, options) =>
             ABank.fromFirestore(snapshot, options),
         toFirestore: (ABank value, options) => value.toFirestore(),
       )
-      .doc(uid)
-      .set(aBank)
-      .then((value) => true)
-      .catchError((onError) => false);
+          .doc(uid)
+          .set(aBank)
+          .then((value) => true)
+          .catchError((onError) => false);
 
-  DocumentReference getPublicUser() => getPublicUserCollection()
-      .withConverter(
+  DocumentReference getPublicUser() =>
+      getPublicUserCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) => ContactModel.fromJson(snapshot),
           toFirestore: (ContactModel user, options) => user.toJson())
-      .doc(uid);
+          .doc(uid);
 
-  DocumentReference getUser() => getUserCollection()
-      .withConverter(
+  DocumentReference getUser() =>
+      getUserCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) =>
               UserInfoZopay.fromJson(snapshot, options),
           toFirestore: (UserInfoZopay user, options) => user.toJson())
-      .doc(uid);
+          .doc(uid);
 
-  Stream<DocumentSnapshot> getUserStream() => getUserCollection()
-      .withConverter(
+  Stream<DocumentSnapshot> getUserStream() =>
+      getUserCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) =>
               UserInfoZopay.fromJson(snapshot, options),
           toFirestore: (UserInfoZopay wallet, options) => wallet.toJson())
-      .doc(uid)
-      .snapshots(includeMetadataChanges: true);
+          .doc(uid)
+          .snapshots(includeMetadataChanges: true);
 
-  DocumentReference getNewUser() => getNewUserCollection()
-      .withConverter(
+  DocumentReference getNewUser() =>
+      getNewUserCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) =>
               NewUser.fromJson(snapshot, options),
           toFirestore: (NewUser user, options) => user.toJson())
-      .doc(uid);
+          .doc(uid);
 
   //kiểm tra tk mới hay không
   Future<bool> checkUserIsExits() async {
@@ -146,92 +152,96 @@ class ApiZopay extends GetxController implements GetxService {
     return value.exists;
   }
 
-  Future<bool> register(UserInfoZopay userZopay) async => getUser()
-      .set(userZopay)
-      .then((value) => true)
-      .catchError((onError) => false);
+  Future<bool> register(UserInfoZopay userZopay) async =>
+      getUser()
+          .set(userZopay)
+          .then((value) => true)
+          .catchError((onError) => false);
 
   Future<ResponseZopay> requestMoneyForFirstTime(NewUser newUser) async {
     ResponseZopay responseZopay = await getNewUser()
         .set(newUser)
         .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
         .onError((error, stackTrace) =>
-            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+        ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return responseZopay;
   }
 
   //for zopay wallet xem tài khoản hiện tại
-  Stream<DocumentSnapshot> getUserWallet() => getWalletCollection()
-      .withConverter(
+  Stream<DocumentSnapshot> getUserWallet() =>
+      getWalletCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) =>
               UserWallet.fromJson(snapshot, options),
           toFirestore: (UserWallet wallet, options) => wallet.toJson())
-      .doc(uid)
-      .snapshots(includeMetadataChanges: true);
+          .doc(uid)
+          .snapshots(includeMetadataChanges: true);
 
   // nhận toàn bộ lịch sử gửi tiền
   Stream<QuerySnapshot> getSendMoneyTransactionHistory() =>
       getTransactionHistoryCollection()
           .withConverter(
-              fromFirestore: (snapshot, options) =>
-                  TransactionZopay.fromJson(snapshot, options),
-              toFirestore: (TransactionZopay transaction, options) =>
-                  transaction.toJson())
+          fromFirestore: (snapshot, options) =>
+              TransactionZopay.fromJson(snapshot, options),
+          toFirestore: (TransactionZopay transaction, options) =>
+              transaction.toJson())
           .where('uid_sender', isEqualTo: uid)
           .limit(50)
           .snapshots(includeMetadataChanges: true);
 
   //nhận toàn bộ lịch sử nhận tiền
-  Query getReceiveMoneyTransactionHistory() => getTransactionHistoryCollection()
-      .withConverter(
+  Query getReceiveMoneyTransactionHistory() =>
+      getTransactionHistoryCollection()
+          .withConverter(
           fromFirestore: (snapshot, options) =>
               TransactionZopay.fromJson(snapshot, options),
           toFirestore: (TransactionZopay transaction, options) =>
               transaction.toJson())
-      .where('uid_receiver', isEqualTo: uid)
-      .limit(50);
+          .where('uid_receiver', isEqualTo: uid)
+          .limit(50);
 
   //tạo 1 giao dịch mới
   Future<ResponseZopay> createNewTransaction(
       TransactionZopay transactionZopay) async {
     ResponseZopay response = await getTransactionHistoryCollection()
         .withConverter(
-            fromFirestore: (snapshot, options) =>
-                TransactionZopay.fromJson(snapshot, options),
-            toFirestore: (TransactionZopay transaction, options) =>
-                transaction.toJson())
+        fromFirestore: (snapshot, options) =>
+            TransactionZopay.fromJson(snapshot, options),
+        toFirestore: (TransactionZopay transaction, options) =>
+            transaction.toJson())
         .doc(transactionZopay.transactionId)
         .set(transactionZopay)
-        .then((value) => ResponseZopay(
+        .then((value) =>
+        ResponseZopay(
             status: STATUS_SUCCESS, message: transactionZopay.transactionId))
         .onError((error, stackTrace) =>
-            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+        ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return response;
   }
 
-  Future<ResponseZopay> updateOrderId(
-      String transactionId, String orderId) async {
+  Future<ResponseZopay> updateOrderId(String transactionId,
+      String orderId) async {
     ResponseZopay response = await getTransactionHistoryCollection()
         .withConverter(
-            fromFirestore: (snapshot, options) =>
-                TransactionZopay.fromJson(snapshot, options),
-            toFirestore: (TransactionZopay transaction, options) =>
-                transaction.toJson())
+        fromFirestore: (snapshot, options) =>
+            TransactionZopay.fromJson(snapshot, options),
+        toFirestore: (TransactionZopay transaction, options) =>
+            transaction.toJson())
         .doc(transactionId)
         .update({"order_id": orderId})
         .then((value) => ResponseZopay(status: STATUS_SUCCESS))
         .onError((error, stackTrace) =>
-            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+        ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return response;
   }
 
   Future<void> cancelOrder(String orderId) async {
     final response = await getTransactionHistoryCollection()
         .withConverter(
-            fromFirestore: (snapshot, options) =>
-                TransactionZopay.fromJson(snapshot, options),
-            toFirestore: (TransactionZopay transaction, options) =>
-                transaction.toJson())
+        fromFirestore: (snapshot, options) =>
+            TransactionZopay.fromJson(snapshot, options),
+        toFirestore: (TransactionZopay transaction, options) =>
+            transaction.toJson())
         .where("order_id", isEqualTo: orderId)
         .limit(3)
         .get();
@@ -240,15 +250,15 @@ class ApiZopay extends GetxController implements GetxService {
       final transaction = result.data();
       await getTransactionHistoryCollection()
           .withConverter(
-              fromFirestore: (snapshot, options) =>
-                  TransactionZopay.fromJson(snapshot, options),
-              toFirestore: (TransactionZopay transaction, options) =>
-                  transaction.toJson())
+          fromFirestore: (snapshot, options) =>
+              TransactionZopay.fromJson(snapshot, options),
+          toFirestore: (TransactionZopay transaction, options) =>
+              transaction.toJson())
           .doc(transaction.transactionId)
           .update({"status": ApiZopay.STATUS_NEED_CANCEL})
           .then((value) => ResponseZopay(status: STATUS_SUCCESS))
           .onError((error, stackTrace) =>
-              ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+          ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     }
   }
 
@@ -261,15 +271,15 @@ class ApiZopay extends GetxController implements GetxService {
         id: uid);
     ResponseZopay response = await getReferralsCollection()
         .withConverter(
-            fromFirestore: (snapshot, options) =>
-                NewReferral.fromJson(snapshot, options),
-            toFirestore: (NewReferral newReferral, options) =>
-                newReferral.toJson())
+        fromFirestore: (snapshot, options) =>
+            NewReferral.fromJson(snapshot, options),
+        toFirestore: (NewReferral newReferral, options) =>
+            newReferral.toJson())
         .doc(uid)
         .set(receiverU)
         .then((value) => ResponseZopay(status: STATUS_SUCCESS, message: ""))
         .onError((error, stackTrace) =>
-            ResponseZopay(status: STATUS_FAIL, message: error.toString()));
+        ResponseZopay(status: STATUS_FAIL, message: error.toString()));
     return response;
   }
 
@@ -277,8 +287,8 @@ class ApiZopay extends GetxController implements GetxService {
     bool isFirst = await FirebaseFirestore.instance
         .collection(FIRST_BUY)
         .withConverter(
-            fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
-            toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
+        fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
+        toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
         .doc(uid)
         .get()
         .then((value) => !value.exists)
@@ -287,15 +297,25 @@ class ApiZopay extends GetxController implements GetxService {
       ResponseZopay responseZopay = await FirebaseFirestore.instance
           .collection(FIRST_BUY)
           .withConverter(
-              fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
-              toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
+          fromFirestore: (snapshot, options) => FirstBuy.fromJson(snapshot),
+          toFirestore: (FirstBuy firstBuy, options) => firstBuy.toJson())
           .doc(uid)
           .set(firstBuy)
           .then((value) => ResponseZopay(status: STATUS_SUCCESS))
           .catchError((onError) =>
-              ResponseZopay(status: STATUS_FAIL, message: onError));
+          ResponseZopay(status: STATUS_FAIL, message: onError));
       return responseZopay;
     } else {
+      return ResponseZopay(status: STATUS_FAIL);
+    }
+  }
+
+  Future<ResponseZopay> updateToken(String fcmToken) async {
+    bool response = await getUser().update({"fcm_token": fcmToken}).then((
+        value) => true).catchError((onError) => false);
+    if(response){
+      return ResponseZopay(status: STATUS_SUCCESS);
+    }else{
       return ResponseZopay(status: STATUS_FAIL);
     }
   }
